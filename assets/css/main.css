@@ -124,7 +124,7 @@ input, select, textarea {
 		font-family: "Roboto", Helvetica, sans-serif;
 		font-size: 15pt;
 		font-weight: 100;
-		line-height: 1.75em;
+		line-height: 1.5em;
 	}
 
 	a {
@@ -3167,7 +3167,7 @@ input, select, textarea {
 
 		.spotlight.left .content, .spotlight.right .content {
 			height: 100%;
-			padding: 6em 3em;
+			padding: 2em 3em;
 			top: 0;
 			width: 28em;
 		}
@@ -3740,7 +3740,7 @@ input, select, textarea {
 		/* Spotlight */
 
 			.spotlight.top .content {
-				padding: 3.825em 0 1.825em 0;
+				padding: 3em 0 1.825em 0;
 			}
 
 			.spotlight.bottom .content {
