@@ -3896,7 +3896,6 @@ input, select, textarea {
 			
 		body.landing #page-wrapper {
 			padding-top: 0;
-			background-image: url(../../images/pic02.png);
 			background-attachment: scroll;
 			background-size: cover;
 	
@@ -3907,15 +3906,15 @@ input, select, textarea {
 			}
 
 			body, input, select, textarea {
-				font-size: 12pt;
+				font-size: 10pt;
 			}
 
 			h2 {
-				font-size: 1.5em;
+				font-size: 1.3em;
 			}
 
 			h3 {
-				font-size: 1.2em;
+				font-size: 1em;
 			}
 
 			h4 {
@@ -3971,7 +3970,7 @@ input, select, textarea {
 					background-color: #58000092;
 					border-style: solid;
 					opacity: 1;
-					background-attachment: scroll;
+					background-attachment: fixed;
 				}
 
 		/* Wrapper */
