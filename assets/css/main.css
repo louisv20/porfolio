@@ -4012,9 +4012,9 @@ input, select, textarea {
 				}
 
 					#banner .content header h2 {
-						font-size: 5em;
+						font-size: 4em;
 						position: absolute;
-						top: -250px; left: 40px;
+						top: -250px; left: -90px;
 						text-align: center;
 					}
 
@@ -4023,12 +4023,14 @@ input, select, textarea {
 						width: 200px;
 						height: 5px;
 						position: absolute;
-						top: -25px; left: 65px;
+						top: -60px; left: -70px;
 					}
 
 					#banner .content .image {
-						height: 18em;
-						width: 18em;
+						height: 14em;
+						width: 14em;
+						position: absolute;
+						top: 45px; left: -80px;
 					}
 
 		/* Nav */
