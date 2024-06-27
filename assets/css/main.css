@@ -3921,14 +3921,20 @@ input, select, textarea {
 				font-size: 1em;
 			}
 
-		/* Section/Article */
-
-			header p br {
-				display: none;
+			p {
+				font-size: .8em;
+				color: #ffffff;
 			}
 
+
+		/* Section/Article */
+
+			/*header p br {
+				display: none;
+			}*/
+
 			header h2 + p {
-				font-size: 1em;
+				font-size: .6em;
 			}
 
 			header h3 + p {
@@ -4029,7 +4035,7 @@ input, select, textarea {
 						height: 14em;
 						width: 14em;
 						position: absolute;
-						top: 45px; left: -80px;
+						top: 75px; left: -80px;
 					}
 
 		/* Nav */
