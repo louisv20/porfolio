@@ -3186,11 +3186,11 @@ input, select, textarea {
 		}
 
 		.spotlight.style2 .content {
-			border-color: #5480f1;
+			border-color: #373f3b;
 		}
 
 		.spotlight.style3 .content {
-			border-color: #39c088;
+			border-color: #3ca2a9;
 		}
 
 		.spotlight.inactive .content {
@@ -3564,7 +3564,6 @@ input, select, textarea {
 		background-image: url(../../images/pic02.png);
 		background-attachment: fixed;
 		background-size: cover;
-		background-position: 0% -200%;
 
 	}
 
@@ -3574,6 +3573,12 @@ input, select, textarea {
         border-radius: 20px; /* Rounded corners */
         display: block;
 		top: 2%;
+	}
+
+	@media screen and (max-width: 736px) {
+		body.landing #header {
+			display: none;
+		}
 	}
 
 /*    */
@@ -3625,6 +3630,7 @@ input, select, textarea {
 				#banner .content header h2 {
 					font-size: 4em;
 					margin: 0;
+					width: 300px;
 				}
 
 				#banner .content header p {
@@ -3763,6 +3769,13 @@ input, select, textarea {
 				padding: 4.5em;
 			}
 
+			#banner .content header h2 {
+				display: block;
+				text-align: center;
+				width: 250px;
+				align-items: center;
+			}
+
 		/* Footer */
 
 			#footer {
@@ -3796,7 +3809,7 @@ input, select, textarea {
 				}
 
 				.spotlight .content {
-					background-color: #1c1d2667;
+					background-color: #58000092;
 					border-width: 0 !important;
 					border-top-width: 0.35em !important;
 					bottom: auto !important;
@@ -3845,17 +3858,23 @@ input, select, textarea {
 				#banner .content {
 					padding: 9em 0;
 					text-align: center;
+					align-items: center;
 				}
 
-					#banner .content header {
-						display: block;
-						margin: 0 0 2em 0;
-						text-align: center;
-					}
+				#banner .content header {
+					display: block;
+					margin: 0 0 2em 0;
+					text-align: center;
+				}
 
-					#banner .content .image {
+				#banner .content header h2 {
+					position: absolute;
+					left: 25px; top: -60px;
+				}
+
+				#banner .content .image {
 						margin: 0;
-					}
+				}
 
 		/* Footer */
 
@@ -3874,6 +3893,14 @@ input, select, textarea {
 	@media screen and (max-width: 736px) {
 
 		/* Basic */
+			
+		body.landing #page-wrapper {
+			padding-top: 0;
+			background-image: url(../../images/pic02.png);
+			background-attachment: scroll;
+			background-size: cover;
+	
+		}
 
 			html, body {
 				overflow-x: hidden;
@@ -3930,16 +3957,21 @@ input, select, textarea {
 		/* Spotlight */
 
 			.spotlight {
-				box-shadow: 0 0.125em 0.5em 0 rgba(0, 0, 0, 0.25);
+				box-shadow: 0 0.125em 0.5em 0 rgba(11, 11, 11, 0.411);
 			}
 
 				.spotlight .image.main {
-					max-height: 60vh;
+					max-height: 100vh;
 				}
 
 				.spotlight .content {
 					border-top-width: 0.2em !important;
-					padding: 3.25em 1.5em 1.25em 1.5em !important;
+					padding: 1em 1.5em 1.25em 1.5em !important;
+					transition: transform 1s ease, opacity 1s ease;
+					background-color: #58000092;
+					border-style: solid;
+					opacity: 1;
+					background-attachment: scroll;
 				}
 
 		/* Wrapper */
@@ -3948,14 +3980,23 @@ input, select, textarea {
 				padding: 3.25em 1.5em 1.25em 1.5em;
 			}
 
-		/* Header */
+		/* Header 
 
 			#header {
 				display: none;
 				background-color: rgba(255, 255, 255, 0.466);
-			}
+			}*/
 
 		/* Banner */
+
+		body.landing #page-wrapper {
+			background-image: url(../../images/pic2.jpg);
+			background-attachment: fixed;
+			background-size: cover;
+			background-repeat: no-repeat;
+	
+		}
+		
 
 			#banner {
 				box-shadow: 0 0.125em 0.5em 0 rgba(0, 0, 0, 0.25);
@@ -3971,12 +4012,23 @@ input, select, textarea {
 				}
 
 					#banner .content header h2 {
-						font-size: 1.5em;
+						font-size: 5em;
+						position: absolute;
+						top: -250px; left: 40px;
+						text-align: center;
+					}
+
+					#banner .content header p {
+						font-size: 1em;
+						width: 200px;
+						height: 5px;
+						position: absolute;
+						top: -25px; left: 65px;
 					}
 
 					#banner .content .image {
-						height: 9em;
-						width: 9em;
+						height: 18em;
+						width: 18em;
 					}
 
 		/* Nav */
@@ -4010,12 +4062,12 @@ input, select, textarea {
 				top: 0;
 				width: 100%;
 				z-index: 10001;
-				background: #2728334f;
+				background: #360b6ea2;
 				box-shadow: 0 0.125em 0.125em 0 rgba(0, 0, 0, 0.125);
 			}
 
 				#titleBar .title {
-					color: #ffffff;
+					color: #fff5f5;
 					display: block;
 					font-weight: 300;
 					height: 44px;
@@ -4053,8 +4105,9 @@ input, select, textarea {
 					}
 
 					#titleBar .toggle:before {
-						background: #e44c65;
-						color: rgba(255, 255, 255, 0.5);
+						background: linear-gradient(rgb(208, 179, 137), rgba(93, 81, 81, 0.473));
+						box-shadow: 0 0 5px white;
+						color: rgb(0, 0, 0);
 						content: '\f0c9';
 						display: block;
 						font-size: 18px;
@@ -4145,6 +4198,7 @@ input, select, textarea {
 				-webkit-transform: translateX(275px);
 				-ms-transform: translateX(275px);
 				transform: translateX(275px);
+				background-size: cover;
 			}
 
 			body.navPanel-visible #titleBar {
@@ -4166,8 +4220,8 @@ input, select, textarea {
 			#footer {
 				padding: 3.25em 1.5em;
 			}
-
 	}
+	
 
 /* XSmall */
 
