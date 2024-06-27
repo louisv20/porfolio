@@ -28,6 +28,7 @@
 	font-family: 'Merienda', cursive;
 	font-weight: 300;
 }
+
 html, h2, p, body, div, span, applet, object,
 iframe, h1, h3, h4, h5, h6, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -3906,7 +3907,7 @@ input, select, textarea {
 			}
 
 			body, input, select, textarea {
-				font-size: 10pt;
+				font-size: 8pt;
 			}
 
 			h2 {
@@ -4019,7 +4020,7 @@ input, select, textarea {
 					#banner .content header h2 {
 						font-size: 4em;
 						position: absolute;
-						top: -250px; left: -90px;
+						top: -250px; left: -95px;
 						text-align: center;
 					}
 
