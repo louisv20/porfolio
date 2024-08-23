@@ -4,8 +4,9 @@ const querystring = require("querystring");
 // MongoDB connection string (use environment variable)
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Define a schema for the subscriber
+// Define a schema for the subscriber with name and email fields
 const subscriberSchema = new mongoose.Schema({
+  name: String, // Add the name field
   email: String,
   date: { type: Date, default: Date.now },
 });
@@ -24,7 +25,7 @@ exports.handler = async (event) => {
     };
   }
 
-  let email;
+  let email, name;
 
   // Check if the content type is form submission (x-www-form-urlencoded)
   if (
@@ -33,6 +34,7 @@ exports.handler = async (event) => {
     // Parse the URL-encoded form data
     const parsedBody = querystring.parse(event.body);
     email = parsedBody.email; // Extract the email field
+    name = parsedBody.name; // Extract the name field
   } else {
     console.log("Unsupported content type");
     return {
@@ -41,12 +43,12 @@ exports.handler = async (event) => {
     };
   }
 
-  // Check if email was provided
-  if (!email) {
-    console.log("Email is required");
+  // Check if both name and email were provided
+  if (!email || !name) {
+    console.log("Name and Email are required");
     return {
       statusCode: 400,
-      body: "Email is required.",
+      body: "Name and Email are required.",
     };
   }
 
@@ -58,12 +60,12 @@ exports.handler = async (event) => {
     });
     console.log("Connected to database");
 
-    // Create a new subscriber document
-    const subscriber = new Subscriber({ email: email });
+    // Create a new subscriber document with both name and email
+    const subscriber = new Subscriber({ name: name, email: email });
 
     // Save the subscriber to the database
     await subscriber.save();
-    console.log("Subscriber saved:", email);
+    console.log("Subscriber saved:", name, email);
 
     await mongoose.connection.close();
     console.log("Database connection closed");
@@ -78,7 +80,7 @@ exports.handler = async (event) => {
     console.error("Error:", error);
     return {
       statusCode: 500,
-      body: "An error occurred while saving your email.",
+      body: "An error occurred while saving your data.",
     };
   }
 };
