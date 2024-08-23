@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const querystring = require("querystring");
 
 // MongoDB connection string (replace with your actual connection string)
-const MONGODB_URI =
-  "mongodb+srv://25castro25:USGRt11MXstR1Rxr@cluster0.9tw5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // Define a schema for the subscriber
 const subscriberSchema = new mongoose.Schema({

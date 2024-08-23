@@ -1,10 +1,7 @@
 [functions]
+  directory = "functions"
   node_bundler = "esbuild"
 
-[[plugins]]
-  package = "@netlify/plugin-functions-core"
-
-[functions."subscribe"]
+[functions.subscribe]
   included_files = ["functions/subscribe.js"]
-  node_bundler = "esbuild"
   external_node_modules = ["mongoose"]
