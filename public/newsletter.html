@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up for Trendy Updates - TrendBlog</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --text-color: #2c3e50;
+        --background-color: #f7f7f7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .signup-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .signup-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .signup-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+
+      .signup-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .signup-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .signup-content p {
+        margin-bottom: 20px;
+      }
+
+      .signup-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .signup-form input[type="email"] {
+        padding: 10px;
+        border: 1px solid var(--text-color);
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .signup-form button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .signup-form button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      footer {
+        background-color: var(--text-color);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="bloghome.html" class="logo-link">
+            <div class="logo">TrendBlog</div>
+          </a>
+          <div class="nav-links">
+            <a href="bloghome.html">Home</a>
+            <a href="blog.html">Blog</a>
+            <a href="about.html">About</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="signup-header">
+          <h1 class="signup-title">Join Our Trendy Newsletter!</h1>
+          <!-- <img
+            src="https://picsum.photos/800/400?random=1"
+            alt="Newsletter"
+            class="signup-image"
+          /> -->
+        </div>
+
+        <div class="signup-content">
+          <h2>Stay Updated with the Latest Trends</h2>
+          <p>
+            Sign up for our newsletter to receive the latest trends, tips, and
+            exclusive content directly to your inbox.
+          </p>
+          <form
+            class="signup-form"
+            action="/.netlify/functions/subscribe"
+            method="POST"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email address"
+              required
+            />
+            <button type="submit">Subscribe Now</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 TrendBlog. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
