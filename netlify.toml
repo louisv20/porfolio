@@ -1,5 +1,10 @@
-[build]
-  functions = "functions"  # Directory where serverless functions are located
+[functions]
+  node_bundler = "esbuild"
 
-[build.environment]
-  NODE_VERSION = "14"      # Specify Node.js version if needed
+[[plugins]]
+  package = "@netlify/plugin-functions-core"
+
+[functions."subscribe"]
+  included_files = ["functions/subscribe.js"]
+  node_bundler = "esbuild"
+  external_node_modules = ["mongoose"]

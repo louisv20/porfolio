@@ -1,6 +1,24 @@
-const fs = require("fs");
-const path = require("path");
+const mongoose = require("mongoose");
 const querystring = require("querystring");
+
+// MongoDB connection string (replace with your actual connection string)
+const MONGODB_URI =
+  "mongodb+srv://25castro25:USGRt11MXstR1Rxr@cluster0.9tw5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+// Define a schema for the subscriber
+const subscriberSchema = new mongoose.Schema({
+  email: String,
+  date: { type: Date, default: Date.now },
+});
+
+// Create a model based on the schema
+const Subscriber = mongoose.model("Subscriber", subscriberSchema);
+
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 exports.handler = async (event) => {
   if (event.httpMethod === "POST") {
@@ -30,12 +48,13 @@ exports.handler = async (event) => {
       };
     }
 
-    const data = `Email: ${email}\n`;
-    const filePath = path.join(__dirname, "../subscribers.txt");
-
     try {
-      // Append the email to the subscribers.txt file
-      fs.appendFileSync(filePath, data);
+      // Create a new subscriber document
+      const subscriber = new Subscriber({ email: email });
+
+      // Save the subscriber to the database
+      await subscriber.save();
+
       return {
         statusCode: 302,
         headers: {
@@ -43,6 +62,7 @@ exports.handler = async (event) => {
         },
       };
     } catch (error) {
+      console.error("Error saving subscriber:", error);
       return {
         statusCode: 500,
         body: "An error occurred while saving your email.",
