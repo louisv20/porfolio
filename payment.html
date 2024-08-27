@@ -58,6 +58,12 @@
         padding-top: 12px;
         text-align: center;
       }
+      #payment-message.error {
+        color: #df1b41;
+      }
+      #payment-message.success {
+        color: #32cd32;
+      }
     </style>
   </head>
   <body>
@@ -81,7 +87,11 @@
     <script>
       let stripe;
       let elements;
-      let paymentElement;
+
+      const form = document.getElementById("payment-form");
+      const amountInput = document.getElementById("amount-input");
+      const messageElement = document.getElementById("payment-message");
+      const submitButton = document.getElementById("submit");
 
       async function initializeStripe() {
         try {
@@ -91,16 +101,16 @@
           const { publishableKey } = await response.json();
           stripe = Stripe(publishableKey);
           elements = stripe.elements();
+          const cardElement = elements.create("card");
+          cardElement.mount("#card-element");
         } catch (error) {
           console.error("Failed to initialize Stripe:", error);
-          messageElement.textContent =
-            "Failed to initialize payment system. Please try again later.";
+          showMessage(
+            "Failed to initialize payment system. Please try again later.",
+            "error"
+          );
         }
       }
-
-      const form = document.getElementById("payment-form");
-      const amountInput = document.getElementById("amount-input");
-      const messageElement = document.getElementById("payment-message");
 
       initializeStripe();
 
@@ -110,66 +120,88 @@
         event.preventDefault();
 
         if (!stripe || !elements) {
-          messageElement.textContent =
-            "Payment system is not initialized. Please try again later.";
+          showMessage(
+            "Payment system is not initialized. Please try again later.",
+            "error"
+          );
           return;
         }
+
+        setLoading(true);
 
         const amount = parseFloat(amountInput.value);
         if (isNaN(amount) || amount < 0.5) {
-          messageElement.textContent =
-            "Please enter a valid amount (minimum $0.50)";
+          showMessage("Please enter a valid amount (minimum $0.50)", "error");
+          setLoading(false);
           return;
         }
 
-        // Create PaymentIntent on the server
-        const response = await fetch(
-          "/.netlify/functions/create-payment-intent",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: Math.round(amount * 100) }), // Convert to cents
-          }
-        );
-        const { clientSecret, paymentIntentId } = await response.json();
-
-        // Use Stripe.js to confirm the PaymentIntent
-        const { error } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement("card"),
-            billing_details: {
-              // You can add billing details here if needed
-            },
-          },
-        });
-
-        if (error) {
-          messageElement.textContent = error.message;
-        } else {
-          // Payment succeeded, confirm on the server
-          const confirmResponse = await fetch(
-            "/.netlify/functions/confirm-payment",
+        try {
+          // Create PaymentIntent on the server
+          const response = await fetch(
+            "/.netlify/functions/create-payment-intent",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ paymentIntentId }),
+              body: JSON.stringify({ amount: Math.round(amount * 100) }), // Convert to cents
             }
           );
-          const { status } = await confirmResponse.json();
+          const { clientSecret, paymentIntentId } = await response.json();
 
-          if (status === "succeeded") {
-            messageElement.textContent = "Payment successful!";
+          // Use Stripe.js to confirm the PaymentIntent
+          const { error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+              card: elements.getElement("card"),
+              billing_details: {
+                // You can add billing details here if needed
+              },
+            },
+          });
+
+          if (error) {
+            showMessage(error.message, "error");
           } else {
-            messageElement.textContent = `Payment status: ${status}. Please contact support.`;
+            // Payment succeeded, confirm on the server
+            const confirmResponse = await fetch(
+              "/.netlify/functions/confirm-payment",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ paymentIntentId }),
+              }
+            );
+            const { status } = await confirmResponse.json();
+
+            if (status === "succeeded") {
+              showMessage("Payment successful!", "success");
+            } else {
+              showMessage(
+                `Payment status: ${status}. Please contact support.`,
+                "error"
+              );
+            }
           }
+        } catch (error) {
+          console.error("Payment failed:", error);
+          showMessage(
+            "An error occurred while processing your payment. Please try again.",
+            "error"
+          );
         }
+
+        setLoading(false);
       }
 
-      // Mount the card element once Stripe is initialized
-      initializeStripe().then(() => {
-        const cardElement = elements.create("card");
-        cardElement.mount("#card-element");
-      });
+      function showMessage(message, type = "info") {
+        messageElement.textContent = message;
+        messageElement.className = type; // 'error', 'success', or 'info'
+        messageElement.style.display = "block";
+      }
+
+      function setLoading(isLoading) {
+        submitButton.disabled = isLoading;
+        submitButton.textContent = isLoading ? "Processing..." : "Pay now";
+      }
     </script>
   </body>
 </html>
