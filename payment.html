@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stripe Payment Form</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      #payment-form {
+        display: flex;
+        flex-direction: column;
+      }
+      #card-element,
+      #amount-input {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #5469d4;
+        color: #ffffff;
+        border: 0;
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      button:hover {
+        filter: brightness(1.2);
+      }
+      #payment-message {
+        color: rgb(105, 115, 134);
+        font-size: 16px;
+        line-height: 20px;
+        padding-top: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Payment Form</h1>
+      <form id="payment-form">
+        <input
+          type="number"
+          id="amount-input"
+          placeholder="Amount in USD"
+          step="0.01"
+          min="0.50"
+          required
+        />
+        <div id="card-element"></div>
+        <button id="submit">Pay now</button>
+        <div id="payment-message"></div>
+      </form>
+    </div>
+
+    <script>
+      let stripe;
+
+      async function initializeStripe() {
+        try {
+          const response = await fetch(
+            "/.netlify/functions/get-stripe-publishable-key"
+          );
+          const { publishableKey } = await response.json();
+          stripe = Stripe(publishableKey);
+          const elements = stripe.elements();
+          const cardElement = elements.create("card");
+          cardElement.mount("#card-element");
+        } catch (error) {
+          console.error("Failed to initialize Stripe:", error);
+          messageElement.textContent =
+            "Failed to initialize payment system. Please try again later.";
+        }
+      }
+
+      const form = document.getElementById("payment-form");
+      const amountInput = document.getElementById("amount-input");
+      const messageElement = document.getElementById("payment-message");
+
+      initializeStripe();
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!stripe) {
+          messageElement.textContent =
+            "Payment system is not initialized. Please try again later.";
+          return;
+        }
+
+        const amount = parseFloat(amountInput.value);
+        if (isNaN(amount) || amount < 0.5) {
+          messageElement.textContent =
+            "Please enter a valid amount (minimum $0.50)";
+          return;
+        }
+
+        // Create PaymentIntent on the server
+        const response = await fetch(
+          "/.netlify/functions/create-payment-intent",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: Math.round(amount * 100) }), // Convert to cents
+          }
+        );
+        const { clientSecret } = await response.json();
+
+        // Confirm the payment on the client
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: { card: cardElement },
+          }
+        );
+
+        if (error) {
+          messageElement.textContent = error.message;
+        } else {
+          messageElement.textContent = "Payment successful!";
+          console.log("PaymentIntent ID:", paymentIntent.id);
+        }
+      });
+    </script>
+  </body>
+</html>
