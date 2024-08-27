@@ -80,6 +80,8 @@
 
     <script>
       let stripe;
+      let elements;
+      let paymentElement;
 
       async function initializeStripe() {
         try {
@@ -88,9 +90,7 @@
           );
           const { publishableKey } = await response.json();
           stripe = Stripe(publishableKey);
-          const elements = stripe.elements();
-          const cardElement = elements.create("card");
-          cardElement.mount("#card-element");
+          elements = stripe.elements();
         } catch (error) {
           console.error("Failed to initialize Stripe:", error);
           messageElement.textContent =
@@ -104,10 +104,12 @@
 
       initializeStripe();
 
-      form.addEventListener("submit", async (event) => {
+      form.addEventListener("submit", handleSubmit);
+
+      async function handleSubmit(event) {
         event.preventDefault();
 
-        if (!stripe) {
+        if (!stripe || !elements) {
           messageElement.textContent =
             "Payment system is not initialized. Please try again later.";
           return;
@@ -129,22 +131,44 @@
             body: JSON.stringify({ amount: Math.round(amount * 100) }), // Convert to cents
           }
         );
-        const { clientSecret } = await response.json();
+        const { clientSecret, paymentIntentId } = await response.json();
 
-        // Confirm the payment on the client
-        const { error, paymentIntent } = await stripe.confirmCardPayment(
-          clientSecret,
-          {
-            payment_method: { card: cardElement },
-          }
-        );
+        // Use Stripe.js to confirm the PaymentIntent
+        const { error } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement("card"),
+            billing_details: {
+              // You can add billing details here if needed
+            },
+          },
+        });
 
         if (error) {
           messageElement.textContent = error.message;
         } else {
-          messageElement.textContent = "Payment successful!";
-          console.log("PaymentIntent ID:", paymentIntent.id);
+          // Payment succeeded, confirm on the server
+          const confirmResponse = await fetch(
+            "/.netlify/functions/confirm-payment",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ paymentIntentId }),
+            }
+          );
+          const { status } = await confirmResponse.json();
+
+          if (status === "succeeded") {
+            messageElement.textContent = "Payment successful!";
+          } else {
+            messageElement.textContent = `Payment status: ${status}. Please contact support.`;
+          }
         }
+      }
+
+      // Mount the card element once Stripe is initialized
+      initializeStripe().then(() => {
+        const cardElement = elements.create("card");
+        cardElement.mount("#card-element");
       });
     </script>
   </body>

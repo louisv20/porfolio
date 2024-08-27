@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",
-      // Add metadata to make the transaction more identifiable in your dashboard
+      automatic_payment_methods: { enabled: true },
       metadata: {
         integration_check: "accept_a_payment",
         source: "Netlify serverless function",
@@ -24,7 +24,10 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ clientSecret: paymentIntent.client_secret }),
+      body: JSON.stringify({
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
+      }),
     };
   } catch (error) {
     return {
