@@ -7,15 +7,20 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
       // Fetch the PayPal client ID from the serverless function
-      async function loadPayPal() {
-        const response = await fetch("/.netlify/functions/getPayPalClientId");
-        const data = await response.json();
-        const script = document.createElement("script");
-        script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`;
-        document.head.appendChild(script);
+      function loadPayPal() {
+        return new Promise((resolve, reject) => {
+          fetch("/.netlify/functions/getPayPalClientId")
+            .then((response) => response.json())
+            .then((data) => {
+              const script = document.createElement("script");
+              script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            })
+            .catch(reject);
+        });
       }
-
-      loadPayPal();
     </script>
     <script src="https://checkout.wompi.co/widget.js"></script>
     <style>
@@ -236,49 +241,53 @@
       }
 
       // PayPal integration
-      script.onload = function () {
-        paypal
-          .Buttons({
-            createOrder: function (data, actions) {
-              const amount = parseFloat(amountInput.value);
-              if (isNaN(amount) || amount < 1000) {
+      loadPayPal()
+        .then(() => {
+          paypal
+            .Buttons({
+              createOrder: function (data, actions) {
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount < 1000) {
+                  showMessage(
+                    "Please enter a valid amount (minimum 1000 COP)",
+                    "error"
+                  );
+                  return;
+                }
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: (amount / 4000).toFixed(2), // Convert COP to USD (approximate)
+                        currency_code: "USD",
+                      },
+                    },
+                  ],
+                });
+              },
+              onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                  showMessage("PayPal payment successful!", "success");
+                  // You can add additional server-side validation here if needed
+                });
+              },
+              onError: function (err) {
+                console.error("PayPal error:", err);
                 showMessage(
-                  "Please enter a valid amount (minimum 1000 COP)",
+                  "An error occurred with PayPal. Please try again.",
                   "error"
                 );
-                return;
-              }
-              return actions.order.create({
-                purchase_units: [
-                  {
-                    amount: {
-                      value: (amount / 4000).toFixed(2), // Convert COP to USD (approximate)
-                      currency_code: "USD",
-                    },
-                  },
-                ],
-              });
-            },
-            onApprove: function (data, actions) {
-              return actions.order.capture().then(function (details) {
-                showMessage("PayPal payment successful!", "success");
-                // You can add additional server-side validation here if needed
-              });
-            },
-            onError: function (err) {
-              console.error("PayPal error:", err);
-              showMessage(
-                "An error occurred with PayPal. Please try again.",
-                "error"
-              );
-            },
-          })
-          .render("#paypal-button-container");
-      };
-
-      document.head.appendChild(script);
-
-      loadPayPal();
+              },
+            })
+            .render("#paypal-button-container");
+        })
+        .catch((error) => {
+          console.error("Failed to load PayPal SDK:", error);
+          showMessage(
+            "Failed to initialize PayPal. Please try again later.",
+            "error"
+          );
+        });
 
       // PSE integration
       pseButton.addEventListener("click", function () {
