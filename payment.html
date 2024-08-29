@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Form</title>
+    <title>Patito Futbolero - Payment</title>
+    <link rel="stylesheet" href="assets/css/styles2.css" />
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-      // Fetch the PayPal client ID from the serverless function
       function loadPayPal() {
         return new Promise((resolve, reject) => {
           fetch("/.netlify/functions/getPayPalClientId")
@@ -24,25 +24,15 @@
     </script>
     <script src="https://checkout.wompi.co/widget.js"></script>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        background-color: #f0f0f0;
-      }
+      /* Add your existing styles here */
+      /* You may need to adjust some styles to fit the new layout */
+
       .container {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.325);
         padding: 20px;
         border-radius: 5px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
-      }
-      h1 {
-        text-align: center;
-        color: #333;
+        width: 350px;
       }
       #payment-form {
         display: flex;
@@ -52,7 +42,7 @@
       #amount-input,
       #email-input {
         margin-bottom: 20px;
-        padding: 10px;
+        padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
       }
@@ -91,26 +81,49 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Payment Form</h1>
-      <form id="payment-form">
-        <input
-          type="number"
-          id="amount-input"
-          placeholder="Amount in COP"
-          step="1"
-          min="1000"
-          required
-        />
-        <input type="email" id="email-input" placeholder="Email" required />
-        <div id="card-element"></div>
-        <button id="pse-button" type="button">PSE</button>
-        <div id="payment-message"></div>
-        <button id="submit">Paga con Stripe</button>
-        <div id="paypal-button-container"></div>
-      </form>
+    <div class="background-container">
+      <div class="background-image"></div>
+      <canvas id="gradient-canvas"></canvas>
     </div>
-
+    <div class="content">
+      <main>
+        <div class="left-content">
+          <h1>
+            &lt;adopta un patito <span style="color: rgb(237, 0, 0)">per</span
+            ><span style="color: rgb(250, 203, 50)">eira</span
+            ><span style="color: rgb(237, 0, 0)">no&gt;</span>
+          </h1>
+          <h3>Conviertete en Otro Pereirano Dueño de Este Exclusivo Patito!</h3>
+        </div>
+        <div class="right-content">
+          <div class="container">
+            <h2>Payment Form</h2>
+            <form id="payment-form">
+              <input
+                type="number"
+                id="amount-input"
+                placeholder="Amount in COP"
+                step="1"
+                min="1000"
+                required
+              />
+              <input
+                type="email"
+                id="email-input"
+                placeholder="Email"
+                required
+              />
+              <div id="card-element"></div>
+              <button id="pse-button" type="button">PSE</button>
+              <div id="payment-message"></div>
+              <button id="submit">Paga con Stripe</button>
+              <div id="paypal-button-container"></div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="assets/js/script.js"></script>
     <script>
       let stripe;
       let elements;
