@@ -144,12 +144,13 @@ form select {
 @media (max-width: 768px) {
   .background-image {
     background-image: url("../../images/Pereira_landingsmall.png");
+    background-size: cover;
   }
 
   .left-content {
     width: 100%; /* Make both containers full width on smaller screens */
     margin-bottom: 20px; /* Add some spacing between containers */
-    margin-left: -2px;
+    margin-left: 2px;
     margin-top: 0;
   }
 
