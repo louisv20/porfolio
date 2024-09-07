@@ -131,7 +131,7 @@
                   data-epayco-external="false"
                   data-epayco-response=""
                   data-epayco-confirmation=""
-                  data-epayco-button="images/epayco-logo-fondo-claro2.png"
+                  data-epayco-button="images/epayco-logo.png"
                 ></script>
               </div>
               <div id="payment-message"></div>
@@ -300,10 +300,7 @@
               },
               onError: function (err) {
                 console.error("PayPal error:", err);
-                showMessage(
-                  "An error occurred with PayPal. Please try again.",
-                  "error"
-                );
+                showMessage("Ingresa monto y correo.", "error");
               },
             })
             .render("#paypal-button-container");
