@@ -47,8 +47,8 @@
         color: #ffffff;
         border: 0;
         padding: 12px 16px;
-        border-radius: 4px;
-        font-size: 16px;
+        border-radius: 10px;
+        font-size: 18px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -72,6 +72,12 @@
       }
       #paypal-button-container {
         margin-top: 20px;
+      }
+      #epayco-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
     </style>
   </head>
@@ -109,26 +115,29 @@
                 required
               />
               <div id="card-element"></div>
-              <script
-                src="https://checkout.epayco.co/checkout.js"
-                class="epayco-button"
-                data-epayco-amount="20000"
-                data-epayco-tax="0"
-                data-epayco-tax-ico="0"
-                data-epayco-tax-base="0"
-                data-epayco-name="Patito futbolero"
-                data-epayco-description="Patito futbolero"
-                data-epayco-currency="COP"
-                data-epayco-country="CO"
-                data-epayco-test=""
-                data-epayco-external="false"
-                data-epayco-response=""
-                data-epayco-confirmation=""
-                data-epayco-button="https://multimedia.epayco.co/adquirencia-movil/botones/boton-naranja-lineal-144_38.png"
-              ></script>
+              <div id="epayco-button-container">
+                <script
+                  src="https://checkout.epayco.co/checkout.js"
+                  class="epayco-button"
+                  data-epayco-amount="20000"
+                  data-epayco-tax="0"
+                  data-epayco-tax-ico="0"
+                  data-epayco-tax-base="0"
+                  data-epayco-name="Patito Futbolero"
+                  data-epayco-description="Patito Futbolero"
+                  data-epayco-currency="COP"
+                  data-epayco-country="CO"
+                  data-epayco-test=""
+                  data-epayco-external="false"
+                  data-epayco-response=""
+                  data-epayco-confirmation=""
+                  data-epayco-button="images/epayco-logo-fondo-claro2.png"
+                ></script>
+              </div>
               <div id="payment-message"></div>
-              <button id="submit">Paga con Stripe</button>
+              <button id="submit">Pagar con Stripe</button>
               <div id="paypal-button-container"></div>
+              <div id="payment-message"></div>
             </form>
           </div>
         </div>
@@ -321,10 +330,7 @@
           });
         } catch (error) {
           console.error("Failed to initialize ePayco:", error);
-          showMessage(
-            "Failed to initialize ePayco. Please try again later.",
-            "error"
-          );
+          showMessage("", "error");
         }
       }
 
