@@ -142,27 +142,59 @@ form select {
 }
 
 @media (max-width: 768px) {
+  h1 {
+    font-size: 40px;
+  }
+  h3 {
+    font-size: 15px;
+  }
+
   .background-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
     background-image: url("../../images/Pereira_landingsmall.png");
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+  main {
+    flex-direction: column;
+    padding: 10px 0;
+    width: 100%;
   }
 
   .left-content {
-    width: 100%; /* Make both containers full width on smaller screens */
-    margin-bottom: 20px; /* Add some spacing between containers */
-    margin-left: 2px;
-    margin-top: 0;
+    width: 100%;
+    margin: 0 0 70px 0;
+    padding: 0 15px;
+    box-sizing: border-box;
   }
 
   .right-content {
-    width: 100%; /* Ensure right-content takes full width */
-    margin-top: 40%;
+    width: 90%;
+    margin: 40% auto 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  main {
-    flex-direction: column; /* Stack content vertically */
-    align-items: stretch; /* Make containers stretch to full width */
+  .sticker-creator {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
   }
 }
 
-/* Add more styles as needed */
+@media (max-width: 480px) {
+  .right-content {
+    width: 95%;
+  }
+}
