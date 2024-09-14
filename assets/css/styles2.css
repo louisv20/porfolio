@@ -48,7 +48,7 @@ html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url("../../images/Pereira_landing.png");
+  background-image: url("../../images/Pereira_landing1.png");
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -158,7 +158,7 @@ form select {
     width: auto;
     height: auto;
     transform: translate(-50%, -50%);
-    background-image: url("../../images/Pereira_landingsmall.png");
+    background-image: url("../../images/Pereira_landingsmall1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
