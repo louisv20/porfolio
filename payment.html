@@ -35,13 +35,18 @@
         flex-direction: column;
       }
       #card-element,
-      #amount-input,
+      #amount-display,
       #email-input {
         background-color: #ffffff;
         margin-bottom: 20px;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
+      }
+      #amount-display {
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
       }
       button {
         background-color: #5469d4;
@@ -95,20 +100,17 @@
             ><span style="color: rgb(250, 203, 50)">eira</span
             ><span style="color: rgb(237, 0, 0)">no&gt;</span>
           </h1>
-          <h3>Conviertete en Otro Pereirano Dueño de Este Exclusivo Patito!</h3>
+          <h3>Muy Pronto en Venta!</h3>
+          <h3>Solo 100 Unidades disponibles!</h3>
+          <h3>
+            Conviertete en Uno de los Pocos Dueños de Este Exclusivo Patito!
+          </h3>
         </div>
         <div class="right-content">
           <div class="container">
-            <h2>Adopta tu patito</h2>
+            <h2>Adoptar mi patito</h2>
             <form id="payment-form">
-              <input
-                type="number"
-                id="amount-input"
-                placeholder="Amount in COP"
-                step="1"
-                min="1000"
-                required
-              />
+              <div id="amount-display">Amount: 22000 COP</div>
               <input
                 type="email"
                 id="email-input"
@@ -120,7 +122,7 @@
                 <script
                   src="https://checkout.epayco.co/checkout.js"
                   class="epayco-button"
-                  data-epayco-amount="20000"
+                  data-epayco-amount="22000"
                   data-epayco-tax="0"
                   data-epayco-tax-ico="0"
                   data-epayco-tax-base="0"
@@ -139,7 +141,6 @@
               <button type="button" onclick="window.location.href='QR.html'">
                 Pagar con <i>QR</i>
               </button>
-
               <button id="submit">Pagar con Stripe</button>
               <div id="paypal-button-container"></div>
               <div id="payment-message"></div>
@@ -154,7 +155,6 @@
       let elements;
 
       const form = document.getElementById("payment-form");
-      const amountInput = document.getElementById("amount-input");
       const emailInput = document.getElementById("email-input");
       const messageElement = document.getElementById("payment-message");
       const submitButton = document.getElementById("submit");
@@ -195,15 +195,7 @@
 
         setLoading(true);
 
-        const amount = parseFloat(amountInput.value);
-        if (isNaN(amount) || amount < 1000) {
-          showMessage(
-            "Please enter a valid amount (minimum 1000 COP)",
-            "error"
-          );
-          setLoading(false);
-          return;
-        }
+        const amount = 22000; // Fixed amount
 
         try {
           const response = await fetch(
@@ -212,7 +204,7 @@
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                amount: Math.round(amount),
+                amount: amount,
                 currency: "cop",
               }),
             }
@@ -279,14 +271,7 @@
           paypal
             .Buttons({
               createOrder: function (data, actions) {
-                const amount = parseFloat(amountInput.value);
-                if (isNaN(amount) || amount < 1000) {
-                  showMessage(
-                    "Please enter a valid amount (minimum 1000 COP)",
-                    "error"
-                  );
-                  return;
-                }
+                const amount = 22000; // Fixed amount
                 return actions.order.create({
                   purchase_units: [
                     {
@@ -305,7 +290,10 @@
               },
               onError: function (err) {
                 console.error("PayPal error:", err);
-                showMessage("Ingresa monto y correo.", "error");
+                showMessage(
+                  "An error occurred with PayPal. Please try again.",
+                  "error"
+                );
               },
             })
             .render("#paypal-button-container");
@@ -332,22 +320,14 @@
           });
         } catch (error) {
           console.error("Failed to initialize ePayco:", error);
-          showMessage("", "error");
+          showMessage(
+            "Failed to initialize ePayco. Please try again later.",
+            "error"
+          );
         }
       }
 
       initializeEpayco();
-
-      document
-        .getElementById("amount-input")
-        .addEventListener("change", function () {
-          const amount = parseFloat(this.value);
-          if (!isNaN(amount) && amount >= 1000) {
-            document
-              .querySelector(".epayco-button")
-              .setAttribute("data-epayco-amount", amount.toString());
-          }
-        });
     </script>
   </body>
 </html>
