@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patito Futbolero - Sistema de Adopción</title>
+    <style>
+      body, html {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+          background: linear-gradient(to left, rgba(0, 3, 13, 0.9) 65%, rgba(137, 137, 137, 0.9) 150%);
+          min-height: 100vh;
+          color: #fff;
+      }
+      .container {
+          max-width: 1200px;
+          height: 850px;
+          margin: 0 auto;
+          padding: 10px;
+          background-image: url("images/duckgradient.png");
+          background-size: 850px 800px;
+          background-repeat: no-repeat;
+          background-position: left 120% bottom 55%;
+      }
+      nav {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          background-color: rgba(0, 3, 13, 0.39);
+          border-radius: 50px;
+          padding: 10px 30px;
+          margin-bottom: 50px;
+      }
+      .logo {
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+      }
+      .logo-icon {
+          width: 50px;
+          margin-right: 8px;
+      }
+      .nav-links {
+          display: flex;
+          flex-wrap: wrap;
+      }
+      .nav-links a {
+          color: #ffffff;
+          text-decoration: none;
+          margin: 5px 15px;
+      }
+      .buy-now {
+          background-color: #b30707;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          margin-top: 10px;
+      }
+      .content {
+          max-width: 65%;
+          height: 45%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          background-color: rgba(0, 3, 30, 0.312);
+          border-radius: 20px;
+          padding: 40px;
+      }
+      .text-content {
+          width: 100%;
+      }
+      .title {
+          font-size: 48px;
+          margin: 0;
+          display: inline-block;
+          padding: 5px 10px;
+          position: relative;
+      }
+      .title::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 42%;
+          bottom: 51%;
+          background: linear-gradient(to right, rgb(179, 5, 5), rgb(182, 173, 4));
+          filter: blur(80px);
+          z-index: -1;
+          transform: scale(.7, .2);
+      }
+      .subtitle {
+          font-size: 36px;
+          color: #a0a0a0;
+          margin: 10px 0;
+      }
+      .description {
+          font-size: 18px;
+          margin-bottom: 30px;
+      }
+      .cta-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+      }
+      .cta-button {
+          padding: 10px 20px;
+          border-radius: 25px;
+          text-decoration: none;
+          font-weight: bold;
+      }
+      .contact-us {
+          background-color: #b30707;
+          color: #fff;
+      }
+      .read-more {
+          background-color: #fff;
+          color: #000;
+      }
+      .partners {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          margin-top: 40px;
+      }
+      .partner-logo {
+          opacity: 0.5;
+          max-width: 100px;
+          height: auto;
+          margin: 10px;
+      }
+      .container1 {
+          padding: 30px;
+          background-image: linear-gradient(to left, rgb(127, 0, 0), rgb(0, 0, 122));
+      }
+      h1 {
+          text-align: center;
+          font-size: 2.5em;
+          margin-bottom: 40px;
+      }
+      .faq-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 50px;
+      }
+      .question {
+          font-size: 1.2em;
+          font-weight: bold;
+          margin-top: 40px;
+      }
+      .answer {
+          margin-bottom: 20px;
+      }
+      .faq-images img {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+          margin-bottom: 20px;
+      }
+      .separator {
+          height: 1px;
+          background-color: rgba(255, 255, 255, 0.3);
+          margin: 15px 0;
+      }
+
+      @media (min-width: 768px) {
+          .content {
+              flex-direction: row;
+          }
+          .text-content {
+              width: 60%;
+          }
+          .faq-grid {
+              grid-template-columns: 1fr 1fr;
+          }
+          .faq-images {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+          }
+      }
+
+      @media (max-width: 767px) {
+          nav {
+              flex-direction: column;
+              align-items: flex-start;
+          }
+          .nav-links, .buy-now {
+              margin-top: 10px;
+          }
+          .title {
+              font-size: 36px;
+          }
+          .subtitle {
+              font-size: 24px;
+          }
+      }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <div class="logo">
+        <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+        Patito Futbolero</div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#">Profile</a>
+          <a href="#">Coming Soon</a>
+        </div>
+        <button class="buy-now">Compra pronto!</button>
+      </nav>
+      <div class="content">
+        <div class="text-content">
+          <h1 class="title">Patito Fútbolero</h1>
+          <h2 class="subtitle">Sistema de Adopción</h2>
+          <p class="description">
+            Conviértete en uno de los pocos dueños de esta exclusiva mascota
+            futbolera.
+          </p>
+          <p class="description">
+            Primeras 100 personas registradas tendran oportunidad de compra cuando
+            producto entre en disponibilidad.
+          <div class="cta-buttons">
+            <a href="#" class="cta-button contact-us">CONTACT US</a>
+            <a href="#" class="cta-button read-more">READ MORE</a>
+          </div>
+          <!-- <div class="partners">
+            <img
+              src="../images/pato1.jpeg"
+              alt="Pinterest"
+              class="partner-logo"
+            />
+            <img
+              src="/api/placeholder/100/30"
+              alt="Netflix"
+              class="partner-logo"
+            />
+            <img
+              src="/api/placeholder/100/30"
+              alt="Coinbase"
+              class="partner-logo"
+            />
+            <img
+              src="/api/placeholder/100/30"
+              alt="NASA"
+              class="partner-logo"
+            />
+          </div> -->
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="container1">
+      <h1>Pateando el Juego con Estilo</h1>
+      <div class="faq-grid">
+        <div class="faq-text">
+          <div class="question">
+          ¿Qué metodo de impresión usan?
+          </div>
+          <div class="answer">
+            Los patos estan impresos por metodo de sublimación.
+          </div>
+          <div class="separator"></div>
+
+          <div class="question">¿Qué es la impresión por sublimación?</div>
+          <div class="answer">La impresión por sublimación es un proceso en el que se utiliza calor para transferir un tinte a un material, generalmente a una superficie recubierta con polímero. El tinte se convierte en gas y se integra en el material, creando impresiones vibrantes y duraderas.</div>
+          <div class="separator"></div>
+
+          <div class="question"> ¿Qué tan duraderas son las impresiones en los patos de goma sublimados?</div>
+          <div class="answer">
+          Las impresiones por sublimación son conocidas por su durabilidad. Los diseños están integrados en la superficie, lo que los hace resistentes a la decoloración, el despegado o el rasguño.
+          </div>
+          <div class="separator"></div>
+
+          <div class="question">¿Se puede usar el pato de goma para la hora del baño después de imprimirlo?</div>
+          <div class="answer">
+          Sí, nuestros patos de goma personalizados son seguros para la hora del baño. El proceso de sublimación asegura que el diseño esté bien fijado y no se desprenda fácilmente durante su uso.
+          </div>
+        </div>
+        <div class="faq-images">
+          <img src="images/pato1.jpeg" alt="eBike display" />
+          <img src="images/pato2.png" alt="eBike speedometer" />
+          <img src="images/pato3.png" alt="eBike wheel" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
