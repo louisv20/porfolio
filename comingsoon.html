@@ -1,294 +1,492 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Patito Futbolero - Sistema de Adopción</title>
-    <style>
-      body, html {
-          margin: 0;
-          padding: 0;
-          font-family: Arial, sans-serif;
-          background: linear-gradient(to left, rgba(0, 3, 13, 0.9) 65%, rgba(137, 137, 137, 0.9) 150%);
-          min-height: 100vh;
-          color: #fff;
-      }
-      .container {
-          max-width: 1200px;
-          height: 850px;
-          margin: 0 auto;
-          padding: 10px;
-          background-image: url("images/duckgradient.png");
-          background-size: 850px 800px;
-          background-repeat: no-repeat;
-          background-position: left 120% bottom 55%;
-      }
+  <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <title>Patito Futbolero</title>
+      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+        @font-face {
+            font-family: "duck";
+            src: url("assets/fonts/Copyduck.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+          }
+          .special-font {
+            font-family: "duck", sans-serif;
+          }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Poppins, sans-serif;
+            background: linear-gradient(to left, rgba(0, 3, 13, 0.9) 65%, rgba(137, 137, 137, 0.9) 150%);
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+        .container {
+            padding: 1em;
+            max-width: 100rem;
+            height: 50em;
+            background-image: url("images/duckgradient.png");
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
       nav {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          align-items: center;
-          background-color: rgba(0, 3, 13, 0.39);
-          border-radius: 50px;
-          padding: 10px 30px;
-          margin-bottom: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
+
       .logo {
-          font-weight: bold;
-          display: flex;
-          align-items: center;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
       }
       .logo-icon {
-          width: 50px;
-          margin-right: 8px;
+        width: 4em;
+        margin-right: 8px;
       }
-      .nav-links {
-          display: flex;
-          flex-wrap: wrap;
-      }
+
       .nav-links a {
-          color: #ffffff;
-          text-decoration: none;
-          margin: 5px 15px;
+        color: white;
+        text-decoration: none;
+        margin-left: 1em;
+        transition: color 0.3s ease;
       }
+
+      .nav-links a:hover {
+        color: #9b0000;
+      }
+
       .buy-now {
-          background-color: #b30707;
-          color: #fff;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 25px;
-          cursor: pointer;
-          margin-top: 10px;
-      }
-      .content {
-          max-width: 65%;
-          height: 45%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-start;
-          background-color: rgba(0, 3, 30, 0.312);
-          border-radius: 20px;
-          padding: 40px;
-      }
-      .text-content {
-          width: 100%;
-      }
-      .title {
-          font-size: 48px;
-          margin: 0;
-          display: inline-block;
-          padding: 5px 10px;
-          position: relative;
-          z-index: 1;
-      }
-      .title::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 2%;
-          bottom: 4%;
-          background: linear-gradient(to right, rgb(179, 5, 5), rgb(182, 173, 4));
-          filter: blur(20px);
-          z-index: -1;
-          transform: scale(1.1, .5);
-      }
-      .subtitle {
-          font-size: 36px;
-          color: #a0a0a0;
-          margin: 10px 0;
-      }
-      .description {
-          font-size: 18px;
-          margin-bottom: 30px;
-      }
-      .cta-buttons {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 20px;
-      }
-      .cta-button {
-          padding: 10px 20px;
-          border-radius: 25px;
-          text-decoration: none;
-          font-weight: bold;
-      }
-      .contact-us {
-          background-color: #b30707;
-          color: #fff;
-      }
-      .read-more {
-          background-color: #fff;
-          color: #000;
-      }
-      .partners {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          margin-top: 40px;
-      }
-      .partner-logo {
-          opacity: 0.5;
-          max-width: 100px;
-          height: auto;
-          margin: 10px;
-      }
-      .container1 {
-          padding: 30px;
-          background-image: linear-gradient(to left, rgb(127, 0, 0), rgb(0, 0, 122));
-      }
-      h1 {
-          text-align: center;
-          font-size: 2.5em;
-          margin-bottom: 40px;
-      }
-      .faq-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 50px;
-      }
-      .question {
-          font-size: 1.2em;
-          font-weight: bold;
-          margin-top: 40px;
-      }
-      .answer {
-          margin-bottom: 20px;
-      }
-      .faq-images img {
-          width: 100%;
-          height: auto;
-          border-radius: 8px;
-          margin-bottom: 20px;
-      }
-      .separator {
-          height: 1px;
-          background-color: rgba(255, 255, 255, 0.3);
-          margin: 15px 0;
+        background-color: #9b0000;
+        color: #fff;
+        border: none;
+        padding: .5em .5em;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: .2em;
       }
 
-      @media (min-width: 768px) {
-          .content {
-              flex-direction: row;
-          }
-          .text-content {
-              width: 60%;
-          }
-          .faq-grid {
-              grid-template-columns: 1fr 1fr;
-          }
-          .faq-images {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 30px;
-          }
+      .buy-now button:hover {
+        background-color: #f60505;
       }
+        .content {
+            position: relative;
+            width: 50%;
+            height: 30rem;
+            margin-top: 6em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background-color: rgba(0, 3, 30, 0.312);
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
+            padding: 2em;
+        }
+        .text-content {
+          width: 85%;
+          height: 15em;
+        }
+        .title {
+            font-size: 3.5rem;
+            margin: 0;
+            display: inline-block;
+            padding: 5px 10px;
+            position: relative;
+            z-index: 1;
+        }
+        /* .title::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: -40%;
+            bottom: 4%;
+            background: white;
+            filter: blur(20px);
+            z-index: -1;
+            transform: scale(.4, .5);
+        } */
+        .subtitle {
+            font-size: 36px;
+            color: #a0a0a0;
+            margin: 10px 0;
+        }
+        .description {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 1.3em;
+        }
+        .cta-button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact-us {
+            background-color: #b30707;
+            color: #fff;
+        }
+        .read-more {
+            background-color: #fff;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 4em;
+        }
+        .container1 {
+          padding: 2em;
+          background-image: url(images/background1.png);
+          background-size: cover;
+        }
+        .faq-container {
+              position: relative;
+          }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2em;
+        }
+        .question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: .3em;
+        }
+        .answer {
+            margin-bottom: 1em;
+        }
+        .faq-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2em;
+        }
+        .faq-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
 
-      @media (max-width: 767px) {
-          nav {
-              flex-direction: column;
-              align-items: flex-start;
+        .separator {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 15px 0;
+        } 
+          .more-info-button {
+              position: absolute;
+              bottom: 80px;
+              right: 135px;
+              background-color: #b30707;
+              color: #fff;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 25px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: bold;
           }
-          .nav-links, .buy-now {
-              margin-top: 10px;
+
+  .details-section {
+      height: 48em;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fdc98d 0%, #d77e30 100%);
+      color: rgb(220, 220, 220);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+  }
+
+  .details-container {
+      background-image: url(images/companion.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+      justify-content: center;
+  }
+  .details-content {
+      font-size: .6em;
+      width: 55em; /* Keeps the content width fixed */
+      height: 70em;
+      z-index: 3;
+      text-align: left; /* Add some padding to push content below the wave */
+  } 
+
+  .blurred-background {
+      background-color: rgba(0, 0, 0, 0.425); /* Semi-transparent background */
+      backdrop-filter: blur(.6px); /* Blur effect */
+      padding: 2em; /* Adjust padding as needed */
+      border-radius: 5px; /* Optional: rounded corners */
+      margin-top: 4.5em;
+  }
+          .details-title {
+              font-size: 4em;
+              font-weight: 600;
+              margin-top: .2em;
+              margin-bottom: .7em;
           }
-          .title {
-              font-size: 36px;
+
+          .details-subtitle {
+              font-size: 2em;
+              font-weight: 300;
+              margin-bottom: 30px;
           }
-          .subtitle {
-              font-size: 24px;
+
+          .details-quote {
+              font-size: 1.6em;
+              font-style: italic;
+              margin-bottom: 30px;
+              line-height: 1.6;
           }
+
+          .details-author {
+              font-size: 16px;
+              font-weight: 400;
+          }
+
+          .details-job {
+              font-size: 14px;
+              opacity: 0.8;
+          }
+
+          .details-icons {
+              display: flex;
+              gap: 15px;
+              margin-top: 30px;
+          }
+
+          .icon {
+              width: 50px;
+              height: 50px;
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+          }
+
+          .wave {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 300%;
+              height: 400px;
+              background: url("images/wavesOpacity.svg") repeat-x;
+              animation: wave 55s linear infinite;
+              z-index: 1;
+  }
+
+  @keyframes wave {
+      0% {
+          background-position-x: 0;
       }
-  </style>
-  </head>
-  <body>
-    <div class="container">
-      <nav>
-        <div class="logo">
-        <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
-        Patito Futbolero</div>
-        <div class="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Profile</a>
-          <a href="#">Coming Soon</a>
-        </div>
-        <button class="buy-now">Compra pronto!</button>
-      </nav>
-      <div class="content">
-        <div class="text-content">
-          <h1 class="title">Patito Fútbolero</h1>
-          <h2 class="subtitle">Sistema de Adopción</h2>
-          <p class="description">
-            Conviértete en uno de los pocos dueños de esta exclusiva mascota
-            futbolera.
-          </p>
-          <p class="description">
-            Próximamente, contaremos con una disponibilidad limitada de solo 100 unidades. Regístrate para recibir una notificación sobre el lanzamiento.
+      100% {
+          background-position-x: 1000px;
+      }
+  }
+
+
+      @media (max-width: 500px) {
+        .nav-links a {
+            display: flex;
+            margin-right: 2em;
+      }
+        .container {
+            padding: 1em 0 0 0;
+            background-image: url("images/duckgradient-small.png");
+            overflow-x: hidden;
+            background-attachment: fixed;
+            height: 46em;
+
+        }
+        .content {
+            width: 50vh;
+            height: 70em;
+            font-size: .4em;
+            display: flex;
+            justify-content: left; /* Centers content horizontally */
+            backdrop-filter: none;
+        }
+        .subtitle {
+            width: 80%;
+            font-size: 3.5em;
+            color: #a0a0a0;
+        }
+        .description {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        .container1 {
+            background-image: url(images/background1-small.png);
+            background-attachment: fixed;
+            font-size: .5em;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .4em;
+        }
+        .more-info-button {
+              position: absolute;
+              bottom: 60px;
+              right: 50px;
+        }
+        .details-container {
+              background-position: 50% 75%;
+              background-image: url(images/companion-small.png);
+              width: 100%;
+              padding-top: 3em;
+
+       }
+        .details-content {
+             font-size: .6em;
+             width: 43em; /* Keeps the content width fixed */
+             z-index: 3;
+       }
+        .blurred-background {
+          height: 57em;
+       }
+
+      }
+    </style>
+    </head>
+    <body>
+      <div class="container">
+        <nav>
+          <div class="logo">
+          <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+          Patito Futbolero</div>
+          <div class="nav-links">
+            <a href="https://www.instagram.com/patosfutboleros" target="_blank">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://wa.me/573042710760" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+          <button class="buy-now">Compra pronto!</button>
+        </nav>
+        <div class="content">
+          <div class="text-content">
+            <h1 class="title">Patito <span class="special-font"><span style="color: rgb(200, 0, 0)">&lt;per</span
+              ><span style="color: rgb(250, 203, 50)">eira</span
+              ><span style="color: rgb(200, 0, 0)">no&gt;</span></span></h1>
+            <h2 class="subtitle">Sistema de Adopción</h2>
+            <p class="description">
+              Conviértete en uno de los pocos dueños de esta exclusiva mascota
+              futbolera.
             </p>
-          <div class="cta-buttons">
-            <a href="#" class="cta-button contact-us">CONTACT US</a>
-            <a href="#" class="cta-button read-more">READ MORE</a>
+            <p class="description">
+              Próximamente, contaremos con una disponibilidad limitada de solo 100 unidades. Regístrate para recibir una notificación sobre el lanzamiento.
+              </p>
+            <div class="cta-buttons">
+              <a href="register.html" class="cta-button contact-us">¡Quiero el mío!</a>
+              <a href="#preguntas" class="cta-button read-more">Más info</a>
+            </div>
+            <!-- <div class="partners">
+              <img
+                src="../images/pato1.jpeg"
+                alt="Pinterest"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="Netflix"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="Coinbase"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="NASA"
+                class="partner-logo"
+              />
+            </div> -->
           </div>
-          <!-- <div class="partners">
-            <img
-              src="../images/pato1.jpeg"
-              alt="Pinterest"
-              class="partner-logo"
-            />
-            <img
-              src="/api/placeholder/100/30"
-              alt="Netflix"
-              class="partner-logo"
-            />
-            <img
-              src="/api/placeholder/100/30"
-              alt="Coinbase"
-              class="partner-logo"
-            />
-            <img
-              src="/api/placeholder/100/30"
-              alt="NASA"
-              class="partner-logo"
-            />
-          </div> -->
         </div>
       </div>
-    </div>
-    </div>
-    <div class="container1">
-      <h1>Pateando el Juego con Estilo</h1>
-      <div class="faq-grid">
-        <div class="faq-text">
-          <div class="question">
-          ¿Qué metodo de impresión usan?
-          </div>
-          <div class="answer">
-            Los patos estan impresos por metodo de sublimación.
-          </div>
-          <div class="separator"></div>
-
-          <div class="question">¿Qué es la impresión por sublimación?</div>
-          <div class="answer">La impresión por sublimación es un proceso en el que se utiliza calor para transferir un tinte a un material, generalmente a una superficie recubierta con polímero. El tinte se convierte en gas y se integra en el material, creando impresiones vibrantes y duraderas.</div>
-          <div class="separator"></div>
-
-          <div class="question"> ¿Qué tan duraderas son las impresiones en los patos de goma sublimados?</div>
-          <div class="answer">
-          Las impresiones por sublimación son conocidas por su durabilidad. Los diseños están integrados en la superficie, lo que los hace resistentes a la decoloración, el despegado o el rasguño.
-          </div>
-          <div class="separator"></div>
-
-          <div class="question">¿Se puede usar el pato de goma para la hora del baño después de imprimirlo?</div>
-          <div class="answer">
-          Sí, nuestros patos de goma personalizados son seguros para la hora del baño. El proceso de sublimación asegura que el diseño esté bien fijado y no se desprenda fácilmente durante su uso.
-          </div>
-        </div>
-        <div class="faq-images">
-          <img src="images/pato1.jpeg" alt="eBike display" />
-          <img src="images/pato2.png" alt="eBike speedometer" />
-          <img src="images/pato3.png" alt="eBike wheel" />
-        </div>
       </div>
-    </div>
-  </body>
-</html>
+      <section id ="preguntas">
+        <div class="container1 faq-container">
+        <h1>Pateando el Juego con Estilo</h1>
+        <div class="faq-grid">
+          <div class="faq-text">
+            <div class="question">
+              ¿Qué método de impresión utilizan?
+            </div>
+            <div class="answer">
+              Los patos están impresos mediante el método de sublimación, garantizando la máxima calidad y durabilidad en los diseños.
+            </div>
+            <div class="separator"></div>
+
+            <div class="question">¿Qué es la impresión por sublimación?</div>
+            <div class="answer">La impresión por sublimación es un proceso en el que se utiliza calor para transferir un tinte a un material, generalmente a una superficie recubierta con polímero. El tinte se convierte en gas y se integra en el material, creando impresiones vibrantes y duraderas.</div>
+            <div class="separator"></div>
+
+            <div class="question"> ¿Qué tan duraderas son las impresiones en los patos de goma sublimados?</div>
+            <div class="answer">
+            Las impresiones por sublimación son conocidas por su durabilidad. Los diseños están integrados en la superficie, lo que los hace resistentes a la decoloración, el despegado o el rasguño.
+            </div>
+            <div class="separator"></div>
+
+            <div class="question">¿Se puede usar el pato de goma para la hora del baño después de imprimirlo?</div>
+            <div class="answer">
+            Sí, nuestros patos de goma personalizados son seguros para la hora del baño. El proceso de sublimación asegura que el diseño esté bien fijado y no se desprenda fácilmente durante su uso.
+            </div>
+          </div>
+          <div class="faq-images">
+            <img src="images/pato1.jpeg" alt="eBike display" />
+            <img src="images/pato2.png" alt="eBike speedometer" />
+            <img src="images/pato3.png" alt="eBike wheel" />
+            </a>
+          </div>
+        </div>
+        <a href="#details-section"><button class="more-info-button">Más info</button></a>
+      </div>
+    </section>
+    <section class="details-section" id="details-section">
+      <div class="wave"></div>
+      <div class="details-container">
+          <div class="details-content">
+            <div class="blurred-background">
+              <h2 class="details-title">Regalo Sorpresa</h2>
+              <p class="details-subtitle">¡Primeras 100 adopciones recibirán un compañerito!</p>
+              <blockquote class="details-quote">
+                  "Yo parcho con una barra que está muy descontrolada,
+                  Que sigue siempre al Pereira en las buenas y en las malas,
+                  No importa si vas de cana, siempre a vos te seguiremos,
+                  La banda estará presente aunque no vayas de primero,
+                  Quiero ver saltando a todos, a todos los que no salten
+                  Son una manada de locas por que no tienen aguante"
+              </blockquote>
+              <p class="details-author">Lobo Sur Pereira</p>
+              <div class="details-icons">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <a href="register.html" class="cta-button contact-us">¡Quiero el mío!</a>
+              </div>
+            </div> 
+          </div>
+      </div>
+  </section>
+    </body>
+  </html>

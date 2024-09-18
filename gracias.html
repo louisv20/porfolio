@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>¡Gracias por Registrarte!</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #000329;
+        --secondary-color: #9f0000;
+        --text-color: #4f4f4f;
+        --background-color: #050015;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      .logo-icon {
+        width: 50px;
+        margin-right: 8px;
+      }
+
+      .logo-icon2 {
+        width: 130px;
+        object-position: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .buy-now {
+        background-color: #b30707;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .buy-now button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .thank-you-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .thank-you-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #fff9f9;
+      }
+
+      .thank-you-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .thank-you-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .thank-you-content p {
+        margin-bottom: 20px;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .social-links a {
+        color: var(--primary-color);
+        font-size: 24px;
+        margin: 0 15px;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      footer {
+        background-color: var(--text-color);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      @media (max-width: 500px) {
+        .nav-links a {
+          display: flex;
+          margin-right: 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="comingsoon.html" class="logo-link">
+            <div class="logo">
+              <img
+                src="images/ducksticker1.png"
+                alt="Icon"
+                class="logo-icon"
+              />Patito Futbolero
+            </div>
+          </a>
+          <div class="nav-links">
+            <a href="https://www.instagram.com/patosfutboleros" target="_blank">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://wa.me/573042710760" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+          <button class="buy-now">Compra pronto!</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="thank-you-header">
+          <h1 class="thank-you-title">¡Gracias por Unirte!</h1>
+        </div>
+
+        <div class="thank-you-content">
+          <img src="images/ducksticker1.png" alt="logo" class="logo-icon2" />
+          <h2>Estás en la Lista de Espera</h2>
+          <p>
+            Te agradecemos por registrarte. Serás de los primeros en saber
+            cuando los Patitos Futboleros estén disponibles para la compra.
+          </p>
+          <p>
+            Mantente atento a tu correo electrónico para recibir actualizaciones
+            exclusivas y el enlace de compra.
+          </p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/patosfutboleros" target="_blank">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/573042710760" target="_blank">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Patos LGC. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
