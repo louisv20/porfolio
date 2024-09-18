@@ -73,7 +73,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 302,
       headers: {
-        Location: "/thank-you.html", // Redirect to thank you page after successful submission
+        Location: "/gracias.html", // Redirect to thank you page after successful submission
       },
     };
   } catch (error) {
