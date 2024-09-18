@@ -64,4 +64,16 @@
     <loc>https://luisgcastro.com/post12</loc>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://luisgcastro.com/comingsoon</loc>
+    <priority>0.6</priority>
+  </url> 
+      <url>
+    <loc>https://luisgcastro.com/register</loc>
+    <priority>0.6</priority>
+  </url> 
+      <url>
+    <loc>https://luisgcastro.com/gracias</loc>
+    <priority>0.6</priority>
+  </url>
 </urlset>
