@@ -6,8 +6,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 // Define a schema for the subscriber with name and email fields
 const subscriberSchema = new mongoose.Schema({
-  name: String, // Add the name field
-  email: String,
+  name: String,
+  email: { type: String, unique: true }, // Make email unique
   date: { type: Date, default: Date.now },
 });
 
@@ -39,7 +39,7 @@ exports.handler = async (event) => {
     console.log("Unsupported content type");
     return {
       statusCode: 400,
-      body: "Unsupported content type. Expected form submission.",
+      body: "Tipo de contenido no admitido. Envío de formulario esperado.",
     };
   }
 
@@ -48,7 +48,7 @@ exports.handler = async (event) => {
     console.log("Name and Email are required");
     return {
       statusCode: 400,
-      body: "Name and Email are required.",
+      body: "Nombre y correo electrónico obligatorios.",
     };
   }
 
@@ -59,6 +59,17 @@ exports.handler = async (event) => {
       useUnifiedTopology: true,
     });
     console.log("Connected to database");
+
+    // Check if the email already exists
+    const existingSubscriber = await Subscriber.findOne({ email: email });
+    if (existingSubscriber) {
+      console.log("Email already exists:", email);
+      await mongoose.connection.close();
+      return {
+        statusCode: 400,
+        body: "Este correo ya está registrado.",
+      };
+    }
 
     // Create a new subscriber document with both name and email
     const subscriber = new Subscriber({ name: name, email: email });
@@ -78,9 +89,16 @@ exports.handler = async (event) => {
     };
   } catch (error) {
     console.error("Error:", error);
+    if (error.code === 11000) {
+      // Duplicate key error
+      return {
+        statusCode: 400,
+        body: "Este correo ya está registrado.",
+      };
+    }
     return {
       statusCode: 500,
-      body: "An error occurred while saving your data.",
+      body: "Se ha producido un error al guardar los datos.",
     };
   }
 };
