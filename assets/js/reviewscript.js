@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const reviewsList = document.getElementById("reviews-list");
-  const reviewForm = document.getElementById("review-form");
+  const writeReviewButton = document.getElementById("write-review");
+  const quickviewModal = document.getElementById("quickview-modal");
+  const submitReviewButton = quickviewModal.querySelector(".rev-button");
+  const skipButton = quickviewModal.querySelector(".skip");
+  const backButton = quickviewModal.querySelector(".back");
 
   // Fetch and display reviews
   const fetchReviews = async () => {
@@ -10,15 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
       reviewsList.innerHTML = reviews
         .map(
           (review) => `
-          <div class="review-item">
-            <h4>${review.name}</h4>
-            <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(
-            5 - review.rating
-          )}</div>
-            <p>${review.comment}</p>
-            <small>${new Date(review.date).toLocaleDateString()}</small>
-          </div>
-        `
+            <div class="review-card">
+              <div class="review-details">
+                <div class="author-name">${review.name}</div>
+                <div class="date">${new Date(
+                  review.date
+                ).toLocaleDateString()}</div>
+                <div class="tydal-star-wrapper">
+                  ${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}
+                </div>
+                <div class="review-text">${review.comment}</div>
+              </div>
+            </div>
+          `
         )
         .join("");
     } catch (error) {
@@ -26,11 +34,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // Show modal
+  writeReviewButton.addEventListener("click", () => {
+    quickviewModal.style.display = "block";
+  });
+
+  // Hide modal
+  const hideModal = () => {
+    quickviewModal.style.display = "none";
+  };
+
+  skipButton.addEventListener("click", hideModal);
+  backButton.addEventListener("click", hideModal);
+
   // Submit new review
-  reviewForm.addEventListener("submit", async (e) => {
+  submitReviewButton.addEventListener("click", async (e) => {
     e.preventDefault();
-    const formData = new FormData(reviewForm);
-    const reviewData = Object.fromEntries(formData.entries());
+    const nameInput = quickviewModal.querySelector(
+      'input[placeholder="Your Name"]'
+    );
+    const commentTextarea = quickviewModal.querySelector(".rev-textarea");
+    const ratingInputs = quickviewModal.querySelectorAll(
+      '.review-star-container input[type="radio"]'
+    );
+
+    const name = nameInput.value;
+    const comment = commentTextarea.value;
+    const rating =
+      Array.from(ratingInputs).find((input) => input.checked)?.value || "5";
+
+    const reviewData = { name, comment, rating };
 
     try {
       const response = await fetch("/.netlify/functions/reviews", {
@@ -38,7 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(reviewData),
       });
       if (response.ok) {
-        reviewForm.reset();
+        nameInput.value = "";
+        commentTextarea.value = "";
+        ratingInputs.forEach((input) => (input.checked = false));
+        hideModal();
         fetchReviews();
       } else {
         console.error("Error submitting review");
