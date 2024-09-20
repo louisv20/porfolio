@@ -1,12 +1,14 @@
   <!DOCTYPE html>
   <html lang="es">
     <head>
+      <script src="assets/js/reviewscript.js"></script>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta
       name="description"
       content="Explore the latest trends in technology, lifestyle, and productivity with TrendBlog. Stay updated with fresh insights, tips, and inspiration to enhance your digital lifestyle."
     />
+    <link rel="stylesheet" href="assets/css/reviews.css" />
 
     <!-- SEO Title with Primary Keywords -->
     <title>
@@ -534,6 +536,87 @@
             </div> 
           </div>
       </div>
+  </section>
+  <section id="reviews-section">
+    <!-- <link rel="stylesheet" href="assets/css/reviews.css" /> -->
+
+    <div id="panel-nav">
+      <h2 class="review-summary-title">Customer Reviews</h2>
+      <div class="tydal-star-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+      </div>
+      <div class="summary-rating">5.0</div>
+      <div class="review-summary-total-reviews">Basado en tres reseñas</div>
+      <button id="write-review">Escribe una reseña</button>
+    </div>
+    
+    <div id="reviews-list">
+      <!-- Example review card -->
+      <div class="review-card">
+        <div class="review-details">
+          <div class="author-name">John Doe</div>
+          <div class="date">March 15, 2024</div>
+          <div class="tydal-star-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+          </div>
+          <div class="review-text">This product is amazing! I love the retro pixel design and it works perfectly.</div>
+        </div>
+      </div>
+      <!-- More review cards would be added here dynamically -->
+    </div>
+  
+    <!-- Modal for writing a review -->
+    <div id="quickview-modal" style="display: none;">
+      <div class="quickview-modal-contents">
+        <div class="wizard-slide">
+          <h3>Write a Review</h3>
+          <div class="review-star-container">
+            <span>Rate this product:</span>
+            <!-- Star rating inputs would go here -->
+          </div>
+          <textarea class="rev-textarea" placeholder="Write your review here..."></textarea>
+          <div class="field-container">
+            <input type="text" placeholder="Your Name" class="rev-input">
+            <input type="email" placeholder="Your Email" class="rev-input">
+          </div>
+          <h4 class="upload-incentive-text">Upload a photo for bonus points!</h4>
+          <input type="file" class="rev-code-size">
+          <div class="wizard-footer">
+            <button class="rev-button">Submit Review</button>
+            <button class="skip">Skip</button>
+            <button class="back">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
     </body>
   </html>
