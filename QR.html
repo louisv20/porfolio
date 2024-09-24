@@ -10,17 +10,65 @@
         height: 100%;
         margin: 0;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
       }
-      img {
+      .logo-container {
+        background-color: rgb(229, 31, 31);
+        display: flex;
+        align-items: center; /* Center vertically */
+        gap: 10px; /* Space between logo and text */
+        margin-top: 20px;
+        padding: 0.5em;
+        border-radius: 5px;
+      }
+      /* WhatsApp logo */
+      .logo-container img {
+        max-width: 50px; /* Adjust logo size */
+        cursor: pointer;
+      }
+      /* Style for the text */
+      .logo-container p {
+        font-size: 20px;
+        color: #ffffff; /* Change text color */
+        font-weight: bold;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+      .logo-container a {
+        text-decoration: none;
+      }
+      /* QR Image */
+      .qr-img {
         max-width: 100%;
         max-height: 75%;
         object-fit: contain;
+        margin-top: 20px;
       }
     </style>
   </head>
   <body>
-    <img src="images/QR.png" alt="QR" />
+    <!-- WhatsApp logo and link -->
+    <div class="logo-container">
+      <a href="https://wa.me/573042710760" target="_blank">
+        <img src="images/whatsapp.png" alt="WhatsApp" />
+      </a>
+      <a href="https://wa.me/573042710760" target="_blank">
+        <p>Envía Comprobante Aquí</p>
+      </a>
+    </div>
+
+    <!-- QR image -->
+    <img class="qr-img" src="images/QR.png" alt="QR" />
+    <div class="logo-container">
+      <a href="https://wa.me/573042710760" target="_blank">
+        <img src="images/whatsapp.png" alt="WhatsApp" />
+      </a>
+      <a href="https://wa.me/573042710760" target="_blank">
+        <p>Envía Comprobante Aquí</p>
+      </a>
+    </div>
   </body>
 </html>

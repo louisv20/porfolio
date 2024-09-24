@@ -25,20 +25,6 @@
       if (!authToken) {
         window.location.href = "login.html"; // Redirect to login page if not authenticated
       }
-      // function loadPayPal() {
-      //   return new Promise((resolve, reject) => {
-      //     fetchWithAuth("/.netlify/functions/getPayPalClientId")
-      //       .then((response) => response.json())
-      //       .then((data) => {
-      //         const script = document.createElement("script");
-      //         script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`;
-      //         script.onload = resolve;
-      //         script.onerror = reject;
-      //         document.head.appendChild(script);
-      //       })
-      //       .catch(reject);
-      //   });
-      // }
       async function fetchWithAuth(url, options = {}) {
         const authToken = localStorage.getItem("authToken");
         return fetch(url, {
@@ -350,10 +336,10 @@
           });
         } catch (error) {
           console.error("Failed to initialize ePayco:", error);
-          showMessage(
-            "Failed to initialize ePayco. Please try again later.",
-            "error"
-          );
+          // showMessage(
+          //   "Failed to initialize ePayco. Please try again later.",
+          //   "error"
+          // );
         }
       }
 
