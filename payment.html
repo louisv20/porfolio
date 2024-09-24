@@ -41,7 +41,7 @@
       // }
       async function fetchWithAuth(url, options = {}) {
         const authToken = localStorage.getItem("authToken");
-        return fetchWithAuth(url, {
+        return fetch(url, {
           ...options,
           headers: {
             ...options.headers,
