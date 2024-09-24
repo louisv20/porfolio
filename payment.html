@@ -35,6 +35,17 @@
           },
         });
       }
+      // Function to clear auth token after a set time (e.g., 1 hour)
+      function setAuthTokenExpiry(duration) {
+        setTimeout(() => {
+          localStorage.removeItem("authToken");
+          alert("Session expired. You will be redirected to login.");
+          window.location.href = "login.html"; // Redirect after token removal
+        }, duration);
+      }
+
+      // Set the token to expire after 1 hour (3600000 milliseconds)
+      setAuthTokenExpiry(60000);
     </script>
     <style>
       .container {
