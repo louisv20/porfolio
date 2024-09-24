@@ -39,7 +39,7 @@
       //       .catch(reject);
       //   });
       // }
-      async function fetchWithAuthWithAuth(url, options = {}) {
+      async function fetchWithAuth(url, options = {}) {
         const authToken = localStorage.getItem("authToken");
         return fetchWithAuth(url, {
           ...options,
