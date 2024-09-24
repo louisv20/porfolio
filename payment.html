@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="assets/css/styles2.css" />
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        window.location.href = "login.html"; // Redirect to login page if not authenticated
+      }
       function loadPayPal() {
         return new Promise((resolve, reject) => {
-          fetch("/.netlify/functions/getPayPalClientId")
+          fetchwWithAuth("/.netlify/functions/getPayPalClientId")
             .then((response) => response.json())
             .then((data) => {
               const script = document.createElement("script");
@@ -19,6 +23,16 @@
               document.head.appendChild(script);
             })
             .catch(reject);
+        });
+      }
+      async function fetchwWithAuthWithAuth(url, options = {}) {
+        const authToken = localStorage.getItem("authToken");
+        return fetchwWithAuth(url, {
+          ...options,
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${authToken}`,
+          },
         });
       }
     </script>
@@ -161,7 +175,7 @@
 
       async function initializeStripe() {
         try {
-          const response = await fetch(
+          const response = await fetchwWithAuth(
             "/.netlify/functions/get-stripe-publishable-key"
           );
           const { publishableKey } = await response.json();
@@ -198,7 +212,7 @@
         const amount = 22000; // Fixed amount
 
         try {
-          const response = await fetch(
+          const response = await fetchwWithAuth(
             "/.netlify/functions/create-payment-intent",
             {
               method: "POST",
@@ -223,7 +237,7 @@
           if (error) {
             showMessage(error.message, "error");
           } else {
-            const confirmResponse = await fetch(
+            const confirmResponse = await fetchwWithAuth(
               "/.netlify/functions/confirm-payment",
               {
                 method: "POST",
@@ -308,7 +322,9 @@
 
       async function initializeEpayco() {
         try {
-          const response = await fetch("/.netlify/functions/get-epayco-key");
+          const response = await fetchwWithAuth(
+            "/.netlify/functions/get-epayco-key"
+          );
           const { publicKey } = await response.json();
 
           const epaycoScript = document.querySelector(".epayco-button");

@@ -106,7 +106,7 @@
 /* style for #panel-nav */
 
 .review-summary-title {
-  display: ruby-text !important;
+  color: #d40000;
 }
 
 div.tydal-star-wrapper svg:not(:first-child) {
@@ -131,12 +131,14 @@ div.tydal-star-wrapper svg:not(:first-child) {
 }
 
 #panel-nav {
+  max-width: 40rem;
+  margin: 0 auto;
   align-items: center !important;
   flex-direction: column !important;
   padding: 25px 0px 20px 0px !important;
   border-bottom: 0px solid #4044ff !important;
   border-radius: 10px !important;
-  margin: 20px 0px 15px 0px !important;
+  /* margin: 20px 0px 15px 0px !important; */
   background-color: none !important;
   background-image: url("https://cdn.shopify.com/s/files/1/0640/8372/2494/files/Retro_pixel_background.jpg?v=1713518048") !important;
   background-size: cover !important;
@@ -216,13 +218,13 @@ h4.upload-incentive-text {
 }
 
 .rev-textarea {
-  background: black !important;
+  background: rgb(223, 223, 223) !important;
 }
 
 .field-container input {
-  background-color: black !important;
+  background-color: rgb(223, 223, 223) !important;
 }
 
 .rev-code-size {
-  background-color: black !important;
+  background-color: rgb(223, 223, 223) !important;
 }
