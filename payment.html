@@ -9,7 +9,7 @@
     <script>
       function loadPayPal() {
         return new Promise((resolve, reject) => {
-          fetchwWithAuth("/.netlify/functions/getPayPalClientId")
+          fetchWithAuth("/.netlify/functions/getPayPalClientId")
             .then((response) => response.json())
             .then((data) => {
               const script = document.createElement("script");
@@ -27,7 +27,7 @@
       }
       // function loadPayPal() {
       //   return new Promise((resolve, reject) => {
-      //     fetchwWithAuth("/.netlify/functions/getPayPalClientId")
+      //     fetchWithAuth("/.netlify/functions/getPayPalClientId")
       //       .then((response) => response.json())
       //       .then((data) => {
       //         const script = document.createElement("script");
@@ -39,9 +39,9 @@
       //       .catch(reject);
       //   });
       // }
-      async function fetchwWithAuthWithAuth(url, options = {}) {
+      async function fetchWithAuthWithAuth(url, options = {}) {
         const authToken = localStorage.getItem("authToken");
-        return fetchwWithAuth(url, {
+        return fetchWithAuth(url, {
           ...options,
           headers: {
             ...options.headers,
@@ -189,7 +189,7 @@
 
       async function initializeStripe() {
         try {
-          const response = await fetchwWithAuth(
+          const response = await fetchWithAuth(
             "/.netlify/functions/get-stripe-publishable-key"
           );
           const { publishableKey } = await response.json();
@@ -226,7 +226,7 @@
         const amount = 22000; // Fixed amount
 
         try {
-          const response = await fetchwWithAuth(
+          const response = await fetchWithAuth(
             "/.netlify/functions/create-payment-intent",
             {
               method: "POST",
@@ -251,7 +251,7 @@
           if (error) {
             showMessage(error.message, "error");
           } else {
-            const confirmResponse = await fetchwWithAuth(
+            const confirmResponse = await fetchWithAuth(
               "/.netlify/functions/confirm-payment",
               {
                 method: "POST",
@@ -336,7 +336,7 @@
 
       async function initializeEpayco() {
         try {
-          const response = await fetchwWithAuth(
+          const response = await fetchWithAuth(
             "/.netlify/functions/get-epayco-key"
           );
           const { publicKey } = await response.json();
