@@ -13,6 +13,7 @@
           window.location.href = "login.html"; // Redirect to login page if not authenticated
         }
       }
+      checkAuthAndRedirect();
       function loadPayPal() {
         return new Promise((resolve, reject) => {
           fetchWithAuth("/.netlify/functions/getPayPalClientId")
