@@ -1,4 +1,4 @@
-const expectedSecret = process.env.ABBREVI_SECRET_TOKEN; // Another env variable
+const expectedSecret = process.env.composeAndSendEmail; // Another env variable
 
 export async function handler(event, context) {
   // Set CORS headers
@@ -31,7 +31,7 @@ export async function handler(event, context) {
     }
 
     // Retrieve the API key
-    const apiKey = process.env.ABBREVI_API_KEY;
+    const apiKey = process.env.replyToLastEmail;
 
     return {
       statusCode: 200,
