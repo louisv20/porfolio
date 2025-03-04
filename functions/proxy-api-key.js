@@ -1,5 +1,4 @@
 // netlify/functions/proxy-api-key.js
-import fetch from 'node-fetch';
 
 export async function handler(event, context) {
   // Set CORS headers for client-side access
