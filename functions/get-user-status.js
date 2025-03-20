@@ -1,9 +1,21 @@
-const { MongoClient } = require('mongodb');
-const { IdentityToolkit } = require('@google-cloud/identity-toolkit');
+const mongoose = require('mongoose');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Define User Schema
+const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
+  subscriptionTier: { type: String, default: 'free' },
+  basicQueryCount: { type: Number, default: 0 },
+  advancedQueryCount: { type: Number, default: 0 },
+  billingPeriodStart: { type: Date, default: Date.now },
+  stripeCustomerId: { type: String },
+});
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 exports.handler = async (event) => {
   try {
-    // Parse the request body
     const { token } = JSON.parse(event.body);
     if (!token) {
       return {
@@ -13,10 +25,13 @@ exports.handler = async (event) => {
     }
 
     // Verify Google token
-    const authClient = new IdentityToolkit({
-      auth: process.env.GOOGLE_CLIENT_ID,
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const { email } = await authClient.verifyIdToken({ idToken: token });
+    const payload = ticket.getPayload();
+    const email = payload['email'];
+
     if (!email) {
       return {
         statusCode: 401,
@@ -25,15 +40,12 @@ exports.handler = async (event) => {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
-    const db = client.db('abbreviaidb');
-    const usersCollection = db.collection('users');
+    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
     // Find user
-    let user = await usersCollection.findOne({ userId: email });
+    let user = await User.findOne({ userId: email });
     if (!user) {
-      await client.close();
+      await mongoose.connection.close();
       return {
         statusCode: 404,
         body: JSON.stringify({ error: 'User not found' }),
@@ -47,13 +59,10 @@ exports.handler = async (event) => {
       user.basicQueryCount = 0;
       user.advancedQueryCount = 0;
       user.billingPeriodStart = new Date();
-      await usersCollection.updateOne(
-        { userId: email },
-        { $set: { basicQueryCount: 0, advancedQueryCount: 0, billingPeriodStart: new Date() } }
-      );
+      await user.save();
     }
 
-    await client.close();
+    await mongoose.connection.close();
 
     return {
       statusCode: 200,

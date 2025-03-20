@@ -1,7 +1,18 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 const Stripe = require('stripe');
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Define User Schema
+const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
+  subscriptionTier: { type: String, default: 'free' },
+  basicQueryCount: { type: Number, default: 0 },
+  advancedQueryCount: { type: Number, default: 0 },
+  billingPeriodStart: { type: Date, default: Date.now },
+  stripeCustomerId: { type: String },
+});
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 exports.handler = async (event) => {
   try {
@@ -23,7 +34,7 @@ exports.handler = async (event) => {
     // Handle specific Stripe events
     const { type, data } = stripeEvent;
     const subscription = data.object;
-    const userId = subscription.metadata?.userId; // Google email/ID from metadata
+    const userId = subscription.metadata?.userId;
 
     if (!userId) {
       return {
@@ -33,10 +44,7 @@ exports.handler = async (event) => {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
-    const db = client.db('abbreviaidb');
-    const usersCollection = db.collection('users');
+    await mongoose.connect(process.env.MONGODB_URI1, { useNewUrlParser: true, useUnifiedTopology: true });
 
     let subscriptionTier;
     switch (subscription.plan.id) {
@@ -54,27 +62,26 @@ exports.handler = async (event) => {
     }
 
     if (type === 'customer.subscription.created' || type === 'customer.subscription.updated') {
-      await usersCollection.updateOne(
+      await User.findOneAndUpdate(
         { userId },
         {
-          $set: {
-            subscriptionTier,
-            stripeCustomerId: subscription.customer,
-            basicQueryCount: 0,
-            advancedQueryCount: 0,
-            billingPeriodStart: new Date(),
-          },
+          subscriptionTier,
+          stripeCustomerId: subscription.customer,
+          basicQueryCount: 0,
+          advancedQueryCount: 0,
+          billingPeriodStart: new Date(),
         },
-        { upsert: true } // Create if not exists
+        { upsert: true, new: true }
       );
     } else if (type === 'customer.subscription.deleted') {
-      await usersCollection.updateOne(
+      await User.findOneAndUpdate(
         { userId },
-        { $set: { subscriptionTier: 'free' } }
+        { subscriptionTier: 'free' },
+        { new: true }
       );
     }
 
-    await client.close();
+    await mongoose.connection.close();
 
     return {
       statusCode: 200,

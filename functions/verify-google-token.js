@@ -1,9 +1,21 @@
-const { MongoClient } = require('mongodb');
-const { IdentityToolkit } = require('@google-cloud/identity-toolkit');
+const mongoose = require('mongoose');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Define User Schema
+const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
+  subscriptionTier: { type: String, default: 'free' },
+  basicQueryCount: { type: Number, default: 0 },
+  advancedQueryCount: { type: Number, default: 0 },
+  billingPeriodStart: { type: Date, default: Date.now },
+  stripeCustomerId: { type: String },
+});
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 exports.handler = async (event) => {
   try {
-    // Parse the request body
     const { token } = JSON.parse(event.body);
     if (!token) {
       return {
@@ -12,13 +24,14 @@ exports.handler = async (event) => {
       };
     }
 
-    // Initialize Google Identity Toolkit client
-    const authClient = new IdentityToolkit({
-      auth: process.env.GOOGLE_CLIENT_ID,
+    // Verify Google ID token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
+    const payload = ticket.getPayload();
+    const email = payload['email'];
 
-    // Verify the Google ID token
-    const { email } = await authClient.verifyIdToken({ idToken: token });
     if (!email) {
       return {
         statusCode: 401,
@@ -27,25 +40,17 @@ exports.handler = async (event) => {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
-    const db = client.db('abbreviaidb');
-    const usersCollection = db.collection('users');
+    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
     // Check if user exists, create if not
-    let user = await usersCollection.findOne({ userId: email });
+    let user = await User.findOne({ userId: email });
     if (!user) {
-      user = {
-        userId: email,
-        subscriptionTier: 'free',
-        basicQueryCount: 0,
-        advancedQueryCount: 0,
-        billingPeriodStart: new Date(),
-      };
-      await usersCollection.insertOne(user);
+      user = new User({ userId: email });
+      await user.save();
     }
 
-    await client.close();
+    // Disconnect (optional, Mongoose manages connections)
+    await mongoose.connection.close();
 
     return {
       statusCode: 200,
