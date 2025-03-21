@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const { OAuth2Client } = require('google-auth-library');
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const fetch = require('node-fetch');
 
 // Define User Schema
 const userSchema = new mongoose.Schema({
@@ -16,6 +14,11 @@ const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 exports.handler = async (event) => {
   try {
+    console.log('Raw event body:', event.body);
+    if (!event.body || typeof event.body !== 'string') {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Request body is missing or invalid' }) };
+    }
+
     const { token } = JSON.parse(event.body);
     if (!token) {
       return {
@@ -24,23 +27,28 @@ exports.handler = async (event) => {
       };
     }
 
-    // Verify Google token
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    // Verify access token with Google's userinfo endpoint
+    console.log('Verifying access token:', token);
+    const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    const payload = ticket.getPayload();
-    const email = payload['email'];
+    const userInfo = await response.json();
+    if (!response.ok) {
+      throw new Error(userInfo.error_description || 'Invalid access token');
+    }
 
+    const email = userInfo.email;
     if (!email) {
       return {
         statusCode: 401,
-        body: JSON.stringify({ error: 'Invalid token' }),
+        body: JSON.stringify({ error: 'Invalid token: no email found' }),
       };
     }
+    console.log('Token verified, email:', email);
 
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGODB_URI1, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('Connected to MongoDB');
 
     // Find user
     let user = await User.findOne({ userId: email });
@@ -60,9 +68,11 @@ exports.handler = async (event) => {
       user.advancedQueryCount = 0;
       user.billingPeriodStart = new Date();
       await user.save();
+      console.log('Query counts reset for user:', email);
     }
 
     await mongoose.connection.close();
+    console.log('MongoDB connection closed');
 
     return {
       statusCode: 200,
@@ -74,10 +84,10 @@ exports.handler = async (event) => {
       }),
     };
   } catch (error) {
-    console.error('Error in get-user-status:', error);
+    console.error('Error in get-user-status:', error.message, error.stack);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ error: 'Internal server error', details: error.message }),
     };
   }
 };

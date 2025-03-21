@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
-const { OAuth2Client } = require('google-auth-library');
+const fetch = require('node-fetch'); // Ensure this is in your package.json
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-// Define User Schema
 const userSchema = new mongoose.Schema({
   userId: { type: String, required: true, unique: true },
   subscriptionTier: { type: String, default: 'free' },
@@ -16,41 +13,56 @@ const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 exports.handler = async (event) => {
   try {
-    const { token } = JSON.parse(event.body);
+    console.log('Raw event body:', event.body);
+    if (!event.body || typeof event.body !== 'string') {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Request body is missing or invalid' }) };
+    }
+
+    let body;
+    try {
+      body = JSON.parse(event.body);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError.message);
+      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON format in request body' }) };
+    }
+
+    const { token } = body;
     if (!token) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing token' }),
-      };
+      return { statusCode: 400, body: JSON.stringify({ error: 'Missing token in request body' }) };
     }
 
-    // Verify Google ID token
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    console.log('Verifying access token:', token);
+
+    // Validate access token with Google's userinfo endpoint
+    const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    const payload = ticket.getPayload();
-    const email = payload['email'];
-
-    if (!email) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: 'Invalid token' }),
-      };
+    const userInfo = await response.json();
+    if (!response.ok) {
+      throw new Error(userInfo.error_description || 'Invalid access token');
     }
 
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    const email = userInfo.email;
+    if (!email) {
+      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token: no email found' }) };
+    }
 
-    // Check if user exists, create if not
+    console.log('Token verified, email:', email);
+
+    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('Connected to MongoDB');
+
     let user = await User.findOne({ userId: email });
     if (!user) {
       user = new User({ userId: email });
       await user.save();
+      console.log('New user created:', email);
+    } else {
+      console.log('User found:', email);
     }
 
-    // Disconnect (optional, Mongoose manages connections)
     await mongoose.connection.close();
+    console.log('MongoDB connection closed');
 
     return {
       statusCode: 200,
@@ -62,10 +74,10 @@ exports.handler = async (event) => {
       }),
     };
   } catch (error) {
-    console.error('Error in verify-google-token:', error);
+    console.error('Error in verify-google-token:', error.message, error.stack);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ error: 'Internal server error', details: error.message }),
     };
   }
 };
