@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const fetch = require('node-fetch'); // Ensure this is in your package.json
+const fetch = require('node-fetch');
 
 const userSchema = new mongoose.Schema({
   userId: { type: String, required: true, unique: true },
@@ -11,11 +11,31 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
+// CORS headers to allow requests from your Chrome extension
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*', // Replace '*' with 'chrome-extension://bokdfhlngecljmjhcjfiilenddjnhpio' for production
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 exports.handler = async (event) => {
+  // Handle preflight OPTIONS request
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: '',
+    };
+  }
+
   try {
     console.log('Raw event body:', event.body);
     if (!event.body || typeof event.body !== 'string') {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Request body is missing or invalid' }) };
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Request body is missing or invalid' }),
+      };
     }
 
     let body;
@@ -23,12 +43,20 @@ exports.handler = async (event) => {
       body = JSON.parse(event.body);
     } catch (parseError) {
       console.error('JSON parse error:', parseError.message);
-      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON format in request body' }) };
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Invalid JSON format in request body' }),
+      };
     }
 
     const { token } = body;
     if (!token) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Missing token in request body' }) };
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Missing token in request body' }),
+      };
     }
 
     console.log('Verifying access token:', token);
@@ -44,7 +72,11 @@ exports.handler = async (event) => {
 
     const email = userInfo.email;
     if (!email) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token: no email found' }) };
+      return {
+        statusCode: 401,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Invalid token: no email found' }),
+      };
     }
 
     console.log('Token verified, email:', email);
@@ -66,6 +98,7 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({
         userId: user.userId,
         subscriptionTier: user.subscriptionTier,
@@ -77,6 +110,7 @@ exports.handler = async (event) => {
     console.error('Error in verify-google-token:', error.message, error.stack);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Internal server error', details: error.message }),
     };
   }
