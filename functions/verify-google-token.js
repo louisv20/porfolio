@@ -81,7 +81,7 @@ exports.handler = async (event) => {
 
     console.log('Token verified, email:', email);
 
-    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGODB_URI1, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log('Connected to MongoDB');
 
     let user = await User.findOne({ userId: email });
