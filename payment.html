@@ -26,7 +26,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const deviceHash = urlParams.get('device');
       const source = urlParams.get('source'); // Extension ID
-      const returnUrl = urlParams.get('return_url') || `chrome-extension://${source}/success`;
+      const returnUrl = 'https://www.luisgcastro.com/success'; // Your custom success page
     </script>
     <style>
       .container {
@@ -247,8 +247,8 @@
 
             if (status === "succeeded") {
               showMessage("Payment successful!", "success");
-              // Redirect to extension success page with device hash
-              window.location.href = `${returnUrl}?device=${deviceHash}`;
+              // Redirect to your custom success page with device hash and source
+              window.location.href = `${returnUrl}?device=${deviceHash}&source=${source}`;
             } else {
               showMessage(
                 `Payment status: ${status}. Please contact support.`,
@@ -301,8 +301,8 @@
               onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                   showMessage("PayPal payment successful!", "success");
-                  // Redirect to extension success page with device hash
-                  window.location.href = `${returnUrl}?device=${deviceHash}`;
+                  // Redirect to your custom success page with device hash and source
+                  window.location.href = `${returnUrl}?device=${deviceHash}&source=${source}`;
                 });
               },
               onError: function (err) {
@@ -332,7 +332,7 @@
           epaycoScript.setAttribute("data-epayco-key", publicKey);
           epaycoScript.setAttribute("data-epayco-extra1", deviceHash); // Pass device hash
           epaycoScript.setAttribute("data-epayco-extra2", source);     // Pass source
-          epaycoScript.setAttribute("data-epayco-response", `${returnUrl}?device=${deviceHash}`);
+          epaycoScript.setAttribute("data-epayco-response", `${returnUrl}?device=${deviceHash}&source=${source}`);
 
           // Initialize ePayco button
           window.ePayco.init(publicKey, {
