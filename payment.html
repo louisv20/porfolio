@@ -21,6 +21,12 @@
             .catch(reject);
         });
       }
+
+      // Retrieve device hash and source from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const deviceHash = urlParams.get('device');
+      const source = urlParams.get('source'); // Extension ID
+      const returnUrl = urlParams.get('return_url') || `chrome-extension://${source}/success`;
     </script>
     <style>
       .container {
@@ -206,6 +212,8 @@
               body: JSON.stringify({
                 amount: amount,
                 currency: "cop",
+                device: deviceHash, // Send device hash to server
+                source: source     // Send source (extension ID) to server
               }),
             }
           );
@@ -228,13 +236,19 @@
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ paymentIntentId }),
+                body: JSON.stringify({ 
+                  paymentIntentId,
+                  device: deviceHash, // Include device hash
+                  source: source      // Include source
+                }),
               }
             );
             const { status } = await confirmResponse.json();
 
             if (status === "succeeded") {
               showMessage("Payment successful!", "success");
+              // Redirect to extension success page with device hash
+              window.location.href = `${returnUrl}?device=${deviceHash}`;
             } else {
               showMessage(
                 `Payment status: ${status}. Please contact support.`,
@@ -279,6 +293,7 @@
                         value: (amount / 4000).toFixed(2),
                         currency_code: "USD",
                       },
+                      custom_id: `${deviceHash}|${source}` // Pass device hash and source
                     },
                   ],
                 });
@@ -286,6 +301,8 @@
               onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                   showMessage("PayPal payment successful!", "success");
+                  // Redirect to extension success page with device hash
+                  window.location.href = `${returnUrl}?device=${deviceHash}`;
                 });
               },
               onError: function (err) {
@@ -313,6 +330,9 @@
 
           const epaycoScript = document.querySelector(".epayco-button");
           epaycoScript.setAttribute("data-epayco-key", publicKey);
+          epaycoScript.setAttribute("data-epayco-extra1", deviceHash); // Pass device hash
+          epaycoScript.setAttribute("data-epayco-extra2", source);     // Pass source
+          epaycoScript.setAttribute("data-epayco-response", `${returnUrl}?device=${deviceHash}`);
 
           // Initialize ePayco button
           window.ePayco.init(publicKey, {
