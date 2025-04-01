@@ -5,10 +5,10 @@ exports.handler = async (event) => {
   const { extensionId } = JSON.parse(event.body); // Unique ID from extension
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    line_items: [{ price: 'STRIPE_PRICE_ID', quantity: 1 }],
+    line_items: [{ price: 'prod_S31MriBHDXZcyQ', quantity: 1 }],
     mode: 'payment',
-    success_url: `https://yourwebsite.com/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: 'https://yourwebsite.com/cancel',
+    success_url: `https://luisgcastro.com/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: 'https://luisgcastro.com/cancel',
     client_reference_id: extensionId, // Link payment to extension
   });
 
