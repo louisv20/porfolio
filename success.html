@@ -8,26 +8,52 @@
 <body>
   <h1>Payment Successful!</h1>
   <p>Your trial is now active. You can close this tab and return to the extension.</p>
+  <div id="status-message"></div>
   <script>
-    // Retrieve device hash and source from URL
     const urlParams = new URLSearchParams(window.location.search);
     const deviceHash = urlParams.get('device');
-    const source = urlParams.get('source'); // Extension ID
+    const source = urlParams.get('source');
+    const statusMessage = document.getElementById('status-message');
 
-    if (deviceHash && source) {
-      // Send message to the Chrome extension
-      chrome.runtime.sendMessage(source, {
-        action: 'payment_success',
-        deviceHash: deviceHash
-      }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error('Error sending message:', chrome.runtime.lastError);
-        } else {
-          console.log('Payment success message sent to extension');
-        }
-      });
-    } else {
-      console.error('Missing device hash or source in URL');
+    // Simulate fetching a token from your server (replace with actual fetch)
+    fetch('https://luisgcastro.com/.netlify/functions/confirm-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ device: deviceHash, source: source })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const token = data.token; // Server returns a signed token
+      if (!token) throw new Error('No token received');
+
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage(source, {
+          action: 'payment_success',
+          deviceHash: deviceHash,
+          token: token
+        }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.error('Error sending message:', chrome.runtime.lastError);
+            showStatus('Failed to activate trial. Please ensure the extension is installed.', true);
+          } else if (response && response.success) {
+            showStatus('Trial activated successfully!');
+          } else {
+            console.error('Invalid response:', response);
+            showStatus('Trial activation failed. Please try again.', true);
+          }
+        });
+      } else {
+        showStatus('Please use Chrome with the extension installed.', true);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching token:', error);
+      showStatus('Error activating trial. Please contact support.', true);
+    });
+
+    function showStatus(message, isError = false) {
+      statusMessage.textContent = message;
+      statusMessage.style.color = isError ? 'red' : 'green';
     }
   </script>
 </body>
