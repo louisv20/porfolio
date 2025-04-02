@@ -188,84 +188,66 @@
 
       form.addEventListener("submit", handleStripeSubmit);
 
-      async function handleStripeSubmit(event) {
-        event.preventDefault();
+// In your payment page <script>
+  async function handleStripeSubmit(event) {
+  event.preventDefault();
 
-        if (!stripe || !elements) {
-          showMessage(
-            "Payment system is not initialized. Please try again later.",
-            "error"
-          );
-          return;
-        }
+  if (!stripe || !elements) {
+    showMessage("Payment system is not initialized. Please try again later.", "error");
+    return;
+  }
 
-        setLoading(true);
+  setLoading(true);
+  const amount = 22000;
 
-        const amount = 22000; // Fixed amount
+  try {
+    const response = await fetch("/.netlify/functions/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, currency: "cop", device: deviceHash, source }),
+    });
+    const { clientSecret, paymentIntentId } = await response.json();
 
-        try {
-          const response = await fetch(
-            "/.netlify/functions/create-payment-intent",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                amount: amount,
-                currency: "cop",
-                device: deviceHash, // Send device hash to server
-                source: source     // Send source (extension ID) to server
-              }),
-            }
-          );
-          const { clientSecret, paymentIntentId } = await response.json();
+    const { error } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement("card"),
+        billing_details: { email: emailInput.value },
+      },
+    });
 
-          const { error } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-              card: elements.getElement("card"),
-              billing_details: {
-                email: emailInput.value,
-              },
-            },
-          });
+    if (error) {
+      showMessage(error.message, "error");
+    } else {
+      const confirmResponse = await fetch("/.netlify/functions/confirm-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId, device: deviceHash, source }),
+      });
 
-          if (error) {
-            showMessage(error.message, "error");
-          } else {
-            const confirmResponse = await fetch(
-              "/.netlify/functions/confirm-payment",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                  paymentIntentId,
-                  device: deviceHash, // Include device hash
-                  source: source      // Include source
-                }),
-              }
-            );
-            const { status } = await confirmResponse.json();
+      console.log('Confirm response status:', confirmResponse.status);
+      const confirmData = await confirmResponse.json();
+      console.log('Confirm response data:', confirmData);
 
-            if (status === "succeeded") {
-              showMessage("Payment successful!", "success");
-              // Redirect to your custom success page with device hash and source
-              window.location.href = `${returnUrl}?device=${deviceHash}&source=${source}`;
-            } else {
-              showMessage(
-                `Payment status: ${status}. Please contact support.`,
-                "error"
-              );
-            }
-          }
-        } catch (error) {
-          console.error("Payment failed:", error);
-          showMessage(
-            "An error occurred while processing your payment. Please try again.",
-            "error"
-          );
-        }
+      const { status, token } = confirmData;
 
-        setLoading(false);
+      if (status === "succeeded") {
+        showMessage("Payment successful!", "success");
+        const redirectUrl = new URL(returnUrl);
+        redirectUrl.searchParams.set('device', deviceHash);
+        redirectUrl.searchParams.set('source', source);
+        if (token) redirectUrl.searchParams.set('token', token);
+        window.location.href = redirectUrl.toString();
+      } else {
+        showMessage(`Payment status: ${status || 'unknown'}. Please contact support.`, "error");
       }
+    }
+  } catch (error) {
+    console.error("Payment failed:", error);
+    showMessage("An error occurred while processing your payment. Please try again.", "error");
+  }
+
+  setLoading(false);
+}
 
       function showMessage(message, type = "info") {
         messageElement.textContent = message;

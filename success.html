@@ -13,19 +13,15 @@
     const urlParams = new URLSearchParams(window.location.search);
     const deviceHash = urlParams.get('device');
     const source = urlParams.get('source');
+    const token = urlParams.get('token');
     const statusMessage = document.getElementById('status-message');
 
-    // Simulate fetching a token from your server (replace with actual fetch)
-    fetch('https://luisgcastro.com/.netlify/functions/confirm-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ device: deviceHash, source: source })
-    })
-    .then(response => response.json())
-    .then(data => {
-      const token = data.token; // Server returns a signed token
-      if (!token) throw new Error('No token received');
+    function showStatus(message, isError = false) {
+      statusMessage.textContent = message;
+      statusMessage.style.color = isError ? 'red' : 'green';
+    }
 
+    if (deviceHash && source && token) {
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
         chrome.runtime.sendMessage(source, {
           action: 'payment_success',
@@ -43,17 +39,12 @@
           }
         });
       } else {
-        showStatus('Please use Chrome with the extension installed.', true);
+        console.error('Chrome runtime not available');
+        showStatus('Please ensure you are using Chrome with the extension installed.', true);
       }
-    })
-    .catch(error => {
-      console.error('Error fetching token:', error);
-      showStatus('Error activating trial. Please contact support.', true);
-    });
-
-    function showStatus(message, isError = false) {
-      statusMessage.textContent = message;
-      statusMessage.style.color = isError ? 'red' : 'green';
+    } else {
+      console.error('Missing device, source, or token in URL');
+      showStatus('Invalid success URL. Please contact support.', true);
     }
   </script>
 </body>

@@ -18,7 +18,8 @@ function generateToken(deviceHash) {
 
 exports.handler = async (event) => {
   try {
-    const { paymentIntentId, device, source } = JSON.parse(event.body);
+    const body = JSON.parse(event.body || '{}');
+    const { paymentIntentId, device, source } = body;
     console.log('Received request:', { paymentIntentId, device, source });
 
     if (!paymentIntentId) {
