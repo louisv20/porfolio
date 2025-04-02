@@ -16,6 +16,6 @@ exports.handler = async (event) => {
   const token = generateToken(device);
   return {
     statusCode: 200,
-    body: JSON.stringify({ token })
+    body: JSON.stringify({ status: paymentIntent.status, token: generateToken(device) })
   };
 };
