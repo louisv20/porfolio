@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  
-const connectDb = require('../../../src/models/db');  
-const Purchase = require('../../../src/models/Purchase');  
-const DeviceHash = require('../../../src/models/DeviceHash');  
+const connectDb = require('../src/models/db');  
+const Purchase = require('../src/models/Purchase');  
+const DeviceHash = require('../src/models/DeviceHash');  
 
 exports.handler = async (event) => {  
   const sig = event.headers['stripe-signature'];  
