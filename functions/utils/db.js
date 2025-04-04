@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const uri = process.env.MONGO_URI; // Set in Netlify environment variables
+const uri = process.env.MONGO_URI1; // Set in Netlify environment variables
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const userSchema = new mongoose.Schema({
