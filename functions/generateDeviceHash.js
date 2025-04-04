@@ -1,6 +1,6 @@
 const crypto = require('crypto');  
-const connectDb = require('../../src/models/db');  
-const DeviceHash = require('../../src/models/DeviceHash');  
+const connectDb = require('../src/models/db');  
+const DeviceHash = require('../src/models/devicehash');  
 
 exports.handler = async (event, context) => {  
   // Only allow POST method  
