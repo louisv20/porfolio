@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');  // Added import
+const crypto = require('crypto');
 
 exports.handler = async (event) => {
   const uri = process.env.MONGODB_URI1;
@@ -12,11 +12,15 @@ exports.handler = async (event) => {
 
   try {
     // Generate device fingerprint
-    const userAgent = event.headers['user-agent'];
-    const acceptLanguage = event.headers['accept-language'];
+    const userAgent = event.headers['user-agent'] || '';
+    const acceptLanguage = event.headers['accept-language'] || '';
     const platform = event.headers['sec-ch-ua-platform'] || 'unknown';
     const fingerprintData = `${userAgent}${acceptLanguage}${platform}`;
-    const deviceHash = crypto.createHash('sha256').update(fingerprintData).toString('hex');
+    
+    // Fix: Use digest('hex') instead of toString('hex')
+    const deviceHash = crypto.createHash('sha256')
+      .update(fingerprintData)
+      .digest('hex');
 
     // Database operations
     await client.connect();
@@ -42,14 +46,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers,  // Added headers
+      headers,
       body: JSON.stringify({ deviceHash })
     };
 
   } catch (error) {
     return {
       statusCode: 500,
-      headers,  // Added headers
+      headers,
       body: JSON.stringify({ error: error.message })
     };
   } finally {
