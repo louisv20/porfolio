@@ -1,8 +1,14 @@
 const { MongoClient } = require('mongodb');
+const crypto = require('crypto');  // Added import
 
 exports.handler = async (event) => {
   const uri = process.env.MONGODB_URI1;
   const client = new MongoClient(uri);
+
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json'
+  };
 
   try {
     // Generate device fingerprint
@@ -36,12 +42,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers,  // Added headers
       body: JSON.stringify({ deviceHash })
     };
 
   } catch (error) {
     return {
       statusCode: 500,
+      headers,  // Added headers
       body: JSON.stringify({ error: error.message })
     };
   } finally {
