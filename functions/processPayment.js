@@ -1,8 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  
-const connectDb = require('../../../src/models/db');  
-const User = require('../../../src/models/User');  
-const Purchase = require('../../../src/models/Purchase');  
-const DeviceHash = require('../../../src/models/DeviceHash');  
+const connectDb = require('../../src/models/db');  
+const User = require('../../src/models/User');  
+const Purchase = require('../../src/models/Purchase');  
+const DeviceHash = require('../../src/models/DeviceHash');  
 
 exports.handler = async (event, context) => {  
   // Only allow POST method  
