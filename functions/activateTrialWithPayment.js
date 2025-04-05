@@ -1,9 +1,9 @@
+// functions/activateTrialWithPayment.js  
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  
 const connectDb = require('../src/models/db');  
 const Purchase = require('../src/models/Purchase');  
 const DeviceHash = require('../src/models/DeviceHash');  
 const Customer = require('../src/models/Customer');  
-const { createDeviceHash } = require('../src/utils/fingerprint');  
 
 exports.handler = async (event) => {  
   if (event.httpMethod !== 'POST') {  
@@ -12,18 +12,15 @@ exports.handler = async (event) => {
 
   try {  
     await connectDb();  
-    const { deviceData, email, setupIntentId, paymentMethodId } = JSON.parse(event.body);  
+    const { email, deviceHash, setupIntentId, paymentMethodId } = JSON.parse(event.body);  
     
-    if (!deviceData || !email || !setupIntentId || !paymentMethodId) {  
+    if (!email || !deviceHash || !setupIntentId || !paymentMethodId) {  
       return {  
         statusCode: 400,  
         body: JSON.stringify({ error: 'Missing required fields' })  
       };  
     }  
 
-    // Generate device hash  
-    const deviceHash = createDeviceHash(deviceData);  
-    
     // Verify the setup intent was completed successfully  
     const setupIntent = await stripe.setupIntents.retrieve(setupIntentId);  
     if (setupIntent.status !== 'succeeded') {  
@@ -33,13 +30,20 @@ exports.handler = async (event) => {
       };  
     }  
     
-    // Get customer  
-    const customer = await Customer.findOne({ email });  
+    // Get or create customer  
+    let customer = await Customer.findOne({ email });  
     if (!customer) {  
-      return {  
-        statusCode: 400,  
-        body: JSON.stringify({ error: 'Customer not found' })  
-      };  
+      // Create Stripe customer  
+      const stripeCustomer = await stripe.customers.create({  
+        email  
+      });  
+      
+      customer = new Customer({  
+        email,  
+        stripe_customer_id: stripeCustomer.id  
+      });  
+      
+      await customer.save();  
     }  
     
     // Attach payment method to customer  
@@ -85,9 +89,7 @@ exports.handler = async (event) => {
       await newDeviceRecord.save();  
     }  
     
-    // Schedule the payment for when trial ends using Stripe  
-    // Create a scheduled payment for when the trial ends  
-    // We'll use a simple approach with metadata so our background job can process it  
+    // Schedule the payment for when trial ends  
     await stripe.paymentMethods.update(paymentMethodId, {  
       metadata: {  
         device_hash: deviceHash,  
