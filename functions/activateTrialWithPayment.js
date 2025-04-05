@@ -1,4 +1,4 @@
-// functions/activateTrialWithPayment.js - Complete rewrite  
+// functions/activateTrialWithPayment.js  
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  
 const mongoose = require('mongoose');  
 const connectDb = require('../src/models/db');  
@@ -55,9 +55,8 @@ exports.handler = async (event) => {
     });  
     
     // Calculate trial expiry (7 days from now)  
-    const trialExpiry = new Date();
-    trialExpiry.setMinutes(trialExpiry.getMinutes() + 5);
-    
+    const trialExpiry = new Date();  
+    trialExpiry.setDate(trialExpiry.getDate() + 7); // Change this number to adjust trial length  
     
     // CRITICAL CHANGE: Insert directly into the database  
     // This bypasses Mongoose validation entirely  
@@ -96,6 +95,19 @@ exports.handler = async (event) => {
         created_at: new Date()  
       });  
     }  
+
+    // CRITICAL ADDITION: Set metadata on payment method for scheduled charging  
+    // This is what enables the automatic charge after trial expiration  
+    await stripe.paymentMethods.update(paymentMethodId, {  
+      metadata: {  
+        scheduled_payment_date: trialExpiry.toISOString(),  
+        purchase_id: purchaseId.toString(),  
+        device_hash: deviceHash,  
+        amount: '1999',  
+        currency: 'usd',  
+        description: 'AbbreviAI Premium - Trial Conversion'  
+      }  
+    });  
     
     return {  
       statusCode: 200,  

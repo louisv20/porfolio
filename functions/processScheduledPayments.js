@@ -1,10 +1,12 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  
+const mongoose = require('mongoose');  
 const connectDb = require('../src/models/db');  
-const Purchase = require('../src/models/Purchase');  
 
 exports.handler = async (event) => {  
   try {  
     await connectDb();  
+    const db = mongoose.connection.db;  
+    const purchasesCollection = db.collection('purchases');  
     
     const now = new Date();  
     
@@ -22,9 +24,18 @@ exports.handler = async (event) => {
     
     for (const method of dueMethods) {  
       try {  
-        // Get the purchase record  
+        // Get the purchase record using direct MongoDB query  
         const purchaseId = method.metadata.purchase_id;  
-        const purchase = await Purchase.findById(purchaseId);  
+        let purchaseObjectId;  
+        
+        try {  
+          purchaseObjectId = new mongoose.Types.ObjectId(purchaseId);  
+        } catch (error) {  
+          console.error(`Invalid purchase ID format: ${purchaseId}`);  
+          continue;  
+        }  
+        
+        const purchase = await purchasesCollection.findOne({ _id: purchaseObjectId });  
         
         if (!purchase || !purchase.is_trial || !purchase.auto_convert) {  
           // Skip if no purchase, not a trial, or auto-convert is disabled  
@@ -46,18 +57,25 @@ exports.handler = async (event) => {
           }  
         });  
         
-        // Update purchase record  
-        purchase.status = 'completed';  
-        purchase.is_trial = false;  
-        purchase.stripe_payment_id = paymentIntent.id;  
-        purchase.amount = parseInt(method.metadata.amount) || 1999;  
-        await purchase.save();  
+        // Update purchase record using direct MongoDB query  
+        await purchasesCollection.updateOne(  
+          { _id: purchaseObjectId },  
+          {   
+            $set: {  
+              status: 'completed',  
+              is_trial: false,  
+              stripe_payment_id: paymentIntent.id,  
+              amount: parseInt(method.metadata.amount) || 1999,  
+              updated_at: new Date()  
+            }  
+          }  
+        );  
         
         // Clear the scheduled payment metadata  
         await stripe.paymentMethods.update(method.id, {  
           metadata: {  
             scheduled_payment_date: '',  
-            device_hash: '',  
+            device_hash: method.metadata.device_hash || '',  
             purchase_id: '',  
             amount: '',  
             currency: '',  
