@@ -89,7 +89,8 @@
     box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);  
   }  
   
-  #card-element {  
+  #card-element { 
+    color: var(--light-text); 
     padding: 12px;  
     background: var(--dark-bg);  
     border: 1px solid var(--neon-secondary);  

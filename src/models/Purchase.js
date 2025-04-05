@@ -9,37 +9,30 @@ const purchaseSchema = new mongoose.Schema({
   // For non-trial purchases  
   stripe_payment_id: {  
     type: String,  
-    required: function() {  
-      return !this.is_trial; // Only required if not a trial  
-    }  
+    // Make it not required and can be null  
+    default: null  
   },  
   // For trial purchases with pending payment  
   stripe_payment_method_id: {  
-    type: String  
+    type: String,  
+    default: null  
   },  
   // Add customer reference  
   stripe_customer_id: {  
     type: String  
   },  
-  // Make amount optional for trials  
+  // Make amount optional with default value  
   amount: {  
     type: Number,  
-    required: function() {  
-      return !this.is_trial; // Only required if not a trial  
-    },  
-    default: function() {  
-      return this.is_trial ? 2999 : undefined; // Default amount for trials  
-    }  
+    default: 1999  // Default to $29.99 in cents  
   },  
-  // User ID can be omitted for trials or new users  
+  // Make user_id completely optional  
   user_id: {  
     type: mongoose.Schema.Types.ObjectId,  
     ref: 'User',  
-    required: function() {  
-      return !this.is_trial; // Only required if not a trial  
-    }  
+    default: null  
   },  
-  // Update status enum to include 'trial'  
+  // Update status enum to include all trial states  
   status: {  
     type: String,  
     enum: ['pending', 'completed', 'failed', 'refunded', 'trial', 'trial_cancelled', 'trial_converted'],  
