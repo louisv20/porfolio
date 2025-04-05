@@ -106,8 +106,15 @@ exports.handler = async (event) => {
         amount: '1999',  
         currency: 'usd',  
         description: 'AbbreviAI Premium - Trial Conversion'  
-      }  
-    });  
+      } 
+       
+    }); 
+    // Add this logging in activateTrialWithPayment.js right after setting the metadata  
+        console.log('Payment method metadata set:', {  
+        paymentMethodId,  
+        purchaseId: purchaseId.toString(),  
+        scheduledDate: trialExpiry.toISOString()  
+    });   
     
     return {  
       statusCode: 200,  
