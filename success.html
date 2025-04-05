@@ -1,51 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Success</title>
-</head>
-<body>
-  <h1>Payment Successful!</h1>
-  <p>Your trial is now active. You can close this tab and return to the extension.</p>
-  <div id="status-message"></div>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const deviceHash = urlParams.get('device');
-    const source = urlParams.get('source');
-    const token = urlParams.get('token');
-    const statusMessage = document.getElementById('status-message');
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Payment Successful | AbbreviAI</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">  
+  <style>  
+    :root {  
+      --neon-primary: #00fff2;  
+      --neon-secondary: #7700ff;  
+      --dark-bg: #0a0a0a;  
+      --darker-bg: #050505;  
+      --light-text: #ffffff;  
+      --gray-text: #a0a0a0;  
+    }  
 
-    function showStatus(message, isError = false) {
-      statusMessage.textContent = message;
-      statusMessage.style.color = isError ? 'red' : 'green';
-    }
+    body {  
+      background: var(--dark-bg);  
+      color: var(--light-text);  
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;  
+      display: flex;  
+      flex-direction: column;  
+      align-items: center;  
+      justify-content: center;  
+      height: 100vh;  
+      margin: 0;  
+      padding: 20px;  
+      text-align: center;  
+    }  
 
-    if (deviceHash && source && token) {
-      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
-        chrome.runtime.sendMessage(source, {
-          action: 'payment_success',
-          deviceHash: deviceHash,
-          token: token
-        }, (response) => {
-          if (chrome.runtime.lastError) {
-            console.error('Error sending message:', chrome.runtime.lastError);
-            showStatus('Failed to activate trial. Please ensure the extension is installed.', true);
-          } else if (response && response.success) {
-            showStatus('Trial activated successfully!');
-          } else {
-            console.error('Invalid response:', response);
-            showStatus('Trial activation failed. Please try again.', true);
-          }
-        });
-      } else {
-        console.error('Chrome runtime not available');
-        showStatus('Please ensure you are using Chrome with the extension installed.', true);
-      }
-    } else {
-      console.error('Missing device, source, or token in URL');
-      showStatus('Invalid success URL. Please contact support.', true);
-    }
-  </script>
-</body>
-</html>
+    .success-container {  
+      max-width: 500px;  
+      padding: 40px;  
+      background: var(--darker-bg);  
+      border-radius: 12px;  
+      box-shadow: 0 0 30px rgba(0, 255, 242, 0.2);  
+      animation: glow 2s infinite alternate;  
+    }  
+
+    @keyframes glow {  
+      from { box-shadow: 0 0 20px rgba(0, 255, 242, 0.2); }  
+      to { box-shadow: 0 0 30px rgba(0, 255, 242, 0.4); }  
+    }  
+
+    .success-icon {  
+      font-size: 60px;  
+      color: var(--neon-primary);  
+      margin-bottom: 20px;  
+    }  
+
+    h1 {  
+      font-size: 2.5rem;  
+      margin-bottom: 20px;  
+      background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));  
+      background-clip: text;  
+      -webkit-background-clip: text;  
+      -webkit-text-fill-color: transparent;  
+    }  
+
+    p {  
+      font-size: 1.1rem;  
+      line-height: 1.5;  
+      margin-bottom: 20px;  
+    }  
+
+    .highlight {  
+      color: var(--neon-primary);  
+      font-weight: bold;  
+    }  
+
+    .countdown {  
+      font-size: 2rem;  
+      color: var(--neon-primary);  
+      margin: 15px 0;  
+    }  
+
+    .divider {  
+      width: 100%;  
+      height: 1px;  
+      background: linear-gradient(to right, transparent, var(--neon-primary), transparent);  
+      margin: 20px 0;  
+    }  
+  </style>  
+</head>  
+<body>  
+  <div class="success-container">  
+    <i class="fas fa-check-circle success-icon"></i>  
+    <h1>Payment Successful!</h1>  
+    
+    <p>Your payment has been processed successfully. You now have <span class="highlight">lifetime access</span> to AbbreviAI premium features.</p>  
+    
+    <div class="divider"></div>  
+    
+    <p>You can now return to the extension to enjoy all premium features. This page will automatically close in:</p>  
+    
+    <div class="countdown" id="countdown">5</div>  
+    
+    <p><small>If the page doesn't close automatically, you can close it manually and refresh the extension.</small></p>  
+  </div>  
+
+  <script>  
+    // Start countdown and close window when done  
+    let seconds = 5;  
+    const countdownElement = document.getElementById('countdown');  
+    
+    const countdownInterval = setInterval(() => {  
+      seconds--;  
+      countdownElement.textContent = seconds;  
+      
+      if (seconds <= 0) {  
+        clearInterval(countdownInterval);  
+        window.close();  
+      }  
+    }, 1000);  
+
+    // No need to communicate with extension directly  
+    // Our stateless approach will validate the device on next access  
+  </script>  
+</body>  
+</html>  

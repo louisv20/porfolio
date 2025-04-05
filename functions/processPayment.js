@@ -68,8 +68,10 @@ exports.handler = async (event, context) => {
       description: 'Chrome Extension Access',  
       metadata: {  
         device_hash: deviceHash  
-      }  
-    });  
+      },  
+      // Add this line to specify where to return after payment completion  
+      return_url: 'https://luisgcastro.com/success.html'  
+    });    
 
     // Find or create user in our database  
     let user = await User.findOne({ email });  
