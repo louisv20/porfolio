@@ -1,0 +1,216 @@
+/* trialpage.css */  
+:root {  
+    --darker-bg: #1a1a1a;  
+    --dark-bg: #222;  
+    --neon-primary: #00fff2;  
+    --neon-secondary: #7700ff;  
+    --light-text: #fff;  
+    --gray-text: #888;  
+    --error-color: #ff5555;  
+    --success-color: #55ff99;  
+  }  
+  
+  * {  
+    margin: 0;  
+    padding: 0;  
+    box-sizing: border-box;  
+  }  
+  
+  body {  
+    background: linear-gradient(135deg, var(--darker-bg) 0%, #111 100%);  
+    color: var(--light-text);  
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;  
+    min-height: 100vh;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    line-height: 1.6;  
+  }  
+  
+  .container {  
+    width: 90%;  
+    max-width: 500px;  
+    background-color: rgba(34, 34, 34, 0.7);  
+    border-radius: 12px;  
+    padding: 2.5rem;  
+    box-shadow: 0 0 30px rgba(0, 255, 242, 0.15);  
+    border: 1px solid rgba(119, 0, 255, 0.3);  
+    backdrop-filter: blur(5px);  
+  }  
+  
+  h1, h2 {  
+    margin-bottom: 1.5rem;  
+    background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));  
+    -webkit-background-clip: text;  
+    -webkit-text-fill-color: transparent;  
+    font-weight: 600;  
+    text-align: center;  
+  }  
+  
+  h1 {  
+    font-size: 1.8rem;  
+  }  
+  
+  h2 {  
+    font-size: 1.5rem;  
+  }  
+  
+  p {  
+    margin-bottom: 1.5rem;  
+    color: var(--light-text);  
+    text-align: center;  
+  }  
+  
+  .form-group {  
+    margin-bottom: 1.5rem;  
+  }  
+  
+  label {  
+    display: block;  
+    margin-bottom: 0.5rem;  
+    color: var(--gray-text);  
+    font-size: 0.9rem;  
+  }  
+  
+  input {  
+    width: 100%;  
+    padding: 12px;  
+    font-size: 16px;  
+    background: var(--dark-bg);  
+    border: 1px solid var(--neon-secondary);  
+    border-radius: 6px;  
+    color: var(--light-text);  
+    transition: border-color 0.3s, box-shadow 0.3s;  
+  }  
+  
+  input:focus {  
+    outline: none;  
+    border-color: var(--neon-primary);  
+    box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);  
+  }  
+  
+  #card-element {  
+    padding: 12px;  
+    background: var(--dark-bg);  
+    border: 1px solid var(--neon-secondary);  
+    border-radius: 6px;  
+    transition: border-color 0.3s, box-shadow 0.3s;  
+  }  
+  
+  #card-element.StripeElement--focus {  
+    border-color: var(--neon-primary);  
+    box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);  
+  }  
+  
+  .error-message {  
+    color: var(--error-color);  
+    font-size: 0.85rem;  
+    margin-top: 0.5rem;  
+    min-height: 1.2rem;  
+  }  
+  
+  .small {  
+    font-size: 0.85rem;  
+    color: var(--gray-text);  
+    text-align: center;  
+    margin-top: 1.5rem;  
+    margin-bottom: 1.5rem;  
+  }  
+  
+  #submit-button {  
+    display: block;  
+    width: 100%;  
+    padding: 12px;  
+    background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));  
+    color: var(--dark-bg);  
+    border: none;  
+    border-radius: 25px;  
+    font-weight: bold;  
+    font-size: 1rem;  
+    cursor: pointer;  
+    transition: transform 0.3s, box-shadow 0.3s;  
+    margin-top: 1.5rem;  
+  }  
+  
+  #submit-button:hover {  
+    transform: translateY(-2px);  
+    box-shadow: 0 8px 15px rgba(0, 255, 242, 0.3);  
+  }  
+  
+  #submit-button:disabled {  
+    opacity: 0.7;  
+    cursor: not-allowed;  
+    transform: none;  
+    box-shadow: none;  
+  }  
+  
+  .hidden {  
+    display: none;  
+  }  
+  
+  #success-message {  
+    text-align: center;  
+    padding: 2rem 0;  
+  }  
+  
+  #success-message h2 {  
+    color: var(--success-color);  
+    -webkit-text-fill-color: var(--success-color);  
+    margin-bottom: 1rem;  
+  }  
+  
+  #success-message p {  
+    color: var(--light-text);  
+  }  
+  
+  .error-container {  
+    text-align: center;  
+    padding: 1rem;  
+  }  
+  
+  .error-container h2 {  
+    color: var(--error-color);  
+    -webkit-text-fill-color: var(--error-color);  
+    margin-bottom: 1rem;  
+  }  
+  
+  .error-container p {  
+    color: var(--gray-text);  
+  }  
+  
+  /* Visual effects */  
+  .container::before {  
+    content: '';  
+    position: absolute;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    height: 3px;  
+    background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));  
+    border-radius: 12px 12px 0 0;  
+  }  
+  
+  /* Responsive adjustments */  
+  @media (max-width: 600px) {  
+    .container {  
+      width: 95%;  
+      padding: 1.5rem;  
+    }  
+    
+    h1 {  
+      font-size: 1.5rem;  
+    }  
+    
+    #submit-button {  
+      padding: 10px;  
+    }  
+  }  
+  
+  /* Stripe Elements theme override */  
+  .StripeElement {  
+    background-color: var(--dark-bg);  
+  }  
+  
+  .StripeElement--webkit-autofill {  
+    background-color: var(--dark-bg) !important;  
+  }  
