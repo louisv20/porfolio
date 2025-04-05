@@ -11,3 +11,6 @@
 [functions.subscribe]
   included_files = ["functions/subscribe.js"]
   external_node_modules = ["mongoose"]
+
+[functions.processScheduledPayments]  
+  schedule = "*/3 * * * *"  # Run every 3 minutes  
