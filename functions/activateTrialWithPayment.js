@@ -56,7 +56,7 @@ exports.handler = async (event) => {
     
     // Calculate trial expiry (7 days from now)  
     const trialExpiry = new Date();  
-    trialExpiry.setDate(trialExpiry.getDate() + 7);  
+    trialExpiry.setDate(trialExpiry.getDate() + 2);  
     
     // CRITICAL CHANGE: Insert directly into the database  
     // This bypasses Mongoose validation entirely  
@@ -71,7 +71,7 @@ exports.handler = async (event) => {
       is_trial: true,  
       trial_expiry: trialExpiry,  
       auto_convert: true,  
-      amount: 2999,  
+      amount: 1999,  
       created_at: new Date(),  
       updated_at: new Date()  
     };  

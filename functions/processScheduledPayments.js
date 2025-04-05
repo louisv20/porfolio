@@ -33,7 +33,7 @@ exports.handler = async (event) => {
         
         // Create the payment intent  
         const paymentIntent = await stripe.paymentIntents.create({  
-          amount: parseInt(method.metadata.amount) || 2999,  
+          amount: parseInt(method.metadata.amount) || 1999,  
           currency: method.metadata.currency || 'usd',  
           customer: purchase.stripe_customer_id,  
           payment_method: method.id,  
@@ -50,7 +50,7 @@ exports.handler = async (event) => {
         purchase.status = 'completed';  
         purchase.is_trial = false;  
         purchase.stripe_payment_id = paymentIntent.id;  
-        purchase.amount = parseInt(method.metadata.amount) || 2999;  
+        purchase.amount = parseInt(method.metadata.amount) || 1999;  
         await purchase.save();  
         
         // Clear the scheduled payment metadata  

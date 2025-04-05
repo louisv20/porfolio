@@ -16,7 +16,7 @@ const trialPurchaseSchema = new mongoose.Schema({
   },  
   amount: {  
     type: Number,  
-    default: 2999  // $29.99 in cents  
+    default: 1999  // $29.99 in cents  
   },  
   status: {  
     type: String,  
