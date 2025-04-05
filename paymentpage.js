@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
   
         // Send payment method ID to server
-        const response = await fetch('https://luisgcastro.com/.netlify/functions/processPayment/processPayment', {
+        const response = await fetch('https://luisgcastro.com/.netlify/functions/processPayment', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
