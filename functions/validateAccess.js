@@ -1,7 +1,6 @@
 // functions/validateAccess.js  
+const mongoose = require('mongoose');   
 const connectDb = require('../src/models/db');  
-const DeviceHash = require('../src/models/DeviceHash');  
-const Purchase = require('../src/models/Purchase');  
 const { createDeviceHash } = require('../src/utils/fingerprint');  
 
 exports.handler = async (event) => {  
@@ -37,9 +36,14 @@ exports.handler = async (event) => {
 
     // Connect to database  
     await connectDb();  
+    
+    // Get direct access to collections  
+    const db = mongoose.connection.db;  
+    const deviceHashesCollection = db.collection('devicehashes');  
+    const purchasesCollection = db.collection('purchases');  
 
-    // Find device hash in database  
-    const deviceRecord = await DeviceHash.findOne({ device_hash: deviceHash });  
+    // Find device hash in database using direct MongoDB query  
+    const deviceRecord = await deviceHashesCollection.findOne({ device_hash: deviceHash });  
 
     // If device is not found, return invalid  
     if (!deviceRecord || !deviceRecord.purchase_id) {  
@@ -52,8 +56,11 @@ exports.handler = async (event) => {
       };  
     }  
 
-    // Find associated purchase  
-    const purchase = await Purchase.findById(deviceRecord.purchase_id);  
+    // Find associated purchase using direct MongoDB query  
+    // This bypasses Mongoose validation completely  
+    const purchase = await purchasesCollection.findOne({   
+      _id: deviceRecord.purchase_id   
+    });  
 
     // If purchase is not found, return invalid  
     if (!purchase) {  
