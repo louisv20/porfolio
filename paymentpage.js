@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }  
     
     // Initialize Stripe  
-    const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);  
+    const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');    
     const elements = stripe.elements();  
     
     // Create card element  
