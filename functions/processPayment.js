@@ -71,18 +71,8 @@ exports.handler = async (event, context) => {
       },  
       // Add this line to specify where to return after payment completion  
       return_url: 'https://luisgcastro.com/success.html',
-      confirmation_method: 'manual' // Important for handling the redirect flow  
     });  
-    
-    // Confirm the payment intent separately  
-    const confirmedIntent = await stripe.paymentIntents.confirm(  
-      paymentIntent.id,  
-      {  
-        payment_method: paymentMethodId,  
-        return_url: 'https://luisgcastro.com/success.html'  
-      }  
-    );   
-        
+     
 
     // Find or create user in our database  
     let user = await User.findOne({ email });  
