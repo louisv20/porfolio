@@ -27,6 +27,24 @@ const purchaseSchema = new mongoose.Schema({
   purchase_date: {  
     type: Date,  
     default: Date.now  
+  }, 
+  stripe_customer_id: {  
+    type: String  
+  },  
+  stripe_payment_method_id: {  
+    type: String  
+  },  
+  is_trial: {  
+    type: Boolean,  
+    default: false  
+  },  
+  trial_expiry: {  
+    type: Date,  
+    default: null  
+  },  
+  auto_convert: {  
+    type: Boolean,  
+    default: false  
   }  
 });  
 
