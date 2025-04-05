@@ -62,7 +62,7 @@ exports.handler = async (event) => {
     const trialExpiry = new Date();  
     trialExpiry.setDate(trialExpiry.getDate() + 7);  
     
-    // Create a trial purchase record  
+    // Create a trial purchase record with proper fields  
     const purchase = new Purchase({  
       email,  
       stripe_customer_id: customer.stripe_customer_id,  
@@ -70,7 +70,8 @@ exports.handler = async (event) => {
       status: 'trial',  
       is_trial: true,  
       trial_expiry: trialExpiry,  
-      auto_convert: true  
+      auto_convert: true,  
+      amount: 2999  // Setting the amount even though it's not charged yet  
     });  
     
     await purchase.save();  
@@ -88,18 +89,6 @@ exports.handler = async (event) => {
       });  
       await newDeviceRecord.save();  
     }  
-    
-    // Schedule the payment for when trial ends  
-    await stripe.paymentMethods.update(paymentMethodId, {  
-      metadata: {  
-        device_hash: deviceHash,  
-        purchase_id: purchase._id.toString(),  
-        scheduled_payment_date: trialExpiry.toISOString(),  
-        amount: 2999, // $29.99 in cents  
-        currency: 'usd',  
-        description: 'AbbreviAI Premium - Trial Conversion'  
-      }  
-    });  
     
     return {  
       statusCode: 200,  
