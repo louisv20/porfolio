@@ -3,7 +3,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const connectDb = require('../src/models/db');  
 const Purchase = require('../src/models/Purchase');  
 const DeviceHash = require('../src/models/DeviceHash');  
-const Customer = require('../src/models/Customer');  
+const Customer = require('../src/models/Customer'); 
+const TrialPurchase = require('../src/models/TrialPurchase');  
 
 exports.handler = async (event) => {  
   if (event.httpMethod !== 'POST') {  
@@ -63,16 +64,13 @@ exports.handler = async (event) => {
     trialExpiry.setDate(trialExpiry.getDate() + 7);  
     
     // Create a trial purchase record with proper fields  
-    const purchase = new Purchase({  
+    const purchase = new TrialPurchase({  
       email,  
       stripe_customer_id: customer.stripe_customer_id,  
       stripe_payment_method_id: paymentMethodId,  
-      status: 'trial',  
-      is_trial: true,  
       trial_expiry: trialExpiry,  
-      auto_convert: true,  
-      amount: 2999  // Setting the amount even though it's not charged yet  
-    });  
+      auto_convert: true  
+    });   
     
     await purchase.save();  
     

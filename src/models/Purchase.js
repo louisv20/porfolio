@@ -24,7 +24,7 @@ const purchaseSchema = new mongoose.Schema({
   // Make amount optional with default value  
   amount: {  
     type: Number,  
-    default: 1999  // Default to $29.99 in cents  
+    default: 2999  // Default to $29.99 in cents  
   },  
   // Make user_id completely optional  
   user_id: {  
