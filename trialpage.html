@@ -113,12 +113,14 @@
         document.getElementById('success-message').classList.remove('hidden');  
         
         // Inform the extension about successful trial activation  
-        if (window.opener) {  
-          window.opener.postMessage({   
-            type: 'trial_activated',   
-            purchaseId: activateData.purchase_id   
-          }, extensionOrigin);  
-          setTimeout(() => window.close(), 3000);  
+        if (chrome && chrome.runtime) {
+         chrome.runtime.sendMessage('bhlngdfdllbncpadjcoccjoghajlfhbk', { 
+          type: 'trial_activated', 
+          purchaseId: activateData.purchase_id 
+        }, (response) => {
+          console.log('Message sent to extension:', response);
+          setTimeout(() => window.close(), 3000);
+      });  
         }  
         
       } catch (error) {  
