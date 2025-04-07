@@ -40,7 +40,7 @@
     // Get deviceHash from URL  
     const urlParams = new URLSearchParams(window.location.search);  
     const deviceHash = urlParams.get('deviceHash');
-    const extensionOrigin = 'chrome-extension://bhlngdfdllbncpadjcoccjoghajlfhbk';  
+    const extensionOrigin = 'chrome://extensions/?id=bhlngdfdllbncpadjcoccjoghajlfhbk';  
     
     if (!deviceHash) {  
       document.body.innerHTML = '<div class="error-container"><h2>Error</h2><p>Invalid device information. Please try again from the extension.</p></div>';  
