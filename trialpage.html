@@ -112,7 +112,8 @@
         form.classList.add('hidden');  
         document.getElementById('success-message').classList.remove('hidden');  
         
-        // Inform the extension about successful trial activation  
+        // Inform the extension about successful trial activation 
+        console.log('Attempting to send message with purchaseId:', activateData.purchase_id); 
         if (chrome && chrome.runtime) {
          chrome.runtime.sendMessage('bhlngdfdllbncpadjcoccjoghajlfhbk', { 
           type: 'trial_activated', 
@@ -120,7 +121,9 @@
         }, (response) => {
           console.log('Message sent to extension:', response);
           setTimeout(() => window.close(), 3000);
-      });  
+      }); 
+        } else {
+      console.log('Chrome runtime not available'); 
         }  
         
       } catch (error) {  
