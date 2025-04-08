@@ -91,8 +91,17 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           // If successful, Stripe will redirect to the return_url (success.html) automatically
         } else if (paymentData.success) {
-          // Payment succeeded immediately, redirect to success page
-          window.location.href = 'https://luisgcastro.com/success.html';
+          console.log('Payment successful, response:', paymentData);
+          
+          // Check if the server provided a redirect URL
+          if (paymentData.redirect && paymentData.redirect_url) {
+            console.log('Redirecting to:', paymentData.redirect_url);
+            window.location.href = paymentData.redirect_url;
+          } else {
+            // Fallback to default success page
+            console.log('No redirect URL provided, using default');
+            window.location.href = 'https://luisgcastro.com/success.html';
+          }
         } else {
           throw new Error(paymentData.error || 'Unexpected response from server');
         }

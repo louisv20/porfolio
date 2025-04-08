@@ -127,7 +127,10 @@ exports.handler = async (event) => {
             message: 'Trial successfully converted to full purchase',
             paymentIntentId: paymentIntent.id,
             status: paymentIntent.status,
-            purchaseId: newPurchaseId.toString()
+            purchaseId: newPurchaseId.toString(),
+            // Add redirect information
+            redirect: true,
+            redirect_url: 'https://luisgcastro.com/success.html'
           })
         };
       } else {

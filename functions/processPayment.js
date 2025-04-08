@@ -88,8 +88,10 @@ exports.handler = async (event, context) => {
 
     // Create purchase record  
     const purchase = await Purchase.create({  
+      email: email, // Add email field to ensure it's included
       user_id: user._id,  
-      stripe_payment_id: paymentIntent.id,  
+      stripe_payment_id: paymentIntent.id,
+      stripe_customer_id: customer.id, // Add customer ID for reference
       amount: paymentIntent.amount / 100, // Convert from cents  
       currency: paymentIntent.currency,  
       status: paymentIntent.status === 'succeeded' ? 'completed' : 'pending',  
@@ -148,7 +150,10 @@ exports.handler = async (event, context) => {
         payment: {  
           id: paymentIntent.id,  
           status: paymentIntent.status  
-        }  
+        },
+        // Add a redirect flag to ensure the client knows to redirect
+        redirect: true,
+        redirect_url: 'https://luisgcastro.com/success.html'
       })  
     };  
   } catch (error) {  
