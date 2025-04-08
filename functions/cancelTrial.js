@@ -113,7 +113,8 @@ exports.handler = async (event) => {
       statusCode: 200,  
       body: JSON.stringify({  
         success: true,  
-        message: 'Trial successfully cancelled'  
+        message: 'Trial successfully cancelled',
+        status: 'cancelled'  
       })  
     };  
   } catch (error) {  
