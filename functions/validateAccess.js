@@ -74,7 +74,19 @@ exports.handler = async (event) => {
     }  
 
     // Handle trial purchases  
-    if (purchase.is_trial) {  
+    if (purchase.is_trial) {
+      // Check if trial was converted to a full purchase
+      if (purchase.status === 'trial_converted') {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            valid: true,
+            purchaseDate: purchase.created_at,
+            is_trial: false // No longer a trial
+          })
+        };
+      }
+      
       const now = new Date();  
       const trialExpiry = new Date(purchase.trial_expiry);  
       
@@ -144,4 +156,4 @@ exports.handler = async (event) => {
       })  
     };  
   }  
-};  
+};

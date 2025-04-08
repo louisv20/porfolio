@@ -1,11 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get device hash from URL
+    // Get device hash and trial upgrade flag from URL
     const urlParams = new URLSearchParams(window.location.search);
     const deviceHash = urlParams.get('deviceHash');
+    const isTrialUpgrade = urlParams.get('isTrialUpgrade') === 'true';
   
     if (!deviceHash) {
       alert('Invalid access. Please go back to the extension and try again.');
       return;
+    }
+    
+    // Update page title if this is a trial upgrade
+    if (isTrialUpgrade) {
+      document.querySelector('h1').textContent = 'Upgrade Your Trial';
+      document.querySelector('p').textContent = 'Complete your purchase to get lifetime access.';
     }
   
     // Initialize Stripe
@@ -66,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paymentMethodId: result.paymentMethod.id,
             email: email,
             deviceHash: deviceHash,
+            isTrialUpgrade: isTrialUpgrade
           }),
         });
   

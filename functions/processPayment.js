@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
 
     // Parse request body  
     const data = JSON.parse(event.body);  
-    const { paymentMethodId, email, deviceHash } = data;  
+    const { paymentMethodId, email, deviceHash, isTrialUpgrade } = data;  
 
     if (!paymentMethodId || !email || !deviceHash) {  
       return {   
@@ -26,6 +26,8 @@ exports.handler = async (event, context) => {
         })   
       };  
     }  
+    
+    console.log(`Processing payment. isTrialUpgrade: ${isTrialUpgrade}`);
 
     // Create or get customer in Stripe  
     let customer;  
@@ -108,6 +110,23 @@ exports.handler = async (event, context) => {
           last_access: new Date()  
         }  
       );  
+      
+      // If this is a trial upgrade, update the trial purchase status
+      if (isTrialUpgrade && existingDevice.purchase_id) {
+        try {
+          // Find the trial purchase and mark it as converted
+          const trialPurchase = await Purchase.findById(existingDevice.purchase_id);
+          if (trialPurchase && trialPurchase.is_trial) {
+            trialPurchase.status = 'trial_converted';
+            trialPurchase.updated_at = new Date();
+            await trialPurchase.save();
+            console.log(`Trial purchase ${trialPurchase._id} marked as converted`);
+          }
+        } catch (err) {
+          console.error('Error updating trial purchase:', err);
+          // Continue even if this fails
+        }
+      }
     } else {  
       // Create new device hash entry  
       await DeviceHash.create({  
@@ -139,4 +158,4 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: error.message || 'Failed to process payment' })  
     };  
   }  
-}; 
+};
