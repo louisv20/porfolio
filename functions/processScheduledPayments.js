@@ -12,17 +12,58 @@ exports.handler = async (event) => {
     const db = mongoose.connection.db;  
     const purchasesCollection = db.collection('purchases');  
     
+    // Check if this is a request to process a specific purchase
+    let singlePurchaseId = null;
+    if (event.httpMethod === 'POST' && event.body) {
+      try {
+        const body = JSON.parse(event.body);
+        if (body.purchaseId && body.singlePurchase) {
+          singlePurchaseId = body.purchaseId;
+          console.log(`Processing single purchase: ${singlePurchaseId}`);
+        }
+      } catch (error) {
+        console.error('Error parsing request body:', error);
+      }
+    }
+    
     const now = new Date();  
     console.log('Current time:', now.toISOString());  
     
-    // Primary approach: Find expired trials in the database first  
-    console.log('Finding expired trials in database...');  
-    const expiredTrials = await purchasesCollection.find({  
-      is_trial: true,  
-      auto_convert: true,  
-      trial_expiry: { $lte: now },  
-      status: 'trial' // Only process trials that haven't been converted yet  
-    }).toArray();  
+    let expiredTrials = [];
+    
+    // If processing a single purchase
+    if (singlePurchaseId) {
+      try {
+        const purchaseObjectId = new mongoose.Types.ObjectId(singlePurchaseId);
+        const purchase = await purchasesCollection.findOne({ _id: purchaseObjectId });
+        
+        if (purchase && purchase.is_trial && purchase.status === 'trial') {
+          console.log(`Found single purchase to process: ${singlePurchaseId}`);
+          expiredTrials = [purchase];
+        } else {
+          console.log(`Purchase ${singlePurchaseId} is not a valid trial or has already been processed`);
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: 'Not a valid trial or already processed' })
+          };
+        }
+      } catch (error) {
+        console.error(`Error finding purchase ${singlePurchaseId}:`, error);
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Invalid purchase ID format' })
+        };
+      }
+    } else {
+      // Primary approach: Find expired trials in the database first  
+      console.log('Finding expired trials in database...');  
+      expiredTrials = await purchasesCollection.find({  
+        is_trial: true,  
+        auto_convert: true,  
+        trial_expiry: { $lte: now },  
+        status: 'trial' // Only process trials that haven't been converted yet  
+      }).toArray();  
+    }
     
     console.log(`Found ${expiredTrials.length} expired trials in database`);  
     
@@ -175,4 +216,4 @@ exports.handler = async (event) => {
       body: JSON.stringify({ error: error.message || 'Failed to process scheduled payments' })  
     };  
   }  
-};  
+};

@@ -426,7 +426,46 @@ const hideTrialBanner = () => {
   }  
 };  
 
-// Check access and update UI accordingly  
+// Function to trigger payment processing when trial expires
+const triggerTrialConversion = async () => {
+  try {
+    console.log('Triggering trial conversion');
+    
+    // Get the trial purchase ID from storage
+    const purchaseId = await new Promise((resolve) => {
+      chrome.storage.local.get(['trialPurchaseId'], (result) => {
+        resolve(result.trialPurchaseId);
+      });
+    });
+    
+    if (!purchaseId) {
+      console.error('No trial purchase ID found');
+      return;
+    }
+    
+    // Call the processScheduledPayments endpoint with the purchase ID
+    const response = await fetch('https://luisgcastro.com/.netlify/functions/processScheduledPayments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        purchaseId,
+        singlePurchase: true
+      })
+    });
+    
+    const result = await response.json();
+    console.log('Trial conversion result:', result);
+    
+    // Update UI after processing
+    await checkAndUpdateAccessState();
+    
+  } catch (error) {
+    console.error('Error triggering trial conversion:', error);
+  }
+};
+
 // Check access and update UI accordingly  
 const checkAndUpdateAccessState = async () => {  
   // Show loading screen  
@@ -434,6 +473,18 @@ const checkAndUpdateAccessState = async () => {
   
   try {  
     const { hasAccess, isTrial, trialExpiry, trialCancelled } = await checkAccess();  
+    
+    // Check if trial has expired but not been converted yet
+    if (isTrial && trialExpiry) {
+      const now = new Date();
+      const expiryDate = new Date(trialExpiry);
+      
+      if (now > expiryDate && !trialCancelled) {
+        console.log('Trial has expired, triggering conversion');
+        // Trigger payment processing
+        triggerTrialConversion();
+      }
+    }
     
     if (hasAccess) {  
       // User has access, hide paywall and show chat  
