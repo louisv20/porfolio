@@ -166,8 +166,19 @@ const openPaymentPage = async () => {
   }  
 };  
 
+// Flag to prevent multiple simultaneous conversions
+let isProcessingConversion = false;
+
 // Convert trial to full purchase using existing payment method
 const convertTrialToFullPurchase = async () => {
+  // Prevent double processing
+  if (isProcessingConversion) {
+    console.log('Already processing a conversion, ignoring duplicate request');
+    return;
+  }
+  
+  isProcessingConversion = true;
+  
   try {
     console.log('convertTrialToFullPurchase function called');
     // Show loading screen
@@ -224,6 +235,8 @@ const convertTrialToFullPurchase = async () => {
   } finally {
     // Hide loading screen
     document.getElementById('loading-overlay').classList.add('hidden');
+    // Reset processing flag
+    isProcessingConversion = false;
   }
 };
 
@@ -401,15 +414,8 @@ const showTrialBanner = (expiryDate, isCancelled = false) => {
     }
   }  
   
-  // Add event listener to upgrade button if it exists  
-  const upgradeButton = document.getElementById('upgradeButton');  
-  if (upgradeButton) {  
-    console.log('Adding direct event listener to upgrade button');
-    upgradeButton.addEventListener('click', function(event) {
-      console.log('Upgrade button clicked directly');
-      openPaymentPage();
-    });  
-  }  
+  // We'll use event delegation only, so no direct event listener here
+  // This prevents double-triggering of the upgrade function
 };  
 
 // Hide trial banner  
