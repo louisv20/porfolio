@@ -127,6 +127,9 @@
           type: 'trial_activated',
           purchaseId: activateData.purchase_id
         }, 'https://luisgcastro.com');
+        console.log("Sending purchaseId to content script:", activateData.purchase_id);
+
+        // Optionally close the window after a delay
         setTimeout(() => window.close(), 3000);
 
       } catch (error) {
