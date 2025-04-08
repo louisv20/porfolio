@@ -124,10 +124,30 @@
 
         // Inform the extension about successful trial activation 
         console.log("About to post message with purchaseId:", activateData.purchase_id);
-        window.postMessage({
-          type: 'trial_activated',
-          purchaseId: activateData.purchase_id
-        }, window.location.origin); // Use the actual origin rather than hardcoding it
+        
+        // Save the purchase ID to Chrome storage
+        try {
+          // Use chrome.runtime.sendMessage to communicate with the extension
+          chrome.runtime.sendMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          });
+          
+          // Also post a message to the window in case the extension is not listening
+          window.postMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          }, window.location.origin);
+          
+          console.log("Messages sent to extension and window");
+        } catch (err) {
+          console.error("Error sending message to extension:", err);
+          // Fall back to just window.postMessage
+          window.postMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          }, window.location.origin);
+        }
 
         // Optionally close the window after a delay
 
