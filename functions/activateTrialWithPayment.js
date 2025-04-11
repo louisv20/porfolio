@@ -56,7 +56,7 @@ exports.handler = async (event) => {
     
     // Calculate trial expiry (7 days from now)  
     const trialExpiry = new Date();  
-    trialExpiry.setMinutes(trialExpiry.getMinutes() + 60); // Change this number to adjust trial length  
+    trialExpiry.setDate(trialExpiry.getDate() + 3); // Change this number to adjust trial length  
     
     // CRITICAL CHANGE: Insert directly into the database  
     // This bypasses Mongoose validation entirely  

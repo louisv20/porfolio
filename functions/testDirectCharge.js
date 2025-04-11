@@ -48,23 +48,17 @@ exports.handler = async (event) => {
     // If this is a trial conversion, we need to handle it differently
     if (isTrialConversion) {
       console.log('Processing trial conversion for purchase ID:', purchaseId);
-      
-      // For trial conversion, we need to:
-      // 1. Get the payment method ID from the trial purchase
-      // 2. Create a payment intent with that payment method
-      // 3. Mark the trial as converted
-      // 4. Create a new regular purchase record
-      
+    
       // Get payment method ID from the trial purchase
       const actualPaymentMethodId = purchase.stripe_payment_method_id || paymentMethodId;
-      
+    
       if (!actualPaymentMethodId) {
         return {
           statusCode: 400,
           body: JSON.stringify({ error: 'No payment method found for this trial' })
         };
       }
-      
+    
       // Create payment intent
       const paymentIntent = await stripe.paymentIntents.create({
         amount: 1999,
@@ -75,51 +69,40 @@ exports.handler = async (event) => {
         confirm: true,
         description: 'Trial conversion to full purchase'
       });
-      
+    
       if (paymentIntent.status === 'succeeded') {
-        // Mark the trial as converted
+        // Update the existing trial record
         await purchasesCollection.updateOne(
           { _id: purchaseObjectId },
-          { 
-            $set: { 
-              status: 'trial_converted',
+          {
+            $set: {
+              status: 'completed', // Update status to completed
+              stripe_payment_id: paymentIntent.id, // Store the payment intent ID
+              is_trial: false, // Mark trial as converted
+              auto_convert: false, // Disable auto-conversion
               updated_at: new Date()
-            } 
+            }
           }
         );
-        
-        // Create a new regular purchase record
-        const newPurchase = {
-          email: purchase.email,
-          stripe_customer_id: purchase.stripe_customer_id,
-          stripe_payment_id: paymentIntent.id,
-          amount: 1999,
-          status: 'completed',
-          created_at: new Date(),
-          updated_at: new Date()
-        };
-        
-        const result = await purchasesCollection.insertOne(newPurchase);
-        const newPurchaseId = result.insertedId;
-        
-        // If device data is provided, update the device hash to point to the new purchase
+    
+        // If device data is provided, update the device hash to point to the existing purchase
         if (deviceData) {
           const { createDeviceHash } = require('../src/utils/fingerprint');
           const deviceHash = createDeviceHash(deviceData);
-          
-          // Update device hash to point to the new purchase
+    
+          // Update device hash to point to the existing purchase
           await mongoose.connection.db.collection('devicehashes').updateOne(
             { device_hash: deviceHash },
-            { 
-              $set: { 
-                purchase_id: newPurchaseId,
+            {
+              $set: {
+                purchase_id: purchaseObjectId,
                 updated_at: new Date()
-              } 
+              }
             },
             { upsert: true }
           );
         }
-        
+    
         return {
           statusCode: 200,
           body: JSON.stringify({
@@ -127,8 +110,7 @@ exports.handler = async (event) => {
             message: 'Trial successfully converted to full purchase',
             paymentIntentId: paymentIntent.id,
             status: paymentIntent.status,
-            purchaseId: newPurchaseId.toString(),
-            // Add redirect information
+            purchaseId: purchaseObjectId.toString(),
             redirect: true,
             redirect_url: 'https://luisgcastro.com/success.html'
           })
