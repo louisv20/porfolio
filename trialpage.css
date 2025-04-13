@@ -93,7 +93,7 @@ input:focus {
 #card-element {
   color: var(--light-text);
   padding: 12px;
-  background: var(--dark-bg);
+  background: rgb(133, 132, 132);
   border: 1px solid var(--neon-secondary);
   border-radius: 6px;
   transition: border-color 0.3s, box-shadow 0.3s;
@@ -102,23 +102,6 @@ input:focus {
 #card-element.StripeElement--focus {
   border-color: var(--neon-primary);
   box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
-}
-
-.StripeElement {
-  background-color: #333;
-  /* Match #card-element background */
-  color: var(--light-text) !important;
-  /* Bright white text */
-}
-
-.StripeElement--complete,
-.StripeElement--empty,
-.StripeElement--invalid {
-  color: var(--light-text) !important;
-}
-
-.StripeElement input {
-  color: var(--light-text) !important;
 }
 
 .error-message {
