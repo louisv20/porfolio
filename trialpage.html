@@ -49,43 +49,10 @@
     }
 
     // Initialize Stripe  
-    document.addEventListener('DOMContentLoaded', () => {
-      const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
-      const elements = stripe.elements({
-        appearance: {
-          theme: 'none', // Disable default theme to avoid conflicts
-          variables: {
-            colorText: '#ffffff', // Set to white or resolve var(--light-text)
-            colorBackground: 'rgb(65, 64, 64)', // Match your CSS background
-            colorTextPlaceholder: '#666666', // Placeholder color
-            colorPrimary: '#00ff00', // For focus borders, matching --neon-secondary
-          },
-          rules: {
-            '.Input': {
-              color: '#ffffff', // Explicit text color for inputs
-              backgroundColor: 'transparent', // Show #card-element's background
-              border: 'none', // Avoid iframe border conflicts
-              padding: '0', // Align with container padding
-            },
-            '.Input:focus': {
-              color: '#ffffff', // Ensure text color stays white when focused
-              borderColor: '#00ff00', // Match --neon-secondary for focus
-              boxShadow: 'none', // Avoid default shadows
-            },
-            '.Input::placeholder': {
-              color: '#666666', // Placeholder color
-            },
-            '.Input--empty': {
-              color: '#ffffff', // Cover empty state explicitly
-            },
-          },
-        },
-      });
-
-      const card = elements.create('card');
-      card.mount('#card-element');
-    });
-
+    const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
 
     const form = document.getElementById('trial-form');
     const submitButton = document.getElementById('submit-button');
@@ -157,7 +124,7 @@
 
         // Inform the extension about successful trial activation 
         console.log("About to post message with purchaseId:", activateData.purchase_id);
-
+        
         // Save the purchase ID to Chrome storage
         try {
           // Use chrome.runtime.sendMessage to communicate with the extension
@@ -165,13 +132,13 @@
             type: 'trial_activated',
             purchaseId: activateData.purchase_id
           });
-
+          
           // Also post a message to the window in case the extension is not listening
           window.postMessage({
             type: 'trial_activated',
             purchaseId: activateData.purchase_id
           }, window.location.origin);
-
+          
           console.log("Messages sent to extension and window");
         } catch (err) {
           console.error("Error sending message to extension:", err);
