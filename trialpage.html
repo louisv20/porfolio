@@ -49,34 +49,43 @@
     }
 
     // Initialize Stripe  
-    const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
-    const elements = stripe.elements({
-      appearance: {
-        theme: 'none', // Disable default theme
-        variables: {
-          colorText: '#ffffff', // Use a specific color (e.g., white) or map var(--light-text)
-          colorPrimary: '#00ff00', // Neon green from earlier
-          colorBackground: 'rgb(65, 64, 64)', // Match your CSS background
-          colorTextPlaceholder: '#666666', // Gray placeholder
+    document.addEventListener('DOMContentLoaded', () => {
+      const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
+      const elements = stripe.elements({
+        appearance: {
+          theme: 'none', // Disable default theme to avoid conflicts
+          variables: {
+            colorText: '#ffffff', // Set to white or resolve var(--light-text)
+            colorBackground: 'rgb(65, 64, 64)', // Match your CSS background
+            colorTextPlaceholder: '#666666', // Placeholder color
+            colorPrimary: '#00ff00', // For focus borders, matching --neon-secondary
+          },
+          rules: {
+            '.Input': {
+              color: '#ffffff', // Explicit text color for inputs
+              backgroundColor: 'transparent', // Show #card-element's background
+              border: 'none', // Avoid iframe border conflicts
+              padding: '0', // Align with container padding
+            },
+            '.Input:focus': {
+              color: '#ffffff', // Ensure text color stays white when focused
+              borderColor: '#00ff00', // Match --neon-secondary for focus
+              boxShadow: 'none', // Avoid default shadows
+            },
+            '.Input::placeholder': {
+              color: '#666666', // Placeholder color
+            },
+            '.Input--empty': {
+              color: '#ffffff', // Cover empty state explicitly
+            },
+          },
         },
-        rules: {
-          '.Input': {
-            color: '#ffffff', // Explicitly set input text to white
-            backgroundColor: 'transparent', // Let container background show through
-            border: 'none', // Avoid iframe borders clashing with container
-          },
-          '.Input:focus': {
-            color: '#ffffff', // Ensure text stays white on focus
-          },
-          '.Input::placeholder': {
-            color: '#666666', // Placeholder color
-          },
-        },
-      },
+      });
+
+      const card = elements.create('card');
+      card.mount('#card-element');
     });
 
-    const card = elements.create('card');
-    card.mount('#card-element');
 
     const form = document.getElementById('trial-form');
     const submitButton = document.getElementById('submit-button');
