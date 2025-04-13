@@ -7,9 +7,30 @@ const DeviceHash = require('../src/models/DeviceHash');
 const Customer = require('../src/models/Customer');
 
 exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com', // or your specific domain
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400' // 24 hours
+      },
+      body: ''
+    };
   }
+
+  if (event.httpMethod !== 'POST') {  
+    return { 
+      statusCode: 405, 
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'Method Not Allowed' }) 
+    };  
+  }  
+
 
   try {
     await connectDb();
