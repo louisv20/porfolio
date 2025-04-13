@@ -90,20 +90,6 @@ input:focus {
   box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
 }
 
-#card-element {
-  color: var(--light-text);
-  padding: 12px;
-  background: rgb(65, 64, 64);
-  border: 1px solid var(--neon-secondary);
-  border-radius: 6px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-#card-element.StripeElement--focus {
-  border-color: var(--neon-primary);
-  box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
-}
-
 .error-message {
   color: var(--error-color);
   font-size: 0.85rem;
@@ -206,13 +192,4 @@ input:focus {
   #submit-button {
     padding: 10px;
   }
-}
-
-/* Stripe Elements theme override */
-.StripeElement {
-  background-color: var(--dark-bg);
-}
-
-.StripeElement--webkit-autofill {
-  background-color: var(--dark-bg) !important;
 }
