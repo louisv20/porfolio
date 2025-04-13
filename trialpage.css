@@ -102,10 +102,10 @@
     border-color: var(--neon-primary);  
     box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);  
   }
-  
+
   .StripeElement {  
     background-color: #333; /* Match #card-element background */
-    color: var(--light-text); /* Bright white text */
+    color: var(--light-text)!important; /* Bright white text */
 }  
   
   .error-message {  
