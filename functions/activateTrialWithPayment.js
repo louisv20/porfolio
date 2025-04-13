@@ -7,6 +7,10 @@ const DeviceHash = require('../src/models/DeviceHash');
 const Customer = require('../src/models/Customer');
 
 exports.handler = async (event) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': 'https://abbreviai.com',
+    'Content-Type': 'application/json'
+  };
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
@@ -39,6 +43,7 @@ exports.handler = async (event) => {
     if (!email || !deviceHash || !setupIntentId || !paymentMethodId) {
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: 'Missing required fields' })
       };
     }
@@ -48,6 +53,7 @@ exports.handler = async (event) => {
     if (existingDeviceRecord && existingDeviceRecord.purchase_id) {
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({
           error: 'Cannot restart trial: Device is already linked to a trial or purchase'
         })
@@ -60,6 +66,7 @@ exports.handler = async (event) => {
     if (setupIntent.status !== 'succeeded') {
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: 'Payment method setup was not completed' })
       };
     }
@@ -151,6 +158,7 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({
         success: true,
         message: 'Trial activated with payment method',
@@ -163,6 +171,7 @@ exports.handler = async (event) => {
     console.error('Error activating trial with payment:', error);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: error.message || 'Failed to activate trial' })
     };
   }
