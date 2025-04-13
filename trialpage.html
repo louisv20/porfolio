@@ -49,34 +49,34 @@
     }
 
     // Initialize Stripe  
+    const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
     const elements = stripe.elements({
       appearance: {
-        theme: 'none', // Disable default theme to avoid Stripe's default styles
+        theme: 'none', // Disable default theme
         variables: {
-          colorText: '#ffffff', // Set default text color to white
-          colorPrimary: '#00ff00', // Neon green for focus borders
-          colorBackground: '#1a1a1a', // Dark background
+          colorText: '#ffffff', // Use a specific color (e.g., white) or map var(--light-text)
+          colorPrimary: '#00ff00', // Neon green from earlier
+          colorBackground: 'rgb(65, 64, 64)', // Match your CSS background
           colorTextPlaceholder: '#666666', // Gray placeholder
         },
         rules: {
           '.Input': {
-            color: '#ffffff', // Explicitly set input text color to white
-            backgroundColor: '#1a1a1a', // Match background
-            borderColor: '#666666', // Optional: Ensure border visibility
-            boxShadow: 'none', // Remove default shadows
+            color: '#ffffff', // Explicitly set input text to white
+            backgroundColor: 'transparent', // Let container background show through
+            border: 'none', // Avoid iframe borders clashing with container
           },
           '.Input:focus': {
-            color: '#ffffff', // Ensure text color stays white on focus
-            borderColor: '#00ff00', // Neon green border on focus
+            color: '#ffffff', // Ensure text stays white on focus
           },
           '.Input::placeholder': {
-            color: '#666666', // Explicit placeholder color
+            color: '#666666', // Placeholder color
           },
         },
       },
     });
-    const cardElement = elements.create('card');
-    cardElement.mount('#card-element');
+
+    const card = elements.create('card');
+    card.mount('#card-element');
 
     const form = document.getElementById('trial-form');
     const submitButton = document.getElementById('submit-button');
