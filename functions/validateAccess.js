@@ -92,7 +92,7 @@ exports.handler = async (event) => {
       
       // Check if trial is still valid  
       if (now > trialExpiry) {  
-        // Trial has expired  
+        // pired  
         return {  
           statusCode: 200,  
           body: JSON.stringify({  
