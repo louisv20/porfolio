@@ -4,8 +4,29 @@ const connectDb = require('../src/models/db');
 const Customer = require('../src/models/Customer');  
 
 exports.handler = async (event) => {  
+  // Handle OPTIONS request for CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com', // or your specific domain
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400' // 24 hours
+      },
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {  
-    return { statusCode: 405, body: 'Method Not Allowed' };  
+    return { 
+      statusCode: 405, 
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'Method Not Allowed' }) 
+    };  
   }  
 
   try {  
@@ -15,6 +36,10 @@ exports.handler = async (event) => {
     if (!email) {  
       return {  
         statusCode: 400,  
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ error: 'Email is required' })  
       };  
     }  
@@ -48,6 +73,10 @@ exports.handler = async (event) => {
     
     return {  
       statusCode: 200,  
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({  
         clientSecret: setupIntent.client_secret,  
         customerId: customer.stripe_customer_id  
@@ -57,7 +86,11 @@ exports.handler = async (event) => {
     console.error('Error creating setup intent:', error);  
     return {  
       statusCode: 500,  
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ error: 'Failed to create setup intent' })  
     };  
   }  
-};  
+};
