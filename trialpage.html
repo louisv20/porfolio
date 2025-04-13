@@ -50,7 +50,23 @@
 
     // Initialize Stripe  
     const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
-    const elements = stripe.elements();
+    const elements = stripe.elements({
+      appearance: {
+        theme: 'none', // Disable default theme
+        variables: {
+          colorText: 'var(--light-text)', // Text color
+          colorPrimary: 'var(--neon-primary)', // Border focus
+          colorBackground: 'var(--dark-bg)', // Background
+          colorTextPlaceholder: 'var(--gray-text)' // Placeholder
+        },
+        rules: {
+          '.Input': {
+            color: 'var(--light-text)',
+            backgroundColor: 'var(--dark-bg)',
+          }
+        }
+      }
+    });
     const cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
@@ -124,7 +140,7 @@
 
         // Inform the extension about successful trial activation 
         console.log("About to post message with purchaseId:", activateData.purchase_id);
-        
+
         // Save the purchase ID to Chrome storage
         try {
           // Use chrome.runtime.sendMessage to communicate with the extension
@@ -132,13 +148,13 @@
             type: 'trial_activated',
             purchaseId: activateData.purchase_id
           });
-          
+
           // Also post a message to the window in case the extension is not listening
           window.postMessage({
             type: 'trial_activated',
             purchaseId: activateData.purchase_id
           }, window.location.origin);
-          
+
           console.log("Messages sent to extension and window");
         } catch (err) {
           console.error("Error sending message to extension:", err);

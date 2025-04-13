@@ -93,7 +93,7 @@ input:focus {
 #card-element {
   color: var(--light-text);
   padding: 12px;
-  background: rgb(133, 132, 132);
+  background: rgb(65, 64, 64);
   border: 1px solid var(--neon-secondary);
   border-radius: 6px;
   transition: border-color 0.3s, box-shadow 0.3s;
