@@ -97,7 +97,7 @@ exports.handler = async (event) => {
         device_hash: deviceHash  
       },  
       // Add this line to specify where to return after payment completion  
-      return_url: 'https://luisgcastro.com/success.html',
+      return_url: 'https://abbreviai.com/success.html',
     });  
      
 
@@ -169,7 +169,7 @@ exports.handler = async (event) => {
     // Return success with purchase details  
     return {  
       statusCode: 200,  
-      heders: corsHeaders, 
+      headers: corsHeaders, 
       body: JSON.stringify({  
         success: true,  
         payment: {  
@@ -178,7 +178,7 @@ exports.handler = async (event) => {
         },
         // Add a redirect flag to ensure the client knows to redirect
         redirect: true,
-        redirect_url: 'https://luisgcastro.com/success.html'
+        redirect_url: 'https://abbreviai.com/success.html'
       })  
     };  
   } catch (error) {  
