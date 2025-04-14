@@ -4,11 +4,34 @@ const User = require('../src/models/User');
 const Purchase = require('../src/models/Purchase');  
 const DeviceHash = require('../src/models/DeviceHash');  
 
-exports.handler = async (event, context) => {  
-  // Only allow POST method  
+exports.handler = async (event) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': 'https://abbreviai.com',
+    'Content-Type': 'application/json'
+  };
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com', // or your specific domain
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400' // 24 hours
+      },
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {  
-    return { statusCode: 405, body: 'Method Not Allowed' };  
-  }  
+    return { 
+      statusCode: 405, 
+      headers: {
+        'Access-Control-Allow-Origin': 'https://abbreviai.com',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'Method Not Allowed' }) 
+    };  
+  } 
 
   try {  
     // Connect to database  
@@ -20,7 +43,8 @@ exports.handler = async (event, context) => {
 
     if (!paymentMethodId || !email || !deviceHash) {  
       return {   
-        statusCode: 400,   
+        statusCode: 400, 
+        headers: corsHeaders,  
         body: JSON.stringify({   
           error: 'Payment method ID, email, and device hash are required'   
         })   
@@ -55,7 +79,8 @@ exports.handler = async (event, context) => {
     } catch (error) {  
       console.error('Error with customer creation:', error);  
       return {  
-        statusCode: 400,  
+        statusCode: 400,
+        headers: corsHeaders,  
         body: JSON.stringify({ error: 'Invalid payment information' })  
       };  
     }  
@@ -144,7 +169,7 @@ exports.handler = async (event, context) => {
     // Return success with purchase details  
     return {  
       statusCode: 200,  
-      headers: { 'Content-Type': 'application/json' },  
+      heders: corsHeaders, 
       body: JSON.stringify({  
         success: true,  
         payment: {  
@@ -159,7 +184,8 @@ exports.handler = async (event, context) => {
   } catch (error) {  
     console.error('Error processing payment:', error);  
     return {  
-      statusCode: 500,  
+      statusCode: 500,
+      headers: corsHeaders,  
       body: JSON.stringify({ error: error.message || 'Failed to process payment' })  
     };  
   }  
