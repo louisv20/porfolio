@@ -25,7 +25,7 @@ exports.handler = async (event) => {
     // Database operations
     await client.connect();
     const db = client.db('abbreviaidb');
-    const collection = db.collection('tokens');
+    const collection = db.collection('devicehashes');
 
     // Upsert device record
     await collection.updateOne(
