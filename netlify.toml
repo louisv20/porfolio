@@ -12,3 +12,10 @@
   included_files = ["functions/subscribe.js"]
   external_node_modules = ["mongoose"]
 
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "http://localhost:5173"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
