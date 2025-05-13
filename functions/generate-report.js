@@ -1,6 +1,6 @@
 // functions/generate-report.js
-const { generateDetailedReport } = require('./src/services/reportService');
-const { sendReportEmail } = require('./src/services/emailService');
+const { generateDetailedReport } = require('../src/services/reportService');
+const { sendReportEmail } = require('../src/services/emailService');
 
 exports.handler = async (event, context) => {
   try {
