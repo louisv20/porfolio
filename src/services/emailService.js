@@ -23,8 +23,8 @@ const sendReportEmail = async (report) => {
 
   const emailData = {
     from: {
-      email: 'no-reply@yourdomain.com', // Replace with your verified Sender email
-      name: 'Your App Name',
+      email: 'service@luisgcastro.com', // Replace with your verified Sender email
+      name: 'EQ Quiz',
     },
     to: [
       {
