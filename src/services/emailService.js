@@ -2,8 +2,8 @@
 const axios = require('axios');
 
 const sendReportEmail = async (report) => {
-  const apiKey = process.env.SENDER_API_KEY;
-  const apiUrl = 'https://api.sender.net/v2/emails';
+  const apiKey = process.env.MAILGUN_API_KEY;
+  const apiUrl = 'https://api.mailgun.net/v3/routes';
 
   const htmlContent = `
     <h1>${report.subject}</h1>
@@ -13,7 +13,7 @@ const sendReportEmail = async (report) => {
       .join('')}
     <p>Resources:</p>
     <ul>
-      ${report.resourceLinks
+      ${report.resourceLinks  
         .map((link) => `<li><a href="${link.url}">${link.title}</a></li>`)
         .join('')}
     </ul>
