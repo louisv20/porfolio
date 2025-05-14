@@ -7,48 +7,76 @@ const sendReportEmail = async (report) => {
   const apiUrl = `https://api.mailgun.net/v3/${domain}/messages`;
 
   const htmlContent = `
-    <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; color: #333;">
-      <!-- Header -->
-      <div style="text-align: center; padding: 20px; background-color: #007bff; color: #ffffff; border-radius: 8px 8px 0 0;">
-        <h1 style="margin: 0; font-size: 24px; font-weight: normal;">${report.subject}</h1>
+  <div style="font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 650px; margin: 0 auto; padding: 0; background-color: #f9fafb; color: #1f2937;">
+    <!-- Logo Header -->
+    <div style="text-align: center; padding: 1.5rem; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb;">
+      <img src="https://luisgcastro.com/logo.png" alt="Logo" style="max-height: 50px; margin: 0 auto;">
+    </div>
+    
+    <!-- Main Header -->
+    <div style="text-align: center; padding: 2rem 1.5rem; background-color: #06b6d4; color: #ffffff; border-bottom: 4px solid #0891b2;">
+      <h1 style="margin: 0; font-size: 1.75rem; font-weight: 600;">${report.subject}</h1>
+      <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">Prepared exclusively for ${report.recipientEmail}</p>
+    </div>
+
+    <!-- Report Content -->
+    <div style="padding: 2rem 1.5rem; background-color: #ffffff; border-radius: 0.5rem; margin: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <!-- Score Overview -->
+      <div style="text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+        <h2 style="font-size: 1.25rem; color: #4b5563; margin-bottom: 1rem;">Your Emotional Intelligence Score</h2>
+        <div style="font-size: 3rem; font-weight: 700; color: #06b6d4;">${report.scoreData.overallScore}</div>
+        <p style="font-size: 1.125rem; color: #6b7280; margin-top: 0.5rem;">${report.scoreType || 'Overall Assessment'}</p>
+      </div>
+      
+      <!-- Category Scores -->
+      <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+        <h2 style="font-size: 1.25rem; color: #4b5563; margin-bottom: 1rem;">Category Breakdown</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+          ${Object.entries(report.scoreData.categoryBreakdown).map(([category, score]) => `
+            <div style="flex-basis: 48%; background-color: #f3f4f6; padding: 1rem; margin-bottom: 1rem; border-radius: 0.375rem; border-left: 4px solid ${score < 50 ? '#ef4444' : score < 75 ? '#f59e0b' : '#10b981'};">
+              <div style="font-weight: 600; color: #4b5563;">${category}</div>
+              <div style="font-size: 1.25rem; font-weight: 700; margin-top: 0.5rem;">${score}%</div>
+            </div>
+          `).join('')}
+        </div>
       </div>
 
-      <!-- Body -->
-      <div style="padding: 20px; background-color: #ffffff; border-radius: 0 0 8px 8px;">
-        <p style="font-size: 16px; line-height: 1.5;">Overall Score: <strong>${report.scoreData.overallScore}</strong></p>
-        ${report.sections
-          .map(
-            (section) => `
-              <h2 style="font-size: 20px; color: #007bff; margin-top: 20px;">${section.title}</h2>
-              <p style="font-size: 14px; line-height: 1.6;">${section.content}</p>
-            `
-          )
-          .join('')}
+      <!-- Detailed Sections -->
+      ${report.sections.map((section) => `
+        <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+          <h2 style="font-size: 1.25rem; color: #06b6d4; margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600;">${section.title}</h2>
+          <div style="font-size: 0.9375rem; line-height: 1.75; color: #4b5563;">${section.content.replace(/\n\n/g, '<br><br>')}</div>
+        </div>
+      `).join('')}
 
-        <!-- Resources -->
-        <h3 style="font-size: 18px; color: #333; margin-top: 20px;">Resources</h3>
-        <ul style="list-style: none; padding: 0;">
-          ${report.resourceLinks
-            .map(
-              (link) => `
-                <li style="margin-bottom: 10px;">
-                  <a href="${link.url}" style="color: #007bff; text-decoration: none; font-size: 14px;">${link.title}</a>
-                </li>
-              `
-            )
-            .join('')}
+      <!-- Resources -->
+      <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f3f4f6; border-radius: 0.5rem;">
+        <h3 style="font-size: 1.125rem; color: #1f2937; margin-top: 0; margin-bottom: 1rem; font-weight: 600;">Recommended Resources</h3>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          ${report.resourceLinks.map((link) => `
+            <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;">
+              <span style="position: absolute; left: 0; top: 0.25rem; color: #06b6d4;">•</span>
+              <a href="${link.url}" style="color: #06b6d4; text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: color 0.2s ease-in-out;">${link.title}</a>
+              ${link.description ? `<div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">${link.description}</div>` : ''}
+            </li>
+          `).join('')}
         </ul>
-
-        <!-- Unsubscribe and Footer -->
-        <p style="font-size: 14px; margin-top: 20px; text-align: center;">
-          <a href="https://yourdomain.com/unsubscribe?email=${report.recipientEmail}" style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: #ffffff; text-decoration: none; border-radius: 5px;">Unsubscribe</a>
-        </p>
-        <p style="font-size: 12px; color: #666; text-align: center; margin-top: 20px;">
-          Our Address: 123 Your Street, City, Country
-        </p>
       </div>
     </div>
-  `;
+
+    <!-- Footer -->
+    <div style="padding: 1.5rem; background-color: #f3f4f6; text-align: center; border-top: 1px solid #e5e7eb;">
+      <p style="font-size: 0.875rem; margin-bottom: 1rem;">
+        <a href="https://luisgcastro.com/contact" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
+        <a href="https://luisgcastro.com/privacy" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a>
+        <a href="https://luisgcastro.com/unsubscribe?email=${report.recipientEmail}" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Unsubscribe</a>
+      </p>
+      <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">
+        © ${new Date().getFullYear()} Luis G. Castro. All rights reserved.
+      </p>
+    </div>
+  </div>
+`;
 
   const formData = new URLSearchParams();
   formData.append('from', `EQ Quiz <service@${domain}>`);
