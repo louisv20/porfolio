@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-neutral-light text-neutral-darker font-sans;
+}
+
+/* Add subtle focus ring styling */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-neutral-light;
+}
+
+/* Basic button styling */
+.btn {
+  @apply px-6 py-2 rounded-md font-semibold shadow-sm transition-colors duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-dark focus-visible:ring-primary;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-neutral-darker hover:bg-secondary-dark focus-visible:ring-secondary;
+}
+
+.btn-outline {
+  @apply bg-transparent border border-primary text-primary hover:bg-primary/10 focus-visible:ring-primary;
+}
