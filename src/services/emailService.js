@@ -3,7 +3,8 @@ const axios = require('axios');
 
 const sendReportEmail = async (report) => {
   const apiKey = process.env.MAILGUN_API_KEY;
-  const apiUrl = 'https://api.mailgun.net/v3/routes';
+  const domain = process.env.MAILGUN_DOMAIN || 'luisgcastro.com'; // Set your domain in environment variables
+  const apiUrl = `https://api.mailgun.net/v3/${domain}/messages`;
 
   const htmlContent = `
     <h1>${report.subject}</h1>
@@ -21,29 +22,24 @@ const sendReportEmail = async (report) => {
     <p>Our Address: 123 Your Street, City, Country</p>
   `;
 
-  const emailData = {
-    from: {
-      email: 'service@luisgcastro.com', // Replace with your verified Sender email
-      name: 'EQ Quiz',
-    },
-    to: [
-      {
-        email: report.recipientEmail,
-        name: report.recipientEmail.split('@')[0],
-      },
-    ],
-    subject: report.subject,
-    html: htmlContent,
-    text: 'This is a text version of your Emotional Intelligence Report.',
-  };
+  const formData = new URLSearchParams();
+  formData.append('from', `EQ Quiz <service@${domain}>`);
+  formData.append('to', report.recipientEmail);
+  formData.append('subject', report.subject);
+  formData.append('html', htmlContent);
+  formData.append('text', 'This is a text version of your Emotional Intelligence Report.');
 
   try {
-    const response = await axios.post(apiUrl, emailData, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+    const response = await axios.post(apiUrl, formData, {
+      auth: {
+        username: 'api',
+        password: apiKey
       },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     });
+    
     console.log(`Email sent to ${report.recipientEmail}:`, response.data);
     return response.data;
   } catch (error) {
