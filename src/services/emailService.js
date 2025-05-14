@@ -10,7 +10,7 @@ const sendReportEmail = async (report) => {
   <div style="font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 650px; margin: 0 auto; padding: 0; background-color: #f9fafb; color: #1f2937;">
     <!-- Logo Header -->
     <div style="text-align: center; padding: 1.5rem; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb;">
-      <img src="https://luisgcastro.com/logo.png" alt="Logo" style="max-height: 50px; margin: 0 auto;">
+      <img src="../../images/luislogo.png" alt="Logo" style="max-height: 50px; margin: 0 auto;">
     </div>
     
     <!-- Main Header -->
@@ -67,8 +67,6 @@ const sendReportEmail = async (report) => {
     <!-- Footer -->
     <div style="padding: 1.5rem; background-color: #f3f4f6; text-align: center; border-top: 1px solid #e5e7eb;">
       <p style="font-size: 0.875rem; margin-bottom: 1rem;">
-        <a href="https://luisgcastro.com/contact" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
-        <a href="https://luisgcastro.com/privacy" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a>
         <a href="https://luisgcastro.com/unsubscribe?email=${report.recipientEmail}" style="color: #06b6d4; text-decoration: none; margin: 0 0.5rem;">Unsubscribe</a>
       </p>
       <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">
