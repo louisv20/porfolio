@@ -1,5 +1,4 @@
 [build]
-  # Combined build command for existing app and quiz-app
   command = "npm run build"
   publish = "dist"
   functions = "functions"
@@ -18,17 +17,15 @@
 [[headers]]
   for = "/.netlify/functions/*"
   [headers.values]
-    Access-Control-Allow-Origin = "http://localhost:5173"
+    Access-Control-Allow-Origin = "https://luisgcastro.com"
     Access-Control-Allow-Methods = "POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
 
-# Redirects for quiz-app (supports client-side routing)
 [[redirects]]
   from = "/quiz-app/*"
   to = "/quiz-app/index.html"
   status = 200
 
-# Redirects for existing app (if it’s a single-page app)
 [[redirects]]
   from = "/*"
   to = "/index.html"
