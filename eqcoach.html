@@ -540,8 +540,6 @@
             
             // The payload now only needs the selectedSkill
             const payload = { selectedSkill: selectedSkill };
-            // The API key is removed from client-side. It's handled by the Netlify function.
-            // const apiKey = "AIzaSyDnW4N6ak4jow9WjC3wW43WUHbu7VFZ12o"; 
             const apiUrl = `/.netlify/functions/getCoachingTips`; // Updated API URL to Netlify function
 
             try {
