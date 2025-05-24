@@ -383,9 +383,9 @@
             type: 'doughnut',
             data: {
                 labels: [
-                    chartLabelWrapper('Emotional Attention'), 
-                    chartLabelWrapper('Emotional Clarity'), 
-                    chartLabelWrapper('Mood Repair Capacity')
+                    chartLabelWrapper('Emotional Attention', 30), 
+                    chartLabelWrapper('Emotional Clarity', 30), 
+                    chartLabelWrapper('Mood Repair Capacity', 30)
                 ],
                 datasets: [{
                     label: 'TMMS Components',
@@ -399,12 +399,23 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'top', labels: { color: '#0c4a6e'} },
+                    legend: { 
+                        position: 'top', 
+                        labels: { 
+                            color: '#0c4a6e',
+                            padding: 5 // This padding is between legend items.
+                        } 
+                    },
                     title: { display: false, text: 'TMMS Components Distribution' },
                     tooltip: {
                         callbacks: {
                              title: commonTooltipTitleCallback
                         }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 10 // Increased from 50 to create more space below the legend and above the doughnut
                     }
                 }
             }
