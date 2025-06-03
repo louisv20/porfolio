@@ -31,3 +31,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/eqcoach/*"
+  to = "/eqcoach.html"
+  status = 200
