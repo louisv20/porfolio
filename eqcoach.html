@@ -22,7 +22,12 @@
             height: 320px; /* Default height, sm:h-80 md:h-96 */
             max-height: 450px;
         }
-        h1, h2, h3 {
+        h1 {
+            color: #ffffff; /* Tailwind sky-800 */
+            font-weight: 700;
+        }
+        
+        h2, h3 {
             color: #0369a1; /* Tailwind sky-700 */
         }
         .stat-number {
@@ -158,10 +163,7 @@
                 <div class="bg-sky-50 rounded-lg shadow-lg p-6 flex flex-col">
                     <h3 class="text-xl font-semibold mb-3 text-sky-700">EI & Mental Well-being</h3>
                     <p class="text-slate-600 mb-4 flex-grow">Research, such as Moeller et al. (2020), links higher EI (TMMS components) to better psychological well-being (lower depression, anxiety, stress). This relationship is often mediated by factors like an increased sense of belongingness and reduced perceived rejection.</p>
-                    <div class="text-center mt-auto py-4">
-                        <p class="text-4xl font-bold stat-number mb-2">Lower Stress</p>
-                        <p class="text-slate-600">Higher EI is consistently associated with reduced psychological distress and enhanced coping mechanisms.</p>
-                    </div>
+                    <div class="chart-container mt-auto h-72 sm:h-80"><canvas id="mentalWellbeingChart"></canvas></div>
                 </div>
             </div>
         </section>
@@ -514,6 +516,69 @@
                     legend: { display: false }, 
                     tooltip: { callbacks: { title: commonTooltipTitleCallback } }
                  }
+            }
+        });
+
+        // Add new chart for Mental Well-being
+        const mentalWellbeingCtx = document.getElementById('mentalWellbeingChart').getContext('2d');
+        new Chart(mentalWellbeingCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Depression', 'Anxiety', 'Stress', 'Life Satisfaction', 'Resilience'],
+                datasets: [
+                    {
+                        label: 'Low EI',
+                        data: [70, 65, 75, 45, 50],
+                        backgroundColor: 'rgba(142, 202, 230, 0.3)',
+                        borderColor: '#8ECAE6',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#8ECAE6'
+                    },
+                    {
+                        label: 'High EI',
+                        data: [30, 35, 40, 80, 85],
+                        backgroundColor: 'rgba(2, 48, 71, 0.3)',
+                        borderColor: '#023047',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#023047'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: '#e2e8f0'
+                        },
+                        grid: {
+                            color: '#e2e8f0'
+                        },
+                        pointLabels: {
+                            color: '#334155',
+                            font: {
+                                size: 12
+                            }
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#0c4a6e',
+                            padding: 10
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: commonTooltipTitleCallback
+                        }
+                    }
+                }
             }
         });
 
