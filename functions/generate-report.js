@@ -4,7 +4,7 @@ const { sendReportEmail } = require('../src/services/emailService');
 
 exports.handler = async (event, context) => {
   // Define allowed origins
-  const allowedOrigins = ['http://localhost:5173', 'https://luisgcastro.com', 'https://luiscastroeq.com']; // Add your production domain here too
+  const allowedOrigins = ['http://localhost:5173', 'https://luisgcastro.com', 'https://www.luiscastroeq.com']; // Add your production domain here too
   const origin = event.headers.origin;
   let corsHeaders = {};
 
