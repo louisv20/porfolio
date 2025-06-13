@@ -44,7 +44,11 @@ exports.handler = async function(event, context) {
 
         return {
             statusCode: 200,
-            headers: { 'Content-Type': 'application/json' },
+             headers: {
+            'Access-Control-Allow-Origin': 'https://luiscastroeq.com', 
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS'
+        },
             body: JSON.stringify(responseData) // Forward Gemini's response
         };
 
