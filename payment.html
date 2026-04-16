@@ -7,21 +7,9 @@
     <link rel="stylesheet" href="assets/css/styles2.css" />
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-      window.onbeforeunload = function () {
-        localStorage.removeItem("authToken");
-      };
-      function checkAuthAndRedirect() {
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-          window.location.href = "login.html"; // Redirect to login page if not authenticated
-        }
-      }
-
-      checkAuthAndRedirect();
-
       function loadPayPal() {
         return new Promise((resolve, reject) => {
-          fetchWithAuth("/.netlify/functions/getPayPalClientId")
+          fetch("/.netlify/functions/getPayPalClientId")
             .then((response) => response.json())
             .then((data) => {
               const script = document.createElement("script");
@@ -33,20 +21,12 @@
             .catch(reject);
         });
       }
-      async function fetchWithAuth(url, options = {}) {
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-          window.location.href = "login.html"; // Redirect to login page if not authenticated
-          return; // Prevent the fetch from occurring
-        }
-        return fetch(url, {
-          ...options,
-          headers: {
-            ...options.headers,
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-      }
+
+      // Retrieve device hash and source from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const deviceHash = urlParams.get('device');
+      const source = urlParams.get('source'); // Extension ID
+      const returnUrl = 'https://www.luisgcastro.com/success'; // Your custom success page
     </script>
     <style>
       .container {
@@ -122,9 +102,9 @@
       <main>
         <div class="left-content">
           <h1>
-            &lt;adopta un patito <span style="color: rgb(237, 0, 0)">per</span
+            <adopta un patito <span style="color: rgb(237, 0, 0)">per</span
             ><span style="color: rgb(250, 203, 50)">eira</span
-            ><span style="color: rgb(237, 0, 0)">no&gt;</span>
+            ><span style="color: rgb(237, 0, 0)">no></span>
           </h1>
           <h3>Muy Pronto en Venta!</h3>
           <h3>Solo 100 Unidades disponibles!</h3>
@@ -187,7 +167,7 @@
 
       async function initializeStripe() {
         try {
-          const response = await fetchWithAuth(
+          const response = await fetch(
             "/.netlify/functions/get-stripe-publishable-key"
           );
           const { publishableKey } = await response.json();
@@ -208,76 +188,66 @@
 
       form.addEventListener("submit", handleStripeSubmit);
 
-      async function handleStripeSubmit(event) {
-        event.preventDefault();
+// In your payment page <script>
+  async function handleStripeSubmit(event) {
+  event.preventDefault();
 
-        if (!stripe || !elements) {
-          showMessage(
-            "Payment system is not initialized. Please try again later.",
-            "error"
-          );
-          return;
-        }
+  if (!stripe || !elements) {
+    showMessage("Payment system is not initialized. Please try again later.", "error");
+    return;
+  }
 
-        setLoading(true);
+  setLoading(true);
+  const amount = 22000;
 
-        const amount = 22000; // Fixed amount
+  try {
+    const response = await fetch("/.netlify/functions/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, currency: "cop", device: deviceHash, source }),
+    });
+    const { clientSecret, paymentIntentId } = await response.json();
 
-        try {
-          const response = await fetchWithAuth(
-            "/.netlify/functions/create-payment-intent",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                amount: amount,
-                currency: "cop",
-              }),
-            }
-          );
-          const { clientSecret, paymentIntentId } = await response.json();
+    const { error } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement("card"),
+        billing_details: { email: emailInput.value },
+      },
+    });
 
-          const { error } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-              card: elements.getElement("card"),
-              billing_details: {
-                email: emailInput.value,
-              },
-            },
-          });
+    if (error) {
+      showMessage(error.message, "error");
+    } else {
+      const confirmResponse = await fetch("/.netlify/functions/confirm-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId, device: deviceHash, source }),
+      });
 
-          if (error) {
-            showMessage(error.message, "error");
-          } else {
-            const confirmResponse = await fetchWithAuth(
-              "/.netlify/functions/confirm-payment",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ paymentIntentId }),
-              }
-            );
-            const { status } = await confirmResponse.json();
+      console.log('Confirm response status:', confirmResponse.status);
+      const confirmData = await confirmResponse.json();
+      console.log('Confirm response data:', confirmData);
 
-            if (status === "succeeded") {
-              showMessage("Payment successful!", "success");
-            } else {
-              showMessage(
-                `Payment status: ${status}. Please contact support.`,
-                "error"
-              );
-            }
-          }
-        } catch (error) {
-          console.error("Payment failed:", error);
-          showMessage(
-            "An error occurred while processing your payment. Please try again.",
-            "error"
-          );
-        }
+      const { status, token } = confirmData;
 
-        setLoading(false);
+      if (status === "succeeded") {
+        showMessage("Payment successful!", "success");
+        const redirectUrl = new URL(returnUrl);
+        redirectUrl.searchParams.set('device', deviceHash);
+        redirectUrl.searchParams.set('source', source);
+        if (token) redirectUrl.searchParams.set('token', token);
+        window.location.href = redirectUrl.toString();
+      } else {
+        showMessage(`Payment status: ${status || 'unknown'}. Please contact support.`, "error");
       }
+    }
+  } catch (error) {
+    console.error("Payment failed:", error);
+    showMessage("An error occurred while processing your payment. Please try again.", "error");
+  }
+
+  setLoading(false);
+}
 
       function showMessage(message, type = "info") {
         messageElement.textContent = message;
@@ -305,6 +275,7 @@
                         value: (amount / 4000).toFixed(2),
                         currency_code: "USD",
                       },
+                      custom_id: `${deviceHash}|${source}` // Pass device hash and source
                     },
                   ],
                 });
@@ -312,6 +283,8 @@
               onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                   showMessage("PayPal payment successful!", "success");
+                  // Redirect to your custom success page with device hash and source
+                  window.location.href = `${returnUrl}?device=${deviceHash}&source=${source}`;
                 });
               },
               onError: function (err) {
@@ -334,13 +307,14 @@
 
       async function initializeEpayco() {
         try {
-          const response = await fetchWithAuth(
-            "/.netlify/functions/get-epayco-key"
-          );
+          const response = await fetch("/.netlify/functions/get-epayco-key");
           const { publicKey } = await response.json();
 
           const epaycoScript = document.querySelector(".epayco-button");
           epaycoScript.setAttribute("data-epayco-key", publicKey);
+          epaycoScript.setAttribute("data-epayco-extra1", deviceHash); // Pass device hash
+          epaycoScript.setAttribute("data-epayco-extra2", source);     // Pass source
+          epaycoScript.setAttribute("data-epayco-response", `${returnUrl}?device=${deviceHash}&source=${source}`);
 
           // Initialize ePayco button
           window.ePayco.init(publicKey, {
@@ -348,10 +322,6 @@
           });
         } catch (error) {
           console.error("Failed to initialize ePayco:", error);
-          // showMessage(
-          //   "Failed to initialize ePayco. Please try again later.",
-          //   "error"
-          // );
         }
       }
 

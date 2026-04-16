@@ -1,23 +1,29 @@
 {
-  "name": "porfolio",
+  "name": "portfolio",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:portfolio && npm run build:quiz",
+    "build:portfolio": "mkdir -p dist && cp -r *.html *.css *.js assets/ images/ dist/ 2>/dev/null || true",
+    "build:quiz": "cd quiz-app && npm install && npx vite build && mkdir -p ../dist/quiz-app && cp -r dist/* ../dist/quiz-app"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.2",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.8.0",
-    "mongoose": "^8.5.3",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.12.1",
+    "node-fetch": "^2.6.7",
     "sqlite3": "^5.1.7",
-    "stripe": "^16.8.0"
+    "stripe": "^16.12.0"
   }
 }

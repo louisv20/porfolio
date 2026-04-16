@@ -1,5 +1,8 @@
 [build]
+  command = "npm run build"
+  publish = "dist"
   functions = "functions"
+  environment = { NODE_VERSION = "18" }
 
 [dev]
   publish = "."
@@ -11,3 +14,25 @@
 [functions.subscribe]
   included_files = ["functions/subscribe.js"]
   external_node_modules = ["mongoose"]
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://luisgcastro.com"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+[[redirects]]
+  from = "/quiz-app/*"
+  to = "/quiz-app/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eqcoach/*"
+  to = "/eqcoach.html"
+  status = 200
