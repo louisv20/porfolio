@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AbbreviAI - Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        @font-face {
+            font-family: "duck";
+            src: url("assets/fonts/Copyduck.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+          }
+        @font-face {
+            font-family: "din";
+            src: url("assets/fonts/D-DIN.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
+        .special-font {
+            font-family: "din", sans-serif;
+          }
+
+        body {
+            background: #f5f5f9;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            max-height: 200px;       /* Caps height instead of fixing it */
+            max-width: 200px;        /* Caps width */
+            width: 100%;             /* Makes it responsive */
+            height: auto;            /* Maintains aspect ratio */
+            margin-left: 20px;
+            margin-bottom: -40px;
+            margin-top: -40px;
+}
+
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+        }
+
+        header nav a:hover {
+            color: #6a5acd;
+        }
+
+        header .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .user img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        header .web-app-btn {
+            background: #6a5acd;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Main Section */
+        .main {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .main h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .main p.subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .monthly-price {
+           font-size: 14px;
+           color: #666;
+}
+
+        /* Pricing Cards */
+        .pricing {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #fff;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+}
+
+/* Override for the specific card */
+        .card.special {
+            background: linear-gradient(90deg, #d0caf7, #c8fafc);
+}
+
+        .card .badge {
+            background: #6a5acd;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card .price {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card .price1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 85px;
+        }
+
+
+        .card .yearly {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card .toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .card .toggle span {
+            font-size: 14px;
+            color: #6a5acd;
+        }
+
+        .card .toggle input {
+            display: none;
+        }
+
+        .card .toggle label {
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card .toggle label::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .card .toggle input:checked + label {
+            background: #6a5acd;
+        }
+
+        .card .toggle input:checked + label::after {
+            left: 22px;
+        }
+
+        .card button {
+            background: #6a5acd;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .card button1 {
+            background: #6a5acd;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 20px;
+
+        }
+
+        .card ul {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .card ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul li::before {
+            content: '✔';
+            color: #6a5acd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="./images/LOGO.png" class="logo" alt="AbbreviAI Logo">
+        <!-- <nav>
+            <a href="#">Products</a>
+            <a href="#">Learning Center</a>
+            <a href="#">Desktop Apps</a>
+            <a href="#">Pricing</a>----
+            <a href="#">For Developers</a>
+            <a href="#">Resources</a>
+        </nav> -->
+        <div class="user">
+            <img src="https://via.placeholder.com/30" alt="User">
+            <span>John Doe</span>
+            <a href="#" class="web-app-btn">WEB APP</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <h1 class="special-font">AbbreviAI - Your AI Companion & Expert</h1>
+        <p class="subtitle">MORE FEATURES. LOWER COST. BETTER EXPERIENCE. FASTER RESPONSE. HIGHER EFFICIENCY.</p>
+
+        <div class="pricing">
+            <!-- Unlimited Plan -->
+            <div class="card unlimited">
+                <h2>Unlimited</h2>
+                <div class="price" data-monthly="$15.99/month" data-yearly="$139.99/year">$15.99/month</div>
+                <div class="yearly" data-yearly="$229/year">$199/year</div>
+                <div class="monthly-price"></div> <!-- Add this line -->
+                <div class="toggle">
+                    <span>Save 27% with annual billing</span>
+                    <input type="checkbox" id="toggle-unlimited">
+                    <label for="toggle-unlimited"></label>
+                </div>
+                <button>Subscribe Now</button>
+                <ul>
+                    <li>Unlimited access to basic models</li>
+                    <li>Model 1</li>
+                    <li>Model 2</li>
+                    <li>Model 3</li>
+                    <li>Unlimited access to advanced models</li>
+                    <li>Model 4</li>
+                    <li>Model 5</li>
+                </ul>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="card pro">
+                <h2>Pro</h2>
+                <div class="price" data-monthly="$8.99/month" data-yearly="$99/year">$8.99/month</div>
+                <div class="yearly" data-yearly="$99/year">$107.88/year</div>
+                <div class="monthly-price"></div>
+                <div class="toggle">
+                    <span>Save 18% with annual billing</span>
+                    <input type="checkbox" id="toggle-pro">
+                    <label for="toggle-pro"></label>
+                </div>
+                <button>Subscribe Now</button>
+                <ul>
+                    <li>5000 accesses to basic models monthly</li>
+                    <li>Model 1</li>
+                    <li>Model 2</li>
+                    <li>Model 3</li>
+                    <li>200 accesses to advanced models monthly</li>
+                    <li>Model 4</li>
+                    <li>Model 5</li>
+                </ul>
+            </div>
+
+            <!-- Free Plan -->
+            <div class="card special basic">
+                <span class="badge">Most Popular</span>
+                <h2>Basic</h2>
+                <div class="price" data-monthly="$3.99/month" data-yearly="$43.99/year">$3.99/month</div>
+                <div class="yearly" data-yearly="$43.99/year">$47.88/year</div>
+                <div class="monthly-price"></div>
+                <div class="toggle">
+                    <span>Save 9% with annual billing</span>
+                    <input type="checkbox" id="toggle-basic">
+                    <label for="toggle-basic"></label>
+                </div>
+                <button> Subscribe Now</button>
+                <ul>
+                    <li>40 accesses to basic models daily</li>
+                    <li>Model 1</li>
+                    <li>Model 2</li>
+                    <li>Model 3</li>
+                    <li>Limited trial for image/video generation</li>
+                    <li>Model-driven smart writing, translation, summary</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle between monthly and yearly pricing
+        const toggles = document.querySelectorAll('.toggle input');
+toggles.forEach(toggle => {
+    toggle.addEventListener('change', (e) => {
+        const card = e.target.closest('.card');
+        const price = card.querySelector('.price');
+        const yearly = card.querySelector('.yearly');
+        const monthlyPriceElement = card.querySelector('.monthly-price');
+
+        if (e.target.checked) {
+            // Switch to yearly price
+            const yearlyPriceStr = price.getAttribute('data-yearly'); // e.g., "$199/year"
+            price.textContent = yearlyPriceStr;
+            yearly.style.display = 'none';
+
+            if (monthlyPriceElement) {
+                // Extract numeric part from yearly price (remove $ and /year)
+                const yearlyPriceNum = parseFloat(yearlyPriceStr.replace(/[^0-9.]/g, ''));
+                if (!isNaN(yearlyPriceNum)) {
+                    const monthlyPrice = (yearlyPriceNum / 12).toFixed(2);
+                    monthlyPriceElement.textContent = `($${monthlyPrice}/mo)`;
+                    monthlyPriceElement.style.display = 'block';
+                } else {
+                    monthlyPriceElement.textContent = '(Error/mo)';
+                    monthlyPriceElement.style.display = 'block';
+                }
+            }
+        } else {
+            // Switch back to monthly price
+            const monthlyPrice = price.getAttribute('data-monthly');
+            price.textContent = monthlyPrice;
+            yearly.style.display = 'block';
+            if (monthlyPriceElement) {
+                monthlyPriceElement.style.display = 'none';
+            }
+        }
+    });
+});
+    </script>
+</body>
+</html>
