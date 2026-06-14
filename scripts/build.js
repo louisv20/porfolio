@@ -5,6 +5,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const dist = path.join(root, 'dist');
 const quizApp = path.join(root, 'quiz-app');
+const quizDist = path.join(quizApp, 'dist');
 
 function copyIfExists(source, target) {
   if (!fs.existsSync(source)) return;
@@ -34,9 +35,7 @@ for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
 copyIfExists(path.join(root, 'assets'), path.join(dist, 'assets'));
 copyIfExists(path.join(root, 'images'), path.join(dist, 'images'));
 
-const quizInstall = fs.existsSync(path.join(quizApp, 'package-lock.json'))
-  ? ['ci', '--include=dev']
-  : ['install', '--include=dev'];
+run('npm', ['install'], quizApp);
+run('npm', ['run', 'build'], quizApp);
 
-run('npm', quizInstall, quizApp);
-run('npm', ['run', 'build', '--', '--outDir', '../dist/quiz-app', '--emptyOutDir'], quizApp);
+copyIfExists(quizDist, path.join(dist, 'quiz-app'));
