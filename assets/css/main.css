@@ -1,7 +1,4 @@
 @import url("fontawesome-all.min.css");
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,100italic,300italic");
-/*@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap");*/
-@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Tiny5&display=swap");
 
 /*
 	Landed by HTML5 UP
@@ -13,11 +10,11 @@
 }
 
 .red-text {
-	color: red;
+	color: #E44C65;
 }
 .merienda-font {
-	font-family: 'Tiny5', cursive;
-	font-weight: 900;
+	font-family: 'Plus Jakarta Sans', 'Merienda', sans-serif;
+	font-weight: 700;
 	background: linear-gradient(to bottom right,#6a6a6a , #f4a583);
 	-webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -121,9 +118,9 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		color: rgba(255, 255, 255, 0.75);
-		font-family: "Roboto", Helvetica, sans-serif;
+		font-family: 'Plus Jakarta Sans', "Roboto", Helvetica, sans-serif;
 		font-size: 15pt;
-		font-weight: 100;
+		font-weight: 300;
 		line-height: 1.5em;
 	}
 
@@ -2496,11 +2493,11 @@ input, select, textarea {
 			background: #00000031;
 			border-radius: 100%;
 			cursor: default;
-			display: inline-block;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
 			height: 6em;
-			line-height: 5.65em;
 			margin: 0 0 2em 0;
-			text-align: center;
 			width: 6em;
 		}
 
@@ -3497,8 +3494,10 @@ input, select, textarea {
 	}
 
 	#header {
-		background: rgba(0, 0, 0, 0.712);
-		box-shadow: 0 0 0.25em 0 rgba(214, 203, 203, 0.558);
+		background: rgba(0, 0, 0, 0.75);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3);
 		cursor: default;
 		height: 3.5em;
 		left: 0;
@@ -3507,25 +3506,41 @@ input, select, textarea {
 		top: 0;
 		width: 100%;
 		z-index: 100;
+		transition: background 0.3s ease, box-shadow 0.3s ease;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 4em;
 	}
 
 		#header h1 {
 			height: inherit;
-			left: 4em;
 			line-height: inherit;
 			margin: 0;
-			position: absolute;
-			top: 0;
+			margin-right: 2em;
+			font-family: 'Plus Jakarta Sans', 'Merienda', sans-serif;
+			font-weight: 600;
+			letter-spacing: 0.02em;
+			white-space: nowrap;
+			flex-shrink: 0;
 		}
 
-		#header nav {
-			position: absolute;
-			right: 4em;
-			top: 0;
+		#header h1 a {
+			color: #ffffff;
+			border: 0;
+			transition: color 0.3s ease;
+		}
+
+		#header h1 a:hover {
+			color: #e5ac66 !important;
 		}
 
 			#header nav ul {
 				margin: 0;
+				display: flex;
+				flex-wrap: nowrap;
+				align-items: center;
 			}
 
 				#header nav ul li {
@@ -3535,30 +3550,61 @@ input, select, textarea {
 
 					#header nav ul li a, #header nav ul li span {
 						border: 0;
-						color: rgba(255, 255, 255, 0.466);
-						display: inline-block;
-						height: inherit;
-						line-height: inherit;
-						outline: 0;
+					color: rgba(255, 255, 255, 0.7);
+					display: inline-block;
+					height: inherit;
+					line-height: inherit;
+					outline: 0;
+					font-weight: 400;
+					letter-spacing: 0.04em;
+					text-transform: uppercase;
+					font-size: 0.85em;
+					position: relative;
+					transition: color 0.3s ease;
+				}
+
+				#header nav ul li a:not(.button):after {
+					content: '';
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					width: 0;
+					height: 2px;
+					background: #e5ac66;
+					transition: width 0.3s ease, left 0.3s ease;
+				}
+
+				#header nav ul li a:not(.button):hover:after {
+					width: 100%;
+					left: 0;
+				}
+
+				#header nav ul li a:hover, #header nav ul li span:hover {
+					color: #ffffff !important;
+				}
+
+					#header nav ul li a.button, #header nav ul li span.button {
+						height: 2em;
+						line-height: 2em;
+						padding: 0 1.25em;
 					}
 
-						#header nav ul li a.button, #header nav ul li span.button {
-							height: 2em;
-							line-height: 2em;
-							padding: 0 1.25em;
-						}
-
-						#header nav ul li a:not(.button):before, #header nav ul li span:not(.button):before {
-							margin-right: 0.5em;
-						}
-
-					#header nav ul li.active > a, #header nav ul li.active > span {
-						color: #d8c58c;
+					#header nav ul li a:not(.button):before, #header nav ul li span:not(.button):before {
+						margin-right: 0.5em;
 					}
 
-					#header nav ul li > ul {
-						display: none;
-					}
+				#header nav ul li.active > a, #header nav ul li.active > span {
+					color: #e5ac66;
+				}
+
+				#header nav ul li.active > a:not(.button):after {
+					width: 100%;
+					left: 0;
+				}
+
+				#header nav ul li > ul {
+					display: none;
+				}
 
 	body.landing #page-wrapper {
 		padding-top: 0;
@@ -3569,11 +3615,20 @@ input, select, textarea {
 	}
 
 	body.landing #header {
-		background-color: #00000073;
+		background: rgba(0, 0, 0, 0.35);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 		position: absolute;
-        border-radius: 20px; /* Rounded corners */
-        display: block;
-		top: 2%;
+		border-radius: 12px;
+		display: flex;
+		top: 1.5em;
+		left: 50%;
+		transform: translateX(-50%);
+		width: auto;
+		max-width: calc(100% - 4em);
+		padding: 0 2em;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
 	@media screen and (max-width: 736px) {
@@ -3656,6 +3711,76 @@ input, select, textarea {
 
 	body.is-touch #banner {
 		background-attachment: fixed;
+	}
+
+/* Project Cards */
+
+	.wrapper.style1 {
+		background: rgba(30, 20, 40, 0.85);
+	}
+
+	.wrapper.style1.special {
+		text-align: center;
+	}
+
+	.wrapper.style1 .box.alt section {
+		padding: 2em;
+	}
+
+	.wrapper.style1 .box.alt section .icon {
+		font-size: 1.5em;
+		margin-bottom: 0.5em;
+		color: #e5ac66;
+	}
+
+	.wrapper.style1 .box.alt section h3 {
+		color: #ffffff;
+		font-size: 1.1em;
+		margin-bottom: 0.5em;
+	}
+
+	.wrapper.style1 .box.alt section p {
+		font-size: 0.9em;
+		color: rgba(255, 255, 255, 0.65);
+	}
+
+/* Contact Form */
+
+	.contact-form {
+		max-width: 40em;
+		margin: 2em auto;
+		text-align: left;
+			background: rgba(43, 31, 49, 0.45);
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+			border-radius: 12px;
+			padding: 2.5em;
+			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.contact-form .col-6 {
+		flex: 1;
+		min-width: 200px;
+	}
+
+	.contact-form .col-12 {
+		width: 100%;
+		flex-basis: 100%;
+	}
+
+	.contact-form textarea {
+		min-height: 8em;
+		resize: vertical;
+	}
+
+	#footer h2 {
+		margin-bottom: 0.5em;
+	}
+
+	#footer > p {
+		margin-bottom: 2em;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 /* Footer */
@@ -4070,8 +4195,10 @@ input, select, textarea {
 				top: 0;
 				width: 100%;
 				z-index: 10001;
-				background: #360b6ea2;
-				box-shadow: 0 0.125em 0.125em 0 rgba(0, 0, 0, 0.125);
+				background: rgba(0, 0, 0, 0.8);
+				backdrop-filter: blur(12px);
+				-webkit-backdrop-filter: blur(12px);
+				box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 			}
 
 				#titleBar .title {
@@ -4113,9 +4240,8 @@ input, select, textarea {
 					}
 
 					#titleBar .toggle:before {
-						background: linear-gradient(rgb(208, 179, 137), rgba(93, 81, 81, 0.473));
-						box-shadow: 0 0 5px white;
-						color: rgb(0, 0, 0);
+						background: rgba(229, 172, 102, 0.15);
+						color: #e5ac66;
 						content: '\f0c9';
 						display: block;
 						font-size: 18px;
@@ -4126,6 +4252,8 @@ input, select, textarea {
 						text-align: center;
 						top: 0;
 						width: 54px;
+						border-radius: 0 0 4px 0;
+						transition: background 0.3s ease;
 					}
 
 			#navPanel {
@@ -4149,7 +4277,9 @@ input, select, textarea {
 				top: 0;
 				width: 275px;
 				z-index: 10002;
-				background: #181920;
+				background: rgba(20, 15, 30, 0.97);
+				backdrop-filter: blur(12px);
+				-webkit-backdrop-filter: blur(12px);
 				padding: 0.75em 1.25em;
 			}
 
