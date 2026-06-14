@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>Registrate</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #04050c;
+        --secondary-color: #9f0000;
+        --text-color: #04050c;
+        --background-color: #050015;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          to left,
+          rgb(0, 3, 13) 65%,
+          rgba(137, 137, 137, 0.9) 150%
+        );
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: rgba(0, 0, 13, 0.572);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      .logo-icon {
+        width: 50px;
+        margin-right: 8px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .buy-now {
+        background-color: #9b0000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .buy-now button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .signup-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .signup-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #fff9f9;
+      }
+
+      .signup-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+
+      .signup-content {
+        background-color: rgba(255, 255, 255, 0.318);
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .signup-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .signup-content p {
+        margin-bottom: 20px;
+      }
+
+      .signup-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .signup-form input[type="email"],
+      .signup-form input[type="text"] {
+        padding: 10px;
+        border: 1px solid var(--text-color);
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .signup-form button {
+        background-color: #b30707;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .signup-form button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      footer {
+        background-color: rgba(0, 0, 13, 0.5);
+        color: white;
+        text-align: center;
+        padding: 40px 0;
+        margin-top: 50px;
+      }
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      @media (max-width: 500px) {
+        .nav-links a {
+          display: flex;
+          margin-right: 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="comingsoon.html" class="logo-link">
+            <div class="logo">
+              <img
+                src="images/ducksticker1.png"
+                alt="Icon"
+                class="logo-icon"
+              />Patito Futbolero
+            </div>
+          </a>
+          <div class="nav-links">
+            <a href="https://www.instagram.com/patosfutboleros" target="_blank">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://wa.me/573042710760" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+          <button class="buy-now">Compra pronto!</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="signup-header">
+          <h1 class="signup-title">¡Únete a Nuestra Lista de Espera!</h1>
+          <!-- <img
+            src="https://picsum.photos/800/400?random=1"
+            alt="Newsletter"
+            class="signup-image"
+          /> -->
+        </div>
+
+        <div class="signup-content">
+          <h2>Te Mantendremos Informado Cuando Salgan a la Venta</h2>
+          <p>
+            Las primeras 100 personas registradas recibirán un enlace de compra
+            cuando el producto esté disponible
+          </p>
+          <form
+            class="signup-form"
+            action="/.netlify/functions/subscribe"
+            method="POST"
+          >
+            <input
+              type="text"
+              name="name"
+              placeholder="Ingresa tu nombre"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Ingresa tu correo"
+              required
+            />
+            <button class="buy-now">Me Quiero Unir</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Patos LGC. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

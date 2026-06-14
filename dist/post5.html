@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sustainable Living Tips - TrendBlog</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --text-color: #2c3e50;
+        --background-color: #f7f7f7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .post-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .post-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .post-meta {
+        font-style: italic;
+        color: #666;
+      }
+
+      .post-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+
+      .post-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .post-content p {
+        margin-bottom: 20px;
+      }
+
+      footer {
+        background-color: var(--text-color);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+
+      .cards-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        max-width: 1300px;
+        margin: 5px auto;
+        gap: 9px;
+      }
+
+      .card-container {
+        flex: 1 1 calc(25% - 40px); /* Adjust width of each card */
+        max-width: 300px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .card-image {
+        margin-top: 5px;
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+      }
+
+      .card-content {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
+
+      .card-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .card-button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .card-link {
+        text-decoration: none;
+        display: block;
+      }
+
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .card-container {
+          flex: 1 1 calc(50% - 40px); /* Two cards per row on smaller screens */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .card-container {
+          flex: 1 1 100%; /* One card per row on very small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="bloghome.html" class="logo-link">
+            <div class="logo">TrendBlog</div>
+          </a>
+          <div class="nav-links">
+            <a href="bloghome.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="newsletter.html">Newsletter</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <article>
+        <div class="post-header">
+          <h1 class="post-title">Sustainable Living Tips</h1>
+          <p class="post-meta">Published on August 19, 2024 | 5 min read</p>
+        </div>
+
+        <img
+          src="https://picsum.photos/800/400?random=1"
+          alt="Productivity"
+          class="post-image"
+        />
+
+        <div class="post-content">
+          <p>
+            In today's fast-paced world, living sustainably isn't just a
+            trend—it's a lifestyle choice that can make a big impact. Whether
+            you're a seasoned eco-warrior or just starting your green journey,
+            these simple tips will help you reduce your environmental footprint
+            while embracing a more mindful way of living.
+          </p>
+
+          <h2>1. Reduce, Reuse, Recycle</h2>
+          <p>
+            This classic mantra never goes out of style. Before tossing
+            anything, consider how you can give it a second life. Old jars can
+            become chic storage, and that worn-out T-shirt could be your next
+            reusable shopping bag.
+          </p>
+
+          <h2>2. Embrace Minimalism</h2>
+          <p>
+            Less is more. By decluttering your space, you'll not only create a
+            more peaceful environment but also reduce waste. Focus on quality
+            over quantity, and invest in items that last.
+          </p>
+
+          <h2>3. Go Plastic-Free</h2>
+          <p>
+            Plastic pollution is a massive issue, but you can help by choosing
+            reusable alternatives. Think stainless steel water bottles, canvas
+            bags, and glass containers. Every little bit counts!
+          </p>
+
+          <h2>4. Support Sustainable Brands</h2>
+          <p>
+            Vote with your wallet by supporting companies that prioritize
+            sustainability. Whether it's eco-friendly clothing or cruelty-free
+            beauty products, your purchases can drive change.
+          </p>
+
+          <h2>5. Grow Your Own</h2>
+          <p>
+            Even a small balcony garden can make a difference. Growing your own
+            herbs and veggies reduces the need for plastic packaging and cuts
+            down on food miles. Plus, it’s incredibly rewarding!
+          </p>
+
+          <h2>Final Thoughts</h2>
+          <p>
+            Sustainable living is all about making small, mindful changes that
+            add up over time. Start with these tips, and you'll be well on your
+            way to a greener, happier life. Remember, it's not about being
+            perfect—it's about progress.
+          </p>
+        </div>
+      </article>
+    </main>
+    <div class="post-header">
+      <h1 class="post-title">Best Amazon Products for Sustainability</h1>
+      <p class="post-meta">
+        Contains paid and/or affiliate links &nbsp;|&nbsp; We make a small
+        commission at no extra cost to you
+      </p>
+    </div>
+
+    <div class="cards-container">
+      <a href="https://amzn.to/4fR2L1K" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post5/product1.jpg"
+            alt="Product Image 1"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Bacuri Butter - Raw & Unrefined</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/4fU7y2o" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post5/product2.jpg"
+            alt="Product Image 2"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Adams Handmade Soap Thick Organic</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/3X7GRQz" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post5/product3.jpg"
+            alt="Product Image 3"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">SURI Sustainable Sonic Toothbrush</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://amzn.to/4dLHDIr" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post5/product4.jpg"
+            alt="Product Image 4"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Spoonk Organic Hemp Acupressure Mat</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 TrendBlog. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

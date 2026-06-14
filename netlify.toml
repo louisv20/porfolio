@@ -2,7 +2,7 @@
   command = "npm run build"
   publish = "dist"
   functions = "functions"
-  environment = { NODE_VERSION = "18" }
+  environment = { NODE_VERSION = "22" }
 
 [dev]
   publish = "."
@@ -28,11 +28,11 @@
   status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/eqcoach/*"
+  to = "/eqcoach.html"
   status = 200
 
 [[redirects]]
-  from = "/eqcoach/*"
-  to = "/eqcoach.html"
+  from = "/*"
+  to = "/index.html"
   status = 200

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10 Tips for Productivity - TrendBlog</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --text-color: #2c3e50;
+        --background-color: #f7f7f7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .post-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .post-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .post-meta {
+        font-style: italic;
+        color: #666;
+      }
+
+      .post-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+
+      .post-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .post-content p {
+        margin-bottom: 20px;
+      }
+
+      footer {
+        background-color: var(--text-color);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+
+      .cards-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        max-width: 1300px;
+        margin: 5px auto;
+        gap: 9px;
+      }
+
+      .card-container {
+        flex: 1 1 calc(25% - 40px); /* Adjust width of each card */
+        max-width: 300px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .card-image {
+        margin-top: 5px;
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+      }
+
+      .card-content {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
+
+      .card-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .card-button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .card-link {
+        text-decoration: none;
+        display: block;
+      }
+
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .card-container {
+          flex: 1 1 calc(50% - 40px); /* Two cards per row on smaller screens */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .card-container {
+          flex: 1 1 100%; /* One card per row on very small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="bloghome.html" class="logo-link">
+            <div class="logo">TrendBlog</div>
+          </a>
+          <div class="nav-links">
+            <a href="bloghome.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="newsletter.html">Newsletter</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <article>
+        <div class="post-header">
+          <h1 class="post-title">
+            Mastering the Art of Public Speaking: Unlock Your Confidence
+          </h1>
+          <p class="post-meta">Published on August 20, 2024 | 8 minute read</p>
+        </div>
+
+        <img
+          src="https://picsum.photos/800/400?random=7"
+          alt="Public Speaking"
+          class="post-image"
+        />
+
+        <div class="post-content">
+          <p>
+            Public speaking—it’s something that strikes fear in the hearts of
+            many. But what if I told you that with the right tools and mindset,
+            you can transform from a nervous wreck into a confident, captivating
+            speaker? Mastering public speaking isn’t about being perfect, it’s
+            about connecting with your audience and delivering your message with
+            authenticity. Ready to step up your speaking game? Let’s dive into
+            how you can conquer your fear and become a powerful public speaker.
+          </p>
+
+          <h2>1. Understand Your Fear</h2>
+          <p>
+            The first step to overcoming the fear of public speaking is to
+            understand it. Anxiety often comes from the fear of judgment or
+            making mistakes. Realize that everyone gets nervous, and that's
+            okay! Embrace the nerves as a natural part of the process.
+          </p>
+
+          <h2>2. Know Your Material Inside and Out</h2>
+          <p>
+            Confidence stems from knowledge. The more you know your topic, the
+            more comfortable you’ll feel. Make sure to research thoroughly,
+            practice, and rehearse your speech multiple times so it flows
+            naturally.
+          </p>
+
+          <h2>3. Engage with Your Audience</h2>
+          <p>
+            Public speaking isn’t just about talking—it’s about connecting.
+            Engage with your audience by making eye contact, asking questions,
+            or telling relatable stories. This interaction builds rapport and
+            makes your speech feel more like a conversation than a performance.
+          </p>
+
+          <h2>4. Embrace Storytelling</h2>
+          <p>
+            People love stories. We’re wired to respond to narratives, so weave
+            personal stories or anecdotes into your speech to make it more
+            compelling. Not only will this keep your audience hooked, but it
+            will also help you stay grounded and relaxed.
+          </p>
+
+          <h2>5. Focus on the Message, Not Perfection</h2>
+          <p>
+            It’s easy to get hung up on small mistakes, but your audience is
+            more interested in your message than in perfection. Focus on
+            delivering your ideas clearly and passionately rather than worrying
+            about being flawless.
+          </p>
+
+          <h2>6. Practice Mindful Breathing</h2>
+          <p>
+            Nervous before a speech? Take a few deep, mindful breaths. This
+            calms your body, clears your mind, and helps you focus.
+            Incorporating breathing exercises into your routine can do wonders
+            for reducing anxiety.
+          </p>
+
+          <h2>7. Use Visual Aids to Enhance, Not Distract</h2>
+          <p>
+            Slides or props can be great tools to reinforce your message, but
+            don’t let them take over. Use visuals to support your speech, not
+            distract from it. Keep them simple and relevant to avoid
+            overwhelming your audience.
+          </p>
+
+          <h2>8. Practice, Practice, Practice</h2>
+          <p>
+            The best way to get better at public speaking is to practice.
+            Rehearse in front of a mirror, record yourself, or present in front
+            of friends. Each time you speak, you’ll feel more comfortable and
+            confident.
+          </p>
+
+          <h2>9. Learn to Handle Feedback</h2>
+          <p>
+            Feedback can be one of your greatest tools for improvement. Whether
+            it’s from a mentor or a friend, embrace constructive criticism and
+            use it to refine your skills. The more you learn, the better you’ll
+            become.
+          </p>
+
+          <h2>10. Visualize Success</h2>
+          <p>
+            Before stepping on stage, visualize yourself delivering a successful
+            speech. Imagine the audience’s applause and the sense of
+            accomplishment. Positive visualization can boost your confidence and
+            help you perform at your best.
+          </p>
+
+          <p>
+            Public speaking may be intimidating, but with these tips, you’ll be
+            well on your way to mastering the art. Remember, it’s not about
+            being perfect—it’s about being yourself and delivering your message
+            with confidence. So go ahead, take that stage, and let your voice be
+            heard!
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <div class="post-header">
+      <h1 class="post-title">Best Amazon Products for Public Speaking</h1>
+      <p class="post-meta">
+        Contains paid and/or affiliate links &nbsp;|&nbsp; We make a small
+        commission at no extra cost to you
+      </p>
+    </div>
+
+    <div class="cards-container">
+      <a href="https://amzn.to/4dPv2UK" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product1.jpg"
+            alt="Product Image 1"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">4-Channel Wireless Microphone System</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/4cENRst" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product2.jpg"
+            alt="Product Image 2"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Glide Gear TMP100 Adjustable iPad</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/3yMRleH" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product3.jpg"
+            alt="Product Image 3"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Logitech Wireless Presenter R400</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://amzn.to/3yLz7dD" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product4.jpg"
+            alt="Product Image 4"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Speak With No Fear Public Speaking</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 TrendBlog. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10 Tips for Productivity - TrendBlog</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --text-color: #2c3e50;
+        --background-color: #f7f7f7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary-color);
+      }
+
+      .post-header {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .post-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .post-meta {
+        font-style: italic;
+        color: #666;
+      }
+
+      .post-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+
+      .post-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .post-content h2 {
+        color: var(--primary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .post-content p {
+        margin-bottom: 20px;
+      }
+
+      footer {
+        background-color: var(--text-color);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+      }
+
+      .cards-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        max-width: 1300px;
+        margin: 5px auto;
+        gap: 9px;
+      }
+
+      .card-container {
+        flex: 1 1 calc(25% - 40px); /* Adjust width of each card */
+        max-width: 300px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .card-image {
+        margin-top: 5px;
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+      }
+
+      .card-content {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
+
+      .card-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .card-button:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .card-link {
+        text-decoration: none;
+        display: block;
+      }
+
+      .logo-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .card-container {
+          flex: 1 1 calc(50% - 40px); /* Two cards per row on smaller screens */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .card-container {
+          flex: 1 1 100%; /* One card per row on very small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="bloghome.html" class="logo-link">
+            <div class="logo">TrendBlog</div>
+          </a>
+          <div class="nav-links">
+            <a href="bloghome.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="newsletter.html">Newsletter</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <article>
+        <div class="post-header">
+          <h1 class="post-title">
+            Embrace the Joy of Urban Gardening: 8 Simple Ways to Get Started
+          </h1>
+          <p class="post-meta">Published on August 22, 2024 | 8 minute read</p>
+        </div>
+
+        <img
+          src="https://picsum.photos/800/400?random=12"
+          alt="Urban Gardening"
+          class="post-image"
+        />
+
+        <div class="post-content">
+          <p>
+            In the concrete jungle, finding a touch of nature can be
+            transformative. Urban gardening has taken off as a popular trend,
+            bringing green spaces into cities and homes. Whether you’ve got a
+            rooftop, balcony, or even just a sunny windowsill, the joy of
+            growing your own plants is within reach. Not only is it relaxing and
+            rewarding, but it also contributes to a sustainable lifestyle. Ready
+            to start your urban gardening journey? Here are eight simple tips to
+            help you cultivate your own green haven in the city!
+          </p>
+
+          <h2>1. Start Small with Container Gardening</h2>
+          <p>
+            You don’t need a yard to begin gardening—containers are perfect for
+            small spaces. From herbs to vegetables, nearly anything can be grown
+            in pots. Start with a few easy plants like basil, mint, or cherry
+            tomatoes, and watch your green thumb grow!
+          </p>
+
+          <h2>2. Choose the Right Plants for Your Space</h2>
+          <p>
+            Not all plants thrive indoors or on a balcony. Research plants that
+            suit your environment, taking into account factors like sunlight,
+            wind, and space. Succulents and cacti are great for sunny spots,
+            while leafy greens like spinach and lettuce do well with partial
+            shade.
+          </p>
+
+          <h2>3. Make Use of Vertical Space</h2>
+          <p>
+            If you're short on floor space, think up! Vertical gardens or wall
+            planters are a trendy and space-saving way to add greenery to your
+            home. You can even hang planters on fences or balconies to create a
+            lush, green wall.
+          </p>
+
+          <h2>4. DIY Your Own Compost</h2>
+          <p>
+            Urban gardening isn't just about planting—it's also about
+            sustainability! Save your kitchen scraps like vegetable peels and
+            coffee grounds to create your own compost. This nutrient-rich soil
+            booster will help your plants thrive and reduce waste.
+          </p>
+
+          <h2>5. Water Smartly</h2>
+          <p>
+            In an urban setting, efficient watering is key. Invest in
+            self-watering pots, or set up a simple drip irrigation system to
+            keep your plants hydrated without overwatering. Check your plants
+            daily, but remember that less is sometimes more when it comes to
+            water.
+          </p>
+
+          <h2>6. Attract Pollinators</h2>
+          <p>
+            Bees, butterflies, and other pollinators are essential for a healthy
+            garden. You can create a pollinator-friendly space by planting
+            flowers like lavender, marigolds, and sunflowers. Even in an urban
+            setting, you’ll be amazed by the biodiversity you attract!
+          </p>
+
+          <h2>7. Grow Your Own Herbs and Veggies</h2>
+          <p>
+            There’s nothing quite like picking fresh ingredients from your
+            garden. Try growing easy-to-care-for herbs like rosemary, thyme, and
+            parsley, or dive into container-friendly vegetables like peppers and
+            radishes. It’s a delicious way to enjoy the fruits of your labor!
+          </p>
+
+          <h2>8. Enjoy the Process</h2>
+          <p>
+            Gardening is as much about the journey as the destination. It’s a
+            chance to unwind, connect with nature, and nurture something from
+            seed to harvest. Embrace the ups and downs, celebrate your
+            successes, and don’t be afraid to experiment. Urban gardening is
+            about creating your own green sanctuary, no matter where you live!
+          </p>
+
+          <p>
+            Urban gardening is more than just a trend—it's a lifestyle. By
+            turning small spaces into green oases, you're not only enriching
+            your environment but also boosting your well-being. So grab some
+            pots, seeds, and soil, and start growing today!
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <div class="post-header">
+      <h1 class="post-title">Best Amazon Products for Urban Gardening</h1>
+      <p class="post-meta">
+        Contains paid and/or affiliate links &nbsp;|&nbsp; We make a small
+        commission at no extra cost to you
+      </p>
+    </div>
+
+    <div class="cards-container">
+      <a href="https://amzn.to/3WZCbej" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product1.jpg"
+            alt="Product Image 1"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">German-style pruning shears</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/3AAcidp" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product2.jpg"
+            alt="Product Image 2"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Urban Worm Soil Thermometer</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://amzn.to/46YKAmO" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product3.jpg"
+            alt="Product Image 3"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Amazing Creation Stackable Planter</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://amzn.to/3XhT2dO" target="_blank" class="card-link">
+        <div class="card-container">
+          <!-- <img
+            src="images/post7/product4.jpg"
+            alt="Product Image 4"
+            class="card-image"
+          /> -->
+          <div class="card-content">
+            <h2 class="card-title">Upgraded Seed Starter Tray</h2>
+            <div class="card-button">Buy Now</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 TrendBlog. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

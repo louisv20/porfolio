@@ -4,9 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:portfolio && npm run build:quiz",
-    "build:portfolio": "mkdir -p dist && cp -r *.html *.css *.js assets/ images/ dist/ 2>/dev/null || true",
-    "build:quiz": "cd quiz-app && npm install && npx vite build && mkdir -p ../dist/quiz-app && cp -r dist/* ../dist/quiz-app"
+    "build": "node scripts/build.js"
   },
   "keywords": [],
   "author": "",

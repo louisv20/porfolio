@@ -1,0 +1,677 @@
+  <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <script src="assets/js/reviewscript.js"></script>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta
+      name="description"
+      content="Explore the latest trends in technology, lifestyle, and productivity with TrendBlog. Stay updated with fresh insights, tips, and inspiration to enhance your digital lifestyle."
+    />
+    <link rel="stylesheet" href="assets/css/reviews.css" />
+    <link rel="stylesheet" href="assets/css/styles3.css" />
+
+
+    <!-- SEO Title with Primary Keywords -->
+    <title>
+      Patito Futbolero - Pato futbolero, patito pereirano, matecaña, lobo sur, patitos
+    </title>
+
+    <!-- Primary Keywords Meta Tag -->
+    <meta
+      name="keywords"
+      content="hinchas matecaña, lobo sur pereira, pereira, , en el eje manda el lobo"
+    />
+
+    <!-- Author Meta Tag -->
+    <meta name="author" content="lobo sur" />
+
+    <!-- Open Graph Meta Tags for Social Media Sharing -->
+    <meta
+      property="og:title"
+      content="Patito Futbolero - La mascota mas fiel de tu equipo"
+    />
+    <meta
+      property="og:description"
+      content="Descubre los Patitos Futboleros con camisetas de equipos de fútbol. El regalo perfecto para cualquier fan del deporte."
+    />
+    <meta property="og:image" content="images/ducksticker1" />
+    <meta
+      property="og:url"
+      content="https://www.luisgcastro.com/comingsoon"
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Patito Futbolero - La mascota mas fiel de tu equipo"
+    />
+    <meta
+      name="twitter:description"
+      content="Descubre los Patitos Futboleros con camisetas de equipos de fútbol. El regalo perfecto para cualquier fan del deporte."
+    />
+    <meta name="twitter:image" content="images/ducksticker1" />
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <link rel="icon" sizes="82x80" href="images/duckfavicon.png">
+      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+        @font-face {
+            font-family: "duck";
+            src: url("assets/fonts/Copyduck.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+          }
+          .special-font {
+            font-family: "duck", sans-serif;
+          }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Poppins, sans-serif;
+            background: linear-gradient(to left, rgba(0, 3, 13, 0.9) 65%, rgba(137, 137, 137, 0.9) 150%);
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+        .container {
+            padding: 1em;
+            max-width: 100rem;
+            height: 50em;
+            background-image: url("images/duckgradient.png");
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      .logo-icon {
+        width: 4em;
+        margin-right: 8px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 1em;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #9b0000;
+      }
+
+      .buy-now {
+        background-color: #9b0000;
+        color: #fff;
+        border: none;
+        padding: .5em .5em;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: .2em;
+      }
+
+      .buy-now button:hover {
+        background-color: #f60505;
+      }
+        .content {
+            position: relative;
+            width: 50%;
+            height: 30rem;
+            margin-top: 6em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background-color: rgba(0, 3, 30, 0.312);
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
+            padding: 2em;
+        }
+        .text-content {
+          width: 85%;
+          height: 15em;
+        }
+        .title {
+            font-size: 3.5rem;
+            margin: 0;
+            display: inline-block;
+            padding: 5px 10px;
+            position: relative;
+            z-index: 1;
+        }
+        /* .title::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: -40%;
+            bottom: 4%;
+            background: white;
+            filter: blur(20px);
+            z-index: -1;
+            transform: scale(.4, .5);
+        } */
+        .subtitle {
+            font-size: 36px;
+            color: #a0a0a0;
+            margin: 10px 0;
+        }
+        .description {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 1.3em;
+        }
+        .cta-button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact-us {
+            background-color: #b30707;
+            color: #fff;
+        }
+        .read-more {
+            background-color: #fff;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 4em;
+        }
+        .container1 {
+          padding: 2em;
+          background-image: url(images/background1.png);
+          background-size: cover;
+        }
+        .faq-container {
+              position: relative;
+          }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2em;
+        }
+        .question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: .3em;
+        }
+        .answer {
+            margin-bottom: 1em;
+        }
+        .faq-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2em;
+        }
+        .faq-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .separator {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 15px 0;
+        } 
+          .more-info-button {
+              position: absolute;
+              bottom: 80px;
+              right: 135px;
+              background-color: #b30707;
+              color: #fff;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 25px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: bold;
+          }
+
+  .details-section {
+      height: 48em;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fdc98d 0%, #d77e30 100%);
+      color: rgb(220, 220, 220);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+  }
+
+  .details-container {
+      background-image: url(images/companion.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+      justify-content: center;
+  }
+  .details-content {
+      font-size: .6em;
+      width: 55em; /* Keeps the content width fixed */
+      height: 70em;
+      z-index: 3;
+      text-align: left; /* Add some padding to push content below the wave */
+  } 
+
+  .blurred-background {
+      background-color: rgba(0, 0, 0, 0.425); /* Semi-transparent background */
+      backdrop-filter: blur(.6px); /* Blur effect */
+      padding: 2em; /* Adjust padding as needed */
+      border-radius: 5px; /* Optional: rounded corners */
+      margin-top: 4.5em;
+  }
+          .details-title {
+              font-size: 4em;
+              font-weight: 600;
+              margin-top: .2em;
+              margin-bottom: .7em;
+          }
+
+          .details-subtitle {
+              font-size: 2em;
+              font-weight: 300;
+              margin-bottom: 30px;
+          }
+
+          .details-quote {
+              font-size: 1.6em;
+              font-style: italic;
+              margin-bottom: 30px;
+              line-height: 1.6;
+          }
+
+          .details-author {
+              font-size: 16px;
+              font-weight: 400;
+          }
+
+          .details-job {
+              font-size: 14px;
+              opacity: 0.8;
+          }
+
+          .details-icons {
+              display: flex;
+              gap: 15px;
+              margin-top: 30px;
+          }
+
+          .icon {
+              width: 50px;
+              height: 50px;
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+          }
+
+          .wave {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 300%;
+              height: 400px;
+              background: url("images/wavesOpacity.svg") repeat-x;
+              animation: wave 55s linear infinite;
+              z-index: 1;
+  }
+
+  @keyframes wave {
+      0% {
+          background-position-x: 0;
+      }
+      100% {
+          background-position-x: 1000px;
+      }
+  }
+
+
+      @media (max-width: 500px) {
+        .nav-links a {
+            display: flex;
+            margin-right: 2em;
+      }
+        .container {
+            padding: 1em 0 0 0;
+            background-image: url("images/duckgradient-small.png");
+            overflow-x: hidden;
+            background-attachment: fixed;
+            height: 46em;
+
+        }
+        .content {
+            width: 50vh;
+            height: 70em;
+            font-size: .4em;
+            display: flex;
+            justify-content: left; /* Centers content horizontally */
+            backdrop-filter: none;
+        }
+        .subtitle {
+            width: 80%;
+            font-size: 3.5em;
+            color: #a0a0a0;
+        }
+        .description {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        .container1 {
+            background-image: url(images/background1-small.png);
+            background-attachment: fixed;
+            font-size: .5em;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .4em;
+        }
+        .more-info-button {
+              position: absolute;
+              bottom: 60px;
+              right: 50px;
+        }
+        .details-container {
+              background-position: 50% 75%;
+              background-image: url(images/companion-small.png);
+              width: 100%;
+              padding-top: 3em;
+
+       }
+        .details-content {
+             font-size: .6em;
+             width: 43em; /* Keeps the content width fixed */
+             z-index: 3;
+       }
+        .blurred-background {
+          height: 57em;
+       }
+
+      }
+    </style>
+    </head>
+    <body>
+      <div class="container">
+        <nav>
+          <div class="logo">
+          <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+          Patito Futbolero</div>
+          <div class="nav-links">
+            <a href="https://www.instagram.com/patosfutboleros" target="_blank">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://wa.me/573042710760" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+          <button class="buy-now">Compra pronto!</button>
+        </nav>
+        <div class="content">
+          <div class="text-content">
+            <h1 class="title">Patito <span class="special-font"><span style="color: rgb(200, 0, 0)">&lt;per</span
+              ><span style="color: rgb(250, 203, 50)">eira</span
+              ><span style="color: rgb(200, 0, 0)">no&gt;</span></span></h1>
+            <h2 class="subtitle">Sistema de Adopción</h2>
+            <p class="description">
+              Conviértete en uno de los pocos dueños de esta exclusiva mascota
+              futbolera.
+            </p>
+            <p class="description">
+              Próximamente, contaremos con una disponibilidad limitada de solo 100 unidades. Regístrate para recibir una notificación sobre el lanzamiento.
+              </p>
+            <div class="cta-buttons">
+              <a href="register.html" class="cta-button contact-us">¡Quiero el mío!</a>
+              <a href="#preguntas" class="cta-button read-more">Más info</a>
+            </div>
+            <!-- <div class="partners">
+              <img
+                src="../images/pato1.jpeg"
+                alt="Pinterest"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="Netflix"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="Coinbase"
+                class="partner-logo"
+              />
+              <img
+                src="/api/placeholder/100/30"
+                alt="NASA"
+                class="partner-logo"
+              />
+            </div> -->
+          </div>
+        </div>
+      </div>
+      </div>
+      <section id ="preguntas">
+        <div class="container1 faq-container">
+        <h1>Pateando el Juego con Estilo</h1>
+        <div class="faq-grid">
+          <div class="faq-text">
+            <div class="question">
+              ¿Qué método de impresión utilizan?
+            </div>
+            <div class="answer">
+              Los patos están impresos mediante el método de sublimación, garantizando la máxima calidad y durabilidad en los diseños.
+            </div>
+            <div class="separator"></div>
+
+            <div class="question">¿Qué es la impresión por sublimación?</div>
+            <div class="answer">La impresión por sublimación es un proceso en el que se utiliza calor para transferir un tinte a un material, generalmente a una superficie recubierta con polímero. El tinte se convierte en gas y se integra en el material, creando impresiones vibrantes y duraderas.</div>
+            <div class="separator"></div>
+
+            <div class="question"> ¿Qué tan duraderas son las impresiones en los patos de goma sublimados?</div>
+            <div class="answer">
+            Las impresiones por sublimación son conocidas por su durabilidad. Los diseños están integrados en la superficie, lo que los hace resistentes a la decoloración, el despegado o el rasguño.
+            </div>
+            <div class="separator"></div>
+
+            <div class="question">¿Se puede usar el pato de goma para la hora del baño después de imprimirlo?</div>
+            <div class="answer">
+            Sí, nuestros patos de goma personalizados son seguros para la hora del baño. El proceso de sublimación asegura que el diseño esté bien fijado y no se desprenda fácilmente durante su uso.
+            </div>
+          </div>
+          <div class="faq-images">
+            <img src="images/pato1.jpeg" alt="eBike display" />
+            <img src="images/pato2.png" alt="eBike speedometer" />
+            <img src="images/pato3.png" alt="eBike wheel" />
+            </a>
+          </div>
+        </div>
+        <a href="#details-section"><button class="more-info-button">Más info</button></a>
+      </div>
+    </section>
+    <section class="details-section" id="details-section">
+      <div class="wave"></div>
+      <div class="details-container">
+          <div class="details-content">
+            <div class="blurred-background">
+              <h2 class="details-title">Regalo Sorpresa</h2>
+              <p class="details-subtitle">¡Primeras 100 adopciones recibirán un compañerito!</p>
+              <blockquote class="details-quote">
+                  "Yo parcho con una barra que está muy descontrolada,
+                  Que sigue siempre al Pereira en las buenas y en las malas,
+                  No importa si vas de cana, siempre a vos te seguiremos,
+                  La banda estará presente aunque no vayas de primero,
+                  Quiero ver saltando a todos, a todos los que no salten
+                  Son una manada de locas por que no tienen aguante"
+              </blockquote>
+              <p class="details-author">Lobo Sur Pereira</p>
+              <div class="details-icons">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <img src="images/ducksticker1.png" alt="Icon" class="logo-icon">
+                <a href="register.html" class="cta-button contact-us">¡Quiero el mío!</a>
+              </div>
+            </div> 
+          </div>
+      </div>
+  </section>
+  <!-- <div class="header">
+  <div class="container2">
+    <div class="container__left">
+      <h1>Read what our customers love about us</h1>
+      <p>
+        Over 200 companies frim diverse sectors consult us to enhance the
+        user experience of their products and services.
+      </p>
+      <p>
+        We have helped companies increase their customer base and generate
+        multifold revenue with our service.
+      </p>
+      <button>Read our success stories</button>
+    </div>
+    <div class="container__right">
+      <div class="card">
+        <img src="images/pic-1.jpg" alt="user" />
+        <div class="card__content">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <div class="card__details">
+            <p>
+              We had a great time collaboraring with the Filament team. They
+              have my high recommendation!
+            </p>
+            <h4>- Marnus Stephen</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="images/pic-2.jpeg" alt="user" />
+        <div class="card__content">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <div class="card__details">
+            <p>
+              The team drastically improved our product's user experience &
+              increased our business outreach.
+            </p>
+            <h4>- Andrew Jettpace</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="images/pic-3.jpg" alt="user" />
+        <div class="card__content">
+          <span><i class="ri-double-quotes-l"></i></span>
+          <div class="card__details">
+            <p>
+              I absolutely loved working with the Filament team. Complete
+              experts at what they do!
+            </p>
+            <h4>- Stacy Stone</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+  <!-- <section id="reviews-section">
+
+    <div id="panel-nav">
+      <h2 class="review-summary-title">Comentarios</h2>
+      <div class="tydal-star-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+        </svg>
+      </div>
+      <div class="summary-rating">5.0</div>
+      <div class="review-summary-total-reviews">Basado en tres reseñas</div>
+      <button id="write-review">Escribe una reseña</button>
+    </div>
+    
+    <div id="reviews-list">
+      <div class="review-card">
+        <div class="review-details">
+          <div class="author-name">John Doe</div>
+          <div class="date">March 15, 2024</div>
+          <div class="tydal-star-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ff9b00">
+              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+            </svg>
+          </div>
+          <div class="review-text">This product is amazing! I love the retro pixel design and it works perfectly.</div>
+        </div>
+      </div>
+    </div>
+  
+    <div id="quickview-modal" style="display: none;">
+      <div class="quickview-modal-contents">
+        <div class="wizard-slide">
+          <h3>Write a Review</h3>
+          <div class="review-star-container">
+            <span>Rate this product:</span>
+          </div>
+          <textarea class="rev-textarea" placeholder="Write your review here..."></textarea>
+          <div class="field-container">
+            <input type="text" placeholder="Your Name" class="rev-input">
+            <input type="email" placeholder="Your Email" class="rev-input">
+          </div>
+          <h4 class="upload-incentive-text">Upload a photo for bonus points!</h4>
+          <input type="file" class="rev-code-size">
+          <div class="wizard-footer">
+            <button class="rev-button">Submit Review</button>
+            <button class="skip">Skip</button>
+            <button class="back">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+    </body>
+  </html>

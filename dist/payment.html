@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patito Futbolero - Payment</title>
+    <link rel="stylesheet" href="assets/css/styles2.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      function loadPayPal() {
+        return new Promise((resolve, reject) => {
+          fetch("/.netlify/functions/getPayPalClientId")
+            .then((response) => response.json())
+            .then((data) => {
+              const script = document.createElement("script");
+              script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}`;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            })
+            .catch(reject);
+        });
+      }
+
+      // Retrieve device hash and source from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const deviceHash = urlParams.get('device');
+      const source = urlParams.get('source'); // Extension ID
+      const returnUrl = 'https://www.luisgcastro.com/success'; // Your custom success page
+    </script>
+    <style>
+      .container {
+        background-color: rgba(255, 255, 255, 0.325);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+      }
+      #payment-form {
+        display: flex;
+        flex-direction: column;
+      }
+      #card-element,
+      #amount-display,
+      #email-input {
+        background-color: #ffffff;
+        margin-bottom: 20px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      #amount-display {
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+      }
+      button {
+        background-color: #5469d4;
+        color: #ffffff;
+        border: 0;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 10px;
+      }
+      button:hover {
+        filter: brightness(1.2);
+      }
+      #payment-message {
+        color: rgb(105, 115, 134);
+        font-size: 16px;
+        line-height: 20px;
+        padding-top: 12px;
+        text-align: center;
+      }
+      #payment-message.error {
+        color: #df1b41;
+      }
+      #payment-message.success {
+        color: #32cd32;
+      }
+      #paypal-button-container {
+        margin-top: 20px;
+      }
+      #epayco-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-container">
+      <div class="background-image"></div>
+      <canvas id="gradient-canvas"></canvas>
+    </div>
+    <div class="content">
+      <main>
+        <div class="left-content">
+          <h1>
+            <adopta un patito <span style="color: rgb(237, 0, 0)">per</span
+            ><span style="color: rgb(250, 203, 50)">eira</span
+            ><span style="color: rgb(237, 0, 0)">no></span>
+          </h1>
+          <h3>Muy Pronto en Venta!</h3>
+          <h3>Solo 100 Unidades disponibles!</h3>
+          <h3>
+            Conviertete en Uno de los Pocos Dueños de Este Exclusivo Patito!
+          </h3>
+        </div>
+        <div class="right-content">
+          <div class="container">
+            <h2>Adoptar mi patito</h2>
+            <form id="payment-form">
+              <div id="amount-display">Amount: 22000 COP</div>
+              <input
+                type="email"
+                id="email-input"
+                placeholder="Email"
+                required
+              />
+              <div id="card-element"></div>
+              <div id="epayco-button-container">
+                <script
+                  src="https://checkout.epayco.co/checkout.js"
+                  class="epayco-button"
+                  data-epayco-amount="22000"
+                  data-epayco-tax="0"
+                  data-epayco-tax-ico="0"
+                  data-epayco-tax-base="0"
+                  data-epayco-name="Patito Futbolero"
+                  data-epayco-description="Patito Futbolero"
+                  data-epayco-currency="COP"
+                  data-epayco-country="CO"
+                  data-epayco-test=""
+                  data-epayco-external="false"
+                  data-epayco-response=""
+                  data-epayco-confirmation=""
+                  data-epayco-button="images/epayco-logo.png"
+                ></script>
+              </div>
+              <div id="payment-message"></div>
+              <button type="button" onclick="window.location.href='QR.html'">
+                Pagar con <i>QR</i>
+              </button>
+              <button id="submit">Pagar con Stripe</button>
+              <div id="paypal-button-container"></div>
+              <div id="payment-message"></div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="assets/js/script.js"></script>
+    <script>
+      let stripe;
+      let elements;
+
+      const form = document.getElementById("payment-form");
+      const emailInput = document.getElementById("email-input");
+      const messageElement = document.getElementById("payment-message");
+      const submitButton = document.getElementById("submit");
+
+      async function initializeStripe() {
+        try {
+          const response = await fetch(
+            "/.netlify/functions/get-stripe-publishable-key"
+          );
+          const { publishableKey } = await response.json();
+          stripe = Stripe(publishableKey);
+          elements = stripe.elements();
+          const cardElement = elements.create("card");
+          cardElement.mount("#card-element");
+        } catch (error) {
+          console.error("Failed to initialize Stripe:", error);
+          showMessage(
+            "Failed to initialize payment system. Please try again later.",
+            "error"
+          );
+        }
+      }
+
+      initializeStripe();
+
+      form.addEventListener("submit", handleStripeSubmit);
+
+// In your payment page <script>
+  async function handleStripeSubmit(event) {
+  event.preventDefault();
+
+  if (!stripe || !elements) {
+    showMessage("Payment system is not initialized. Please try again later.", "error");
+    return;
+  }
+
+  setLoading(true);
+  const amount = 22000;
+
+  try {
+    const response = await fetch("/.netlify/functions/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, currency: "cop", device: deviceHash, source }),
+    });
+    const { clientSecret, paymentIntentId } = await response.json();
+
+    const { error } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement("card"),
+        billing_details: { email: emailInput.value },
+      },
+    });
+
+    if (error) {
+      showMessage(error.message, "error");
+    } else {
+      const confirmResponse = await fetch("/.netlify/functions/confirm-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId, device: deviceHash, source }),
+      });
+
+      console.log('Confirm response status:', confirmResponse.status);
+      const confirmData = await confirmResponse.json();
+      console.log('Confirm response data:', confirmData);
+
+      const { status, token } = confirmData;
+
+      if (status === "succeeded") {
+        showMessage("Payment successful!", "success");
+        const redirectUrl = new URL(returnUrl);
+        redirectUrl.searchParams.set('device', deviceHash);
+        redirectUrl.searchParams.set('source', source);
+        if (token) redirectUrl.searchParams.set('token', token);
+        window.location.href = redirectUrl.toString();
+      } else {
+        showMessage(`Payment status: ${status || 'unknown'}. Please contact support.`, "error");
+      }
+    }
+  } catch (error) {
+    console.error("Payment failed:", error);
+    showMessage("An error occurred while processing your payment. Please try again.", "error");
+  }
+
+  setLoading(false);
+}
+
+      function showMessage(message, type = "info") {
+        messageElement.textContent = message;
+        messageElement.className = type;
+        messageElement.style.display = "block";
+      }
+
+      function setLoading(isLoading) {
+        submitButton.disabled = isLoading;
+        submitButton.textContent = isLoading
+          ? "Processing..."
+          : "Pay with Stripe";
+      }
+
+      loadPayPal()
+        .then(() => {
+          paypal
+            .Buttons({
+              createOrder: function (data, actions) {
+                const amount = 22000; // Fixed amount
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: (amount / 4000).toFixed(2),
+                        currency_code: "USD",
+                      },
+                      custom_id: `${deviceHash}|${source}` // Pass device hash and source
+                    },
+                  ],
+                });
+              },
+              onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                  showMessage("PayPal payment successful!", "success");
+                  // Redirect to your custom success page with device hash and source
+                  window.location.href = `${returnUrl}?device=${deviceHash}&source=${source}`;
+                });
+              },
+              onError: function (err) {
+                console.error("PayPal error:", err);
+                showMessage(
+                  "An error occurred with PayPal. Please try again.",
+                  "error"
+                );
+              },
+            })
+            .render("#paypal-button-container");
+        })
+        .catch((error) => {
+          console.error("Failed to load PayPal SDK:", error);
+          showMessage(
+            "Failed to initialize PayPal. Please try again later.",
+            "error"
+          );
+        });
+
+      async function initializeEpayco() {
+        try {
+          const response = await fetch("/.netlify/functions/get-epayco-key");
+          const { publicKey } = await response.json();
+
+          const epaycoScript = document.querySelector(".epayco-button");
+          epaycoScript.setAttribute("data-epayco-key", publicKey);
+          epaycoScript.setAttribute("data-epayco-extra1", deviceHash); // Pass device hash
+          epaycoScript.setAttribute("data-epayco-extra2", source);     // Pass source
+          epaycoScript.setAttribute("data-epayco-response", `${returnUrl}?device=${deviceHash}&source=${source}`);
+
+          // Initialize ePayco button
+          window.ePayco.init(publicKey, {
+            // Add any additional configuration options here
+          });
+        } catch (error) {
+          console.error("Failed to initialize ePayco:", error);
+        }
+      }
+
+      initializeEpayco();
+    </script>
+  </body>
+</html>

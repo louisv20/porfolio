@@ -1,0 +1,164 @@
+<!-- trialpage.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Your Free Trial - AbbreviAI</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link rel="stylesheet" href="trialpage.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Start Your 3-Day Free Trial</h1>
+    <p>Enter your payment details to begin. You won't be charged until your trial ends.</p>
+
+    <form id="trial-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="form-group">
+        <label>Card Details</label>
+        <div id="card-element"></div>
+        <div id="card-errors" class="error-message"></div>
+      </div>
+
+      <p class="small">By starting your trial, you agree to our Terms of Service. After 3 days, you'll be charged $19.99 for lifetime access.</p>
+
+      <button type="submit" id="submit-button">Start Free Trial</button>
+    </form>
+
+    <div id="success-message" class="hidden">
+      <h2>Your Trial Has Started!</h2>
+      <p>Return to the extension to continue using AbbreviAI.</p>
+    </div>
+  </div>
+
+  <script>
+    // Get deviceHash from URL  
+    const urlParams = new URLSearchParams(window.location.search);
+    const deviceHash = urlParams.get('deviceHash');
+    const extensionOrigin = 'https://abbreviai.com';
+
+    if (!deviceHash) {
+      document.body.innerHTML = '<div class="error-container"><h2>Error</h2><p>Invalid device information. Please try again from the extension.</p></div>';
+    }
+
+    // Initialize Stripe  
+    const stripe = Stripe('pk_test_51PsSyHIWrSS6cEi1aZ1ckybXkbzmbF9jQeEtEIzAPGAmiIFjracScUTgRuqUvm1WGAnKQcgzccRCdP6kGr1o46mM00U571Gshx');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('trial-form');
+    const submitButton = document.getElementById('submit-button');
+    const cardErrors = document.getElementById('card-errors');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Processing...';
+
+      const email = document.getElementById('email').value;
+
+      try {
+        // 1. Create SetupIntent  
+        const setupResponse = await fetch('https://luisgcastro.com/.netlify/functions/createSetupIntent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email
+          })
+        });
+
+        const setupData = await setupResponse.json();
+
+        if (!setupResponse.ok) {
+          throw new Error(setupData.error || 'Failed to setup payment method');
+        }
+
+        // 2. Confirm card setup  
+        const result = await stripe.confirmCardSetup(setupData.clientSecret, {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              email
+            }
+          }
+        });
+
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
+        // 3. Activate trial with the payment method  
+        const activateResponse = await fetch('https://luisgcastro.com/.netlify/functions/activateTrialWithPayment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            deviceHash,
+            setupIntentId: result.setupIntent.id,
+            paymentMethodId: result.setupIntent.payment_method
+          })
+        });
+
+        const activateData = await activateResponse.json();
+
+        if (!activateResponse.ok) {
+          throw new Error(activateData.error || 'Failed to activate trial');
+        }
+
+        // Show success message  
+        form.classList.add('hidden');
+        document.getElementById('success-message').classList.remove('hidden');
+
+        // Inform the extension about successful trial activation 
+        console.log("About to post message with purchaseId:", activateData.purchase_id);
+        
+        // Save the purchase ID to Chrome storage
+        try {
+          // Use chrome.runtime.sendMessage to communicate with the extension
+          chrome.runtime.sendMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          });
+          
+          // Also post a message to the window in case the extension is not listening
+          window.postMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          }, window.location.origin);
+          
+          console.log("Messages sent to extension and window");
+        } catch (err) {
+          console.error("Error sending message to extension:", err);
+          // Fall back to just window.postMessage
+          window.postMessage({
+            type: 'trial_activated',
+            purchaseId: activateData.purchase_id
+          }, window.location.origin);
+        }
+
+        // Optionally close the window after a delay
+
+      } catch (error) {
+        console.error('Trial setup error:', error);
+        cardErrors.textContent = error.message || 'An unexpected error occurred';
+        submitButton.disabled = false;
+        submitButton.textContent = 'Start Free Trial';
+      }
+    });
+  </script>
+</body>
+
+</html>
